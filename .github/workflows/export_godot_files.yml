@@ -31,6 +31,12 @@ jobs:
       #     fetch-depth: 0
       # - run: keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999 -deststoretype pkcs12
       # - run: find / 2>/dev/null | grep -i "debug.keystore"
+
+        # Automatically stores the tag name for later use
+     - name: get tag from version
+        id: tag_version
+        run: |
+          echo "TAG_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
       - name: export game
         # Use latest version (see releases for all versions)
         uses: firebelley/godot-export@v4.6.0
@@ -40,9 +46,8 @@ jobs:
           godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/3.5.1/Godot_v3.5.1-stable_export_templates.tpz
           relative_project_path: ./
           archive_export_output: true
-          base_version: 1.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          base_version: 0.0.1
+
       - run: cp -r /home/runner/.local/share/godot/builds/HTML5/ .
       - run: cp HTML5/hedgelizards_ggj23.html HTML5/index.html
       - run: find HTML5
@@ -52,3 +57,11 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./HTML5
+
+      - name: create release
+        uses: ncipollo/release-action@v1.11.2
+        with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            generateReleaseNotes: true
+            tag: v${{ steps.tag_version.outputs.TAG_VERSION }} # Note that the 'v' in front was necessary to get this action attach artifacts to the tag
+            artifacts: ${{ steps.export.outputs.archive_directory }}/*
