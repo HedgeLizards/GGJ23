@@ -37,6 +37,7 @@ jobs:
               id: tag_version
               run: echo "TAG_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
             - name: export game
+              id: export
               uses: firebelley/godot-export@v4.6.0
               with:
                 # Defining all the required inputs
@@ -45,7 +46,10 @@ jobs:
                 relative_project_path: ./
                 archive_export_output: true
                 base_version: 0.0.1
-
+            - run: pwd
+            - run: ls
+            - run: echo ${{ steps.export.outputs.archive_directory }}
+            - run: ls ${{ steps.export.outputs.archive_directory }}
             - run: cp -r /home/runner/.local/share/godot/builds/HTML5/ .
             - run: cp HTML5/hedgelizards_ggj23.html HTML5/index.html
             - run: find HTML5
