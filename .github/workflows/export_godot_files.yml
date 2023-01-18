@@ -44,8 +44,7 @@ jobs:
                 godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/3.5.1/Godot_v3.5.1-stable_linux_headless.64.zip
                 godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/3.5.1/Godot_v3.5.1-stable_export_templates.tpz
                 relative_project_path: ./
-                archive_export_output: true
-                base_version: 0.0.1
+                archive_output: true
             - run: pwd
             - run: ls
             - run: echo ${{ steps.export.outputs.archive_directory }}
@@ -66,5 +65,5 @@ jobs:
                 token: ${{ secrets.GITHUB_TOKEN }}
                 generateReleaseNotes: true
                 tag: v${{ steps.tag_version.outputs.TAG_VERSION }} # Note that the 'v' in front was necessary to get this action attach artifacts to the tag
-                artifacts: ${{ steps.export.outputs.archive_directory }}/exports/*
+                artifacts: ${{ steps.export.outputs.archive_directory }}/*
                 allowUpdates: true
