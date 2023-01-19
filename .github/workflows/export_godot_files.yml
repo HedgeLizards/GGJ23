@@ -33,7 +33,7 @@ jobs:
             # - run: find / 2>/dev/null | grep -i "debug.keystore"
             - name: get tag from version
               id: tag_version
-              run: echo "TAG_VERSION=$(date -uIseconds)" >> $GITHUB_OUTPUT
+              run: echo "TAG_VERSION=$(date -u +"%Y%m%d.%H.%M.%S")" >> $GITHUB_OUTPUT
 
             - name: export game
               id: export
