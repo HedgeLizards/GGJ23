@@ -31,10 +31,10 @@ jobs:
             #     fetch-depth: 0
             # - run: keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999 -deststoretype pkcs12
             # - run: find / 2>/dev/null | grep -i "debug.keystore"
-            - run: echo "TAG_VERSION=0.1.$(date -u +"%s")" > version.tres
+            - run: echo "v0.1.$(date -u +"%s")" > version.tres
             - name: get tag from version
               id: tag_version
-              run: cat version.tres >> $GITHUB_OUTPUT
+              run: echo "TAG_VERSION=$(cat version.tres)" >> $GITHUB_OUTPUT
 
             - name: export game
               id: export
@@ -66,5 +66,5 @@ jobs:
                 generateReleaseNotes: true
                 artifacts: ${{ steps.export.outputs.archive_directory }}/*
                 replacesArtifacts: true
-                tag: v${{ steps.tag_version.outputs.TAG_VERSION }}
+                tag: ${{ steps.tag_version.outputs.TAG_VERSION }}
                 commit: ${{ github.ref }}
