@@ -1,7 +1,7 @@
 extends Label
 
 
-const version_file = "res://version.txt"
+const version_file = "res://version.tres"
 
 func _ready():
 	var file = File.new()
