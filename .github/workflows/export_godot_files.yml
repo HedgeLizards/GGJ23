@@ -32,7 +32,7 @@ jobs:
             #     fetch-depth: 0
             # - run: keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999 -deststoretype pkcs12
             # - run: find / 2>/dev/null | grep -i "debug.keystore"
-            - run: echo "v0.1.$(git rev-list --count master)" > version.tres
+            - run: echo "v0.1.$(git rev-list --count HEAD)" > version.tres
             - name: get tag from version
               id: tag_version
               run: echo "TAG_VERSION=$(cat version.tres)" >> $GITHUB_OUTPUT
