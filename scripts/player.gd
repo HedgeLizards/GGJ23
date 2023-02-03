@@ -16,4 +16,5 @@ func _physics_process(delta):
 
 	if $Segments.get_point_count() == 0 || $Germ.position.distance_to($Segments.get_point_position($Segments.get_point_count() - 1)) > 5:
 		$Segments.add_point($Germ.position)
-		
+	
+	
