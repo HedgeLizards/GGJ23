@@ -12,15 +12,20 @@ config_version=4
 
 config/name="23ggj"
 run/main_scene="res://scenes/World.tscn"
+config/icon="res://icon.png"
 
 [debug]
 
 settings/fps/force_fps=240
-gdscript/warnings/enable=false
 
 [display]
 
+window/size/fullscreen=true
 window/energy_saving/keep_screen_on=false
+
+[global]
+
+warnings=false
 
 [gui]
 
@@ -68,3 +73,4 @@ quality/intended_usage/framebuffer_allocation=0
 quality/intended_usage/framebuffer_allocation.mobile=1
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
+environment/default_environment="res://default_env.tres"
