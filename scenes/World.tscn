@@ -32,4 +32,4 @@ position = Vector2( 621, 608 )
 id = 2
 
 [node name="Stone" parent="." instance=ExtResource( 3 )]
-position = Vector2( 147, 248 )
+position = Vector2( 206, 400 )
