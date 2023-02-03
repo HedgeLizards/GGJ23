@@ -14,8 +14,13 @@ margin_top = 5.0
 margin_right = 52.0
 margin_bottom = 19.0
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
+[node name="Player1" parent="." instance=ExtResource( 1 )]
 position = Vector2( 148, 592 )
+id = 1
+
+[node name="Player2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 621, 608 )
+id = 2
 
 [node name="Stone" parent="." instance=ExtResource( 3 )]
 position = Vector2( 147, 248 )
