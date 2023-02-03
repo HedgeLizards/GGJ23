@@ -14,7 +14,7 @@ script = ExtResource( 2 )
 [node name="Tip" type="Area2D" parent="."]
 
 [node name="Icon" type="Sprite" parent="Tip"]
-scale = Vector2( 0.2, 0.2 )
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Tip"]
