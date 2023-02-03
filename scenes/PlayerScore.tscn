@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/fonts/KaushanScript-Regular.otf" type="DynamicFontData" id=1]
 
@@ -7,7 +7,20 @@ size = 64
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="Gradient" id=5]
+
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
+
+[sub_resource type="StyleBoxTexture" id=7]
+texture = SubResource( 6 )
+region_rect = Rect2( 0, 0, 2048, 1 )
+
+[sub_resource type="StyleBoxFlat" id=8]
+draw_center = false
+shadow_size = 2
+
+[sub_resource type="DynamicFont" id=4]
 size = 32
 use_filter = true
 font_data = ExtResource( 1 )
@@ -16,20 +29,40 @@ font_data = ExtResource( 1 )
 margin_right = 1024.0
 margin_bottom = 121.0
 size_flags_horizontal = 3
-custom_constants/separation = -20
+custom_constants/separation = -10
 alignment = 2
 
 [node name="Score" type="Label" parent="."]
+margin_top = 7.0
 margin_right = 1024.0
-margin_bottom = 94.0
+margin_bottom = 101.0
 custom_fonts/font = SubResource( 2 )
 text = "0"
 align = 1
 
-[node name="Player" type="Label" parent="."]
-margin_top = 74.0
-margin_right = 1024.0
+[node name="Nitrogen" type="ProgressBar" parent="."]
+margin_left = 422.0
+margin_top = 91.0
+margin_right = 602.0
 margin_bottom = 121.0
-custom_fonts/font = SubResource( 1 )
-text = "Player "
-align = 1
+rect_min_size = Vector2( 180, 30 )
+size_flags_horizontal = 4
+custom_styles/fg = SubResource( 7 )
+custom_styles/bg = SubResource( 8 )
+max_value = 1.0
+step = 0.0
+percent_visible = false
+
+[node name="Label" type="Label" parent="Nitrogen"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -7.0
+margin_right = 20.0
+margin_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = SubResource( 4 )
+text = "P"
