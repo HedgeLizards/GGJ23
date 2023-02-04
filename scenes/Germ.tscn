@@ -6,7 +6,7 @@
 [sub_resource type="Gradient" id=2]
 interpolation_mode = 2
 offsets = PoolRealArray( 0, 0.25, 0.26, 0.5, 0.74, 0.75, 1 )
-colors = PoolColorArray( 0, 0, 0, 0, 0.101961, 0.0235294, 0, 1, 0.294118, 0.133333, 0.054902, 1, 0.945098, 0.819608, 0.596078, 1, 0.294118, 0.133333, 0.054902, 1, 0.101961, 0.0235294, 0, 1, 0, 0, 0, 0 )
+colors = PoolColorArray( 0, 0, 0, 0, 0.294118, 0.133333, 0.054902, 1, 0.0470588, 0.0156863, 0, 1, 0.945098, 0.819608, 0.596078, 1, 0.0470588, 0.0156863, 0, 1, 0.294118, 0.133333, 0.054902, 1, 0, 0, 0, 0 )
 
 [sub_resource type="GradientTexture2D" id=3]
 gradient = SubResource( 2 )
@@ -17,10 +17,10 @@ radius = 2.0
 
 [node name="Germ" type="Node2D"]
 script = ExtResource( 2 )
-revive_timeout = 1.2
-speed = 256
+speed = 150.0
 nitro_speed = 512
 rotation_speed = 2
+revive_timeout = 1.2
 
 [node name="Segments" type="Line2D" parent="."]
 width = 30.0
