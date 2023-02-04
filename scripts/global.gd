@@ -29,13 +29,18 @@ func _on_instructions_tween_loop_finished(_loop_count):
 		1:
 			instructions.bbcode_text = '[center]Go![/center]'
 			
-			# start players
+			start_players()
 		0:
 			instructions.visible = false
 		-1:
 			return
 	
 	starting_in -= 1
+
+func start_players():
+	var all_players = get_node("/root/World/Players").get_children()
+	for player in all_players:
+		player.start_growing()
 
 func update_instructions():
 	var instruction_lines = PoolStringArray()
