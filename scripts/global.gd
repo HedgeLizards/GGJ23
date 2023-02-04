@@ -45,8 +45,8 @@ func initialize_world():
 		$'../World/Levels'.add_child(level)
 	
 	for i in players.size():
-		add_potato_and_player(players[i], i)
-		align_potato_and_player(players[i])
+		add_potato_and_player(i, players[i])
+		align_potato_and_player(i)
 
 func _on_instructions_tween_loop_finished(_loop_count):
 	match starting_in:
@@ -80,7 +80,7 @@ func update_instructions():
 	
 	instructions.bbcode_text = '[center]%s[/center]' % instruction_lines.join('\n')
 
-func add_potato_and_player(index, i):
+func add_potato_and_player(index, id):
 	var potato = Sprite.new()
 	var player = Player.instance()
 	
@@ -90,7 +90,7 @@ func add_potato_and_player(index, i):
 	potato.scale.y = 0.15
 	
 	player.position.y = potato.position.y
-	player.set_id_index(i, index)
+	player.set_id_index(id, index)
 	
 	$'../World/Potatoes'.add_child(potato)
 	$'../World/Players'.add_child(player)
