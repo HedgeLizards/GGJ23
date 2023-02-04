@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scripts/Worm.gd" type="Script" id=1]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array(  )
+}
+
+[node name="Worm" type="Path2D"]
+position = Vector2( 512, 300 )
+curve = SubResource( 1 )
+script = ExtResource( 1 )
+radius = 512.0
