@@ -11,7 +11,7 @@ var player_scores
 var instructions
 var instructions_tween
 
-func initialize_UI():
+func initialize_world():
 	player_scores = $'../World/CanvasLayer/PlayerScores'
 	instructions = $'../World/CanvasLayer/Instructions'
 	
@@ -23,26 +23,26 @@ func initialize_UI():
 	instructions_tween.connect('loop_finished', self, '_on_instructions_tween_loop_finished')
 	
 	update_instructions()
+	
+	for i in players.size():
+		add_potato_and_player(players[i], i)
+		align_potato_and_player(players[i])
 
-func _on_instructions_tween_loop_finished(_loop_count):	
+func _on_instructions_tween_loop_finished(_loop_count):
 	match starting_in:
 		2:
 			instructions.bbcode_text = '[center]Ready?[/center]'
 		1:
 			instructions.bbcode_text = '[center]Go![/center]'
 			
-			start_players()
+			for player in $'../World/Players'.get_children():
+				player.start_growing()
 		0:
 			instructions.visible = false
 		-1:
 			return
 	
 	starting_in -= 1
-
-func start_players():
-	var all_players = get_node("/root/World/Players").get_children()
-	for player in all_players:
-		player.start_growing()
 
 func update_instructions():
 	var instruction_lines = PoolStringArray()
@@ -59,6 +59,28 @@ func update_instructions():
 		instruction_lines.push_back('Press Enter to start')
 	
 	instructions.bbcode_text = '[center]%s[/center]' % instruction_lines.join('\n')
+
+func add_potato_and_player(index, i):
+	var potato = Sprite.new()
+	var player = Player.instance()
+	
+	potato.texture = load('res://assets/player/PotP%d.png' % index)
+	potato.position.y = 400
+	potato.scale.x = 0.15
+	potato.scale.y = 0.15
+	
+	player.position.y = potato.position.y
+	player.set_id_index(i, index)
+	
+	$'../World/Potatoes'.add_child(potato)
+	$'../World/Players'.add_child(player)
+
+func align_potato_and_player(index):
+	var potato = $'../World/Potatoes'.get_child(index)
+	var player = $'../World/Players'.get_child(index)
+	
+	potato.position.x = 2048 / players.size() * (index + 0.5)
+	player.position.x = potato.position.x
 
 func _input(event):
 	if !(event is InputEventKey) or !event.pressed or event.echo:
@@ -79,19 +101,7 @@ func _input(event):
 					players.insert(index, i)
 					scores.push_back(0)
 					
-					var potato = Sprite.new()
-					var player = Player.instance()
-					
-					potato.texture = load('res://assets/player/PotP%d.png' % index)
-					potato.position.y = 512
-					potato.scale.x = 0.5
-					potato.scale.y = 0.5
-					
-					player.position.y = potato.position.y
-					player.set_id_index(i, index)
-					
-					$'../World/Potatoes'.add_child(potato)
-					$'../World/Players'.add_child(player)
+					add_potato_and_player(index, i)
 				else:
 					player_scores.remove_player(index)
 					
@@ -107,11 +117,7 @@ func _input(event):
 					vacant_indices.push_back(index)
 				
 				for j in players.size():
-					var potato = $'../World/Potatoes'.get_child(j)
-					var player = $'../World/Players'.get_child(j)
-					
-					potato.position.x = 2048 / players.size() * (j + 0.5)
-					player.position.x = potato.position.x
+					align_potato_and_player(j)
 				
 				update_instructions()
 				

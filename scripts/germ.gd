@@ -117,6 +117,8 @@ func set_id_index(new_id, new_index):
 	for icon in $Tip/Sprites.get_children():
 		icon.queue_free()
 	var hat = hats[index].instance()
+	hat.scale.x = 0.15
+	hat.scale.y = 0.15
 	$Tip/Sprites.add_child(hat)
 
 func collide(body):

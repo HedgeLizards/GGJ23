@@ -10,7 +10,7 @@ const CONTROLS = [
 const COLORS = [Color('#f0028c'), Color('#8dcb4d'), Color('#7cb8e6'), Color('#df952c')]
 
 func _ready():
-	Global.initialize_UI()
+	Global.initialize_world()
 	
 	for i in Global.players.size():
 		add_player(Global.players[i], i)
