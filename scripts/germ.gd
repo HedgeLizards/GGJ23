@@ -8,7 +8,7 @@ export var rotation_speed = 1
 export var grace_msec = 100
 export var nutrients_gain = 1
 export var nutrients_burn = 2 # how fast you're using nutrients
-export var max_nutrients = 5
+export var max_nutrients = 10
 export var min_boost = 2
 export var nitro_timeout = 1
 export var revive_timeout = 1
@@ -61,6 +61,7 @@ func _physics_process(delta):
 		elif since_nitro > nitro_timeout:
 			nutrients = min(nutrients + delta * nutrients_gain, max_nutrients)
 		$Tip/NitroGlow.visible = nitro_active
+		get_node("/root/World/CanvasLayer/PlayerScores").update_nitrogen(index, nutrients / max_nutrients)
 		since_nitro += delta
 		var vel = Vector2(0, -current_speed).rotated($Tip.rotation)
 
@@ -134,3 +135,9 @@ func _on_Tip_body_entered(body):
 
 func _on_Hitbox_body_entered(body):
 	collide(body) # Replace with function body.
+
+
+func _on_Hitbox_area_entered(area):
+	if area.has_method("nutrience"):
+		nutrients += area.nutrience()
+		area.queue_free()
