@@ -6,7 +6,7 @@ export var speed = 64
 export var nitro_speed = 128
 export var rotation_speed = 1
 export var grace_msec = 100
-export var nutrients_gain = 1
+export var nutrients_gain = 0.5
 export var nutrients_burn = 2 # how fast you're using nutrients
 export var max_nutrients = 10
 export var min_boost = 2
@@ -94,6 +94,7 @@ func _input(event):
 	if state == PlayerState.REVIVING and move_input() != 0 and since_dead > revive_timeout:
 		var newGerm = self.duplicate()
 		newGerm.id = id
+		newGerm.index = index
 		newGerm.get_node("Tip").rotation += move_input() * 0.3
 		var new_points = $Segments.points
 		new_points.resize(target_id + 1)
