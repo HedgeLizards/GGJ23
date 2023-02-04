@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/nitro_glow.png" type="Texture" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 6.0
+radius = 2.0
 
 [node name="Germ" type="Node2D"]
 script = ExtResource( 2 )
