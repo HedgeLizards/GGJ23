@@ -7,6 +7,8 @@ export var id = 0
 #var mirror = 1
 #var segments = PoolVector2Array()
 
+func start_growing():
+	$Germ.start_growing()
 
 #func __physics_process(delta):
 #	var inp = mirror * int(Input.is_action_pressed("right" + str(id))) - int(Input.is_action_pressed("left" + str(id)))
