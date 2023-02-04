@@ -62,11 +62,21 @@ func _on_instructions_tween_loop_finished(_loop_count):
 	match starting_in:
 		2:
 			instructions.bbcode_text = '[center]Ready?[/center]'
+			
+			$'../World/MUS_Intro_Rise'.play();
 		1:
 			instructions.bbcode_text = '[center]Go![/center]'
 			
 			for player in $'../World/Players'.get_children():
 				player.start_growing()
+			
+			if $'../World/MUS_Intro'.is_playing():
+				$'../World/MUS_Intro'.stop();
+				
+			if $'../World/MUS_Intro_Rise'.is_playing():
+				$'../World/MUS_Intro_Rise'.stop();
+				
+			$'../World/MUS_Main'.play();
 		0:
 			instructions.visible = false
 		-1:
