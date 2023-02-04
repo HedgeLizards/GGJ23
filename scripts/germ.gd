@@ -13,6 +13,7 @@ export var min_boost = 2.0
 export var nitro_timeout = 1.0
 export var revive_timeout = 1.0
 export var return_speed = 128.0
+export var line_width = 10
 var nutrients = 0
 var since_nitro = 1000
 var since_dead = 1000
@@ -77,17 +78,17 @@ func _physics_process(delta):
 			$Tip.position.x -= wrap_width
 			new_line(0)
 
-		if track.size() == 0 || $Tip.position.distance_to(track[track.size() - 1]) > $Segments.width / 2.0:
+		if track.size() == 0 || $Tip.position.distance_to(track[track.size() - 1]) > line_width / 2.0:
 			line.add_point($Tip.position)
 			collision_queue.push_back($Tip.position)
 			track.append($Tip.position)
 		if line.get_point_count() > 2000:
 			new_line(3)
-		if collision_queue.size() != 0 and collision_queue[0].distance_to($Tip.position) > $Segments.width + $Tip/Hitbox/Collision.shape.radius + 1:
+		if collision_queue.size() != 0 and collision_queue[0].distance_to($Tip.position) > line_width + $Tip/Hitbox/Collision.shape.radius + 1:
 			var obstacleShape = CollisionShape2D.new()
 			obstacleShape.shape = CircleShape2D.new()
 			obstacleShape.position = collision_queue.pop_front()
-			obstacleShape.shape.radius = $Segments.width
+			obstacleShape.shape.radius = line_width
 			$ObstacleSegments.add_child(obstacleShape)
 	elif state == PlayerState.REVIVING:
 		#var vel = Vector2(0, -speed).rotated($Tip.rotation + PI * 2)
