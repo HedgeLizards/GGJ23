@@ -42,7 +42,6 @@ func _ready():
 
 func start_growing():
 	since_nitro = 1000
-	nutrients = 0
 	state = PlayerState.ALIVE
 
 
@@ -73,17 +72,17 @@ func _physics_process(delta):
 		$Tip.position += vel * delta
 		if $Tip.global_position.x < 0:
 			$Tip.position.x += wrap_width
-			new_line([$Tip.position])
+			new_line(0)
 		elif $Tip.global_position.x > wrap_width:
 			$Tip.position.x -= wrap_width
-			new_line([$Tip.position])
+			new_line(0)
 
 		if track.size() == 0 || $Tip.position.distance_to(track[track.size() - 1]) > $Segments.width / 2.0:
 			line.add_point($Tip.position)
 			collision_queue.push_back($Tip.position)
 			track.append($Tip.position)
 		if line.get_point_count() > 2000:
-			new_line([track[track.size() - 1], $Tip.position])
+			new_line(3)
 		if collision_queue.size() != 0 and collision_queue[0].distance_to($Tip.position) > $Segments.width + $Tip/Hitbox/Collision.shape.radius + 1:
 			var obstacleShape = CollisionShape2D.new()
 			obstacleShape.shape = CircleShape2D.new()
@@ -103,8 +102,14 @@ func _physics_process(delta):
 		$Tip.position = $Tip.position.move_toward(target, d)
 		since_dead += delta
 
-func new_line(old):
+func new_line(nold):
 	line = line.duplicate()
+	var old = [$Tip.position]
+	for i in range(nold):
+		var ind = track.size() - i - 1
+		if ind < 0:
+			break
+		old.push_front(track[ind])
 	line.points = PoolVector2Array(old)
 	add_child_below_node($Segments, line)
 
@@ -113,9 +118,16 @@ func _input(event):
 		var newGerm = self.duplicate()
 		newGerm.id = id
 		newGerm.index = index
+		newGerm.nutrients = nutrients
 		newGerm.get_node("Tip").rotation += move_input() * 0.3
 		track.resize(target_id)
-		newGerm.get_node("Segments").points = PoolVector2Array()
+		var old = []
+		for i in range(3):
+			var ind = track.size() - i - 1
+			if ind < 0:
+				break
+			old.push_front(track[ind])
+		newGerm.get_node("Segments").points = PoolVector2Array(old)
 		newGerm.track = track
 		newGerm.grace_start = Time.get_ticks_msec()
 		newGerm.start_growing()
