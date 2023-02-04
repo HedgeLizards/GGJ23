@@ -218,3 +218,4 @@ func finish():
 	get_node("/root/World/Potatoes").add_child(flower)
 	
 	flower.play()
+

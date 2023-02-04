@@ -22,6 +22,12 @@ var players_finished = 0
 var player_scores
 var instructions
 var instructions_tween
+const level_height = 1024
+const level_width = 2048
+const num_levels = 4
+const shadow_size = 64
+var end_height = -256 - level_height * num_levels - 256
+const Shade = preload("res://scenes/Shade.tscn")
 
 func _ready():
 	randomize()
@@ -47,10 +53,16 @@ func initialize_world():
 		
 		player_scores.start()
 	
-	for i in 5:
-		var level = (levels[randi() % levels.size()] if i < 4 else Level_End).instance()
+	for i in (num_levels + 1):
+		var level = (levels[randi() % levels.size()] if i < num_levels else Level_End).instance()
 		
-		level.position.y = -256 - 1024 * (i + 1)
+		level.position.y = -256 - level_height * (i + 1)
+		
+		for x in level_width / shadow_size:
+			for y in level_height / shadow_size:
+				var shade = Shade.instance()
+				shade.position = Vector2(x, y) * shadow_size
+				level.add_child(shade)
 		
 		$'../World/Levels'.add_child(level)
 	
