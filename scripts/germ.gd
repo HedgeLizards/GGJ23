@@ -212,7 +212,7 @@ func finish():
 	var flower = Flower.instance()
 	
 	flower.global_position = $Tip.global_position
-	flower.scale.x = 1.2 - Global.players_finished * 0.2
+	flower.scale.x = 1.1 - Global.players_finished * 0.2
 	flower.scale.y = flower.scale.x
 	
 	get_node("/root/World/Potatoes").add_child(flower)
