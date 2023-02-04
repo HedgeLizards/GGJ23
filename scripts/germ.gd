@@ -20,14 +20,14 @@ var state = PlayerState.WAITING
 var collision_queue = []
 var grace_start = -1000000
 var nitro_active = false
-
-
+var id
+var index
 var target_id
 
 var SegmentCollision = preload("res://scenes/SegmentCollision.tscn")
 
 
-var id
+
 func _ready():
 	id = get_parent().id
 	#start_growing()
@@ -66,7 +66,7 @@ func _physics_process(delta):
 		if $Segments.get_point_count() == 0 || $Tip.position.distance_to($Segments.get_point_position($Segments.get_point_count() - 1)) > $Segments.width / 2.0:
 			$Segments.add_point($Tip.position)
 			collision_queue.push_back($Tip.position)
-		if collision_queue.size() != 0 and collision_queue[0].distance_to($Tip.position) > $Segments.width + $Tip/Collision.shape.radius + 1:
+		if collision_queue.size() != 0 and collision_queue[0].distance_to($Tip.position) > $Segments.width + $Tip/Hitbox/Collision.shape.radius + 1:
 			var obstacleShape = CollisionShape2D.new()
 			obstacleShape.shape = CircleShape2D.new()
 			obstacleShape.position = collision_queue.pop_front()
@@ -106,7 +106,10 @@ func _input(event):
 		$Tip.rotation += 0.1
 		newGerm.get_node("Tip").rotation -= 0.1
 		get_parent().add_child(newGerm)
-	
+
+func set_id_index(new_id, new_index):
+	id = new_id
+	index = new_index
 	
 
 func collide(body):
@@ -117,3 +120,7 @@ func collide(body):
 
 func _on_Tip_body_entered(body):
 	collide(body)
+
+
+func _on_Hitbox_body_entered(body):
+	collide(body) # Replace with function body.

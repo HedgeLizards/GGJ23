@@ -10,6 +10,9 @@ export var id = 0
 func start_growing():
 	$Germ.start_growing()
 
+func set_id_index(id, index):
+	$Germ.set_id_index(id, index)
+
 #func __physics_process(delta):
 #	var inp = mirror * int(Input.is_action_pressed("right" + str(id))) - int(Input.is_action_pressed("left" + str(id)))
 #	$Germ/Tip.rotation += inp * delta * rotation_speed
