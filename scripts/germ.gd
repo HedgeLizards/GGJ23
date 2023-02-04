@@ -3,12 +3,19 @@ extends Node2D
 enum PlayerState {ALIVE, REVIVING, ABANDONED}
 
 export var speed = 64
+export var nitro_speed = 128
 export var rotation_speed = 1
 export var grace_msec = 1000
+export var nutrients = 0
+export var nutrients_gain = 1
+export var nutrients_burn = 2 # how fast you're using nutrients
+export var max_nutrients = 5
+export var min_boost = 2
 var mirror = 1
 var state = PlayerState.ALIVE
 var collision_queue = []
 var grace_start = -1000000
+var nitro_active = false
 
 
 var target_id
@@ -26,8 +33,16 @@ func _physics_process(delta):
 	if state == PlayerState.ALIVE:
 		var inp = move_input()
 		$Tip.rotation += inp * delta * rotation_speed
-
-		var vel = Vector2(0, -speed).rotated($Tip.rotation)
+		var current_speed = speed
+		if nitro_active:
+			current_speed = nitro_speed
+			nutrients -= delta * nutrients_burn
+			if nutrients <= 0:
+				nitro_active = 0
+		else:
+			nutrients = min(nutrients + delta * nutrients_gain, max_nutrients)
+			
+		var vel = Vector2(0, -current_speed).rotated($Tip.rotation)
 
 		$Tip.position += vel * delta
 
@@ -65,6 +80,8 @@ func _input(event):
 		state = PlayerState.ABANDONED
 		$Tip.visible = false
 		get_parent().add_child(newGerm)
+	if state == PlayerState.ALIVE and Input.is_action_just_pressed("power" +str(id)) and nutrients > min_boost:
+		nitro_active = true
 	if false and Input.is_action_just_pressed("power"+str(id)):
 		var newGerm = self.duplicate()
 		newGerm.mirror = -mirror
