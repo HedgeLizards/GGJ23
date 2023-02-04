@@ -14,6 +14,7 @@ export var nitro_timeout = 1.0
 export var revive_timeout = 1.0
 export var return_speed = 128.0
 export var line_width = 10
+export var base_line = 15
 var nutrients = max_nutrients
 var since_nitro = 1000
 var since_dead = 1000
@@ -25,7 +26,7 @@ var nitro_active = false
 var id
 var index
 var target_id
-var track = PoolVector2Array([Vector2(0, 0)])
+var track = PoolVector2Array()
 var line
 const wrap_width = 2048
 
@@ -79,6 +80,8 @@ func _physics_process(delta):
 			$Tip.position.x -= wrap_width
 			new_line(0)
 
+		if track.size() == 0:
+			line.add_point($Tip.position + Vector2(0, base_line))
 		if track.size() == 0 || $Tip.position.distance_to(track[track.size() - 1]) > line_width / 2.0:
 			line.add_point($Tip.position)
 			collision_queue.push_back($Tip.position)
