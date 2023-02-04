@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/fonts/Aller_Rg.ttf" type="DynamicFontData" id=1]
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+use_filter = true
+font_data = ExtResource( 1 )
+
+[node name="JoinInstructions" type="VBoxContainer"]
+margin_right = 1024.0
+margin_bottom = 38.0
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Label" type="Label" parent="."]
+margin_right = 1024.0
+margin_bottom = 38.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 1 )
+text = "Press W, G, 9, UP or controller A to join"
+align = 1
+autowrap = true

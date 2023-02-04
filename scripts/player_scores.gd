@@ -1,67 +1,72 @@
 extends HBoxContainer
 
+const CONTROLS = [
+	['A', 'D', 'W'],
+	['V', 'B', 'G'],
+	['I', 'O', '9'],
+	['LEFT', 'RIGHT', 'UP'],
+]
 const COLORS = [Color('#7cb8e6'), Color('#8dcb4d'), Color('#f0028c'), Color('#df952c')]
 
-var scores = [0, 0, 0, 0]
-var nitrogens = [0, 0, 0, 0]
 var PlayerScore = preload('res://scenes/PlayerScore.tscn')
 
-func _ready():
-	for i in range(4):
-		var player_score = PlayerScore.instance()
-		var score = player_score.get_node('Score')
-		
-		score.add_color_override('font_color', COLORS[i])
-		score.add_font_override('font', score.get_font('font').duplicate())
-		
-		var nitrogen = player_score.get_node('Nitrogen')
-		var foreground = nitrogen.get('custom_styles/fg').duplicate()
-		
-		foreground.texture = foreground.texture.duplicate()
-		foreground.texture.gradient = foreground.texture.gradient.duplicate()
-		
-		var foreground_colors = foreground.texture.gradient.colors
-		
-		foreground_colors[0] = COLORS[i]
-		foreground.texture.gradient.colors = foreground_colors
-		
-		var background = nitrogen.get('custom_styles/bg').duplicate()
-		
-		background.shadow_color = COLORS[i]
-		background.shadow_color.a = 0.5
-		
-		nitrogen.set('custom_styles/fg', foreground)
-		nitrogen.set('custom_styles/bg', background)
-		
-		nitrogen.get_node('Label').add_color_override('font_color', COLORS[i])
-		nitrogen.get_node('Label').text += str(i + 1)
-		
-		add_child(player_score)
+func add_player(id, index):
+	var player_score = PlayerScore.instance()
+	var controls = player_score.get_node('Controls')
 	
-	change_score(2, 3) # TEMPORARY
-	change_nitrogen(1, 0.25) # TEMPOARY
+	controls.text = 'Steer: %s, %s\nNITROgen: %s' % CONTROLS[id]
+	controls.add_color_override('font_color', COLORS[index])
+	
+	var score = player_score.get_node('Score')
+	
+	score.add_color_override('font_color', COLORS[index])
+	score.add_font_override('font', score.get_font('font').duplicate())
+	
+	var nitrogen = player_score.get_node('Nitrogen')
+	var foreground = nitrogen.get('custom_styles/fg').duplicate()
+	
+	foreground.texture = foreground.texture.duplicate()
+	foreground.texture.gradient = foreground.texture.gradient.duplicate()
+	
+	var foreground_colors = foreground.texture.gradient.colors
+	
+	foreground_colors[0] = COLORS[index]
+	foreground.texture.gradient.colors = foreground_colors
+	
+	var background = nitrogen.get('custom_styles/bg').duplicate()
+	
+	background.shadow_color = COLORS[index]
+	background.shadow_color.a = 0.5
+	
+	nitrogen.set('custom_styles/fg', foreground)
+	nitrogen.set('custom_styles/bg', background)
+	
+	nitrogen.get_node('Label').add_color_override('font_color', COLORS[index])
+	nitrogen.get_node('Label').text += str(index + 1)
+	
+	add_child(player_score)
+	move_child(player_score, index)
 
-func change_score(player, by):
-	scores[player] += by
+func remove_player(index):
+	get_child(index).queue_free()
+
+func update_score(index, to):
+	var score = get_child(index).get_node('Score')
 	
-	var score = get_child(player).get_node('Score')
-	
-	score.text = str(scores[player])
+	score.text = str(to)
 	
 	var tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	
 	tween.tween_property(score.get_font('font'), 'size', 96, 0.5)
 	tween.tween_property(score.get_font('font'), 'size', 64, 0.5)
 
-func change_nitrogen(player, by):
-	nitrogens[player] += by
+func update_nitrogen(index, to):
+	var nitrogen = get_child(index).get_node('Nitrogen')
 	
-	var nitrogen = get_child(player).get_node('Nitrogen')
-	
-	nitrogen.value = nitrogens[player]
+	nitrogen.value = to
 	
 	var foreground = nitrogen.get('custom_styles/fg')
 	var foreground_colors = foreground.texture.gradient.colors
 	
-	foreground_colors[1] = COLORS[player] + (Color.white - COLORS[player]) * nitrogens[player]
+	foreground_colors[1] = COLORS[index] + (Color.white - COLORS[index]) * to
 	foreground.texture.gradient.colors = foreground_colors
