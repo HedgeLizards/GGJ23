@@ -136,7 +136,7 @@ func new_line(nold):
 	add_child_below_node($Segments, line)
 
 func _input(event):
-	if state == PlayerState.REVIVING and move_input() != 0 and since_dead > revive_timeout:
+	if state == PlayerState.REVIVING and (move_input() != 0 or Input.is_action_pressed("power"+str(id))) and since_dead > revive_timeout:
 		var newGerm = self.duplicate()
 		newGerm.id = id
 		newGerm.index = index
