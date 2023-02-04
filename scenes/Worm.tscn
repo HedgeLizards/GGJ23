@@ -11,4 +11,4 @@ _data = {
 position = Vector2( 512, 300 )
 curve = SubResource( 1 )
 script = ExtResource( 1 )
-radius = 512.0
+radius = 256.0
