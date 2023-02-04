@@ -94,11 +94,14 @@ func _physics_process(delta):
 		#var vel = Vector2(0, -speed).rotated($Tip.rotation + PI * 2)
 		var d = return_speed * delta
 		var target = get_target()
-		while target_id > 0 && d > $Tip.position.distance_to(target):
+		while target != null and d > $Tip.position.distance_to(target):
 			d -= $Tip.position.distance_to(target)
 			$Tip.position = target
 			target_id -= 1
 			target = get_target()
+		if target == null:
+			# die()
+			return
 		$Tip.rotation = target.angle_to_point($Tip.position) - PI / 2
 		$Tip.position = $Tip.position.move_toward(target, d)
 		if $Tip.global_position.x < 0:
@@ -108,6 +111,8 @@ func _physics_process(delta):
 		since_dead += delta
 
 func get_target():
+	if target_id < 0:
+		return null
 	var target = track[target_id]
 	if target.x > $Tip.position.x + wrap_width / 2:
 		target.x -=  wrap_width
