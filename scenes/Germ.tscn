@@ -13,15 +13,17 @@ gradient = SubResource( 2 )
 fill_to = Vector2( 0, 1 )
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 2.0
+radius = 1.5
 
 [node name="Germ" type="Node2D"]
 script = ExtResource( 2 )
 speed = 250.0
 nitro_speed = 400.0
 rotation_speed = 4.0
-revive_timeout = 1.2
-return_speed = 400.0
+min_boost = 0.5
+nitro_timeout = 2.0
+revive_timeout = 0.4
+return_speed = 250.0
 
 [node name="Segments" type="Line2D" parent="."]
 width = 30.0
