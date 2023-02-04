@@ -85,9 +85,7 @@ func add_potato_and_player(index, id):
 	var player = Player.instance()
 	
 	potato.texture = load('res://assets/player/PotP%d.png' % index)
-	potato.position.y = 400
-	potato.scale.x = 0.15
-	potato.scale.y = 0.15
+	potato.position.y = 250
 	
 	player.position.y = potato.position.y
 	player.set_id_index(id, index)

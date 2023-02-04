@@ -94,6 +94,7 @@ func _input(event):
 	if state == PlayerState.REVIVING and move_input() != 0 and since_dead > revive_timeout:
 		var newGerm = self.duplicate()
 		newGerm.id = id
+		newGerm.index = index
 		newGerm.get_node("Tip").rotation += move_input() * 0.3
 		var new_points = $Segments.points
 		new_points.resize(target_id + 1)
@@ -118,10 +119,7 @@ func set_id_index(new_id, new_index):
 
 	for icon in $Tip/Sprites.get_children():
 		icon.queue_free()
-	var hat = hats[index].instance()
-	hat.scale.x = 0.15
-	hat.scale.y = 0.15
-	$Tip/Sprites.add_child(hat)
+	$Tip/Sprites.add_child(hats[index].instance())
 
 func collide(body):
 	if state == PlayerState.ALIVE && Time.get_ticks_msec() > grace_start + grace_msec:
