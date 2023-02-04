@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/tilemaps/Tileset_Placeholder.tres" type="TileSet" id=1]
+[ext_resource path="res://assets/background/dirt_tex.jpg" type="Texture" id=2]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 2048.0
+margin_bottom = 1024.0
+texture = ExtResource( 2 )
+
+[node name="TileMap" type="TileMap" parent="."]
+position = Vector2( -3, 0 )
+tile_set = ExtResource( 1 )
+cell_quadrant_size = 1
+centered_textures = true
+format = 1
+tile_data = PoolIntArray( 0, 1, 16, 3, 1, 16, 31, 1, 0, 65536, 1, 17, 65539, 1, 17, 131072, 1, 17, 131075, 1, 25, 196608, 1, 25, 196611, 1, 5, 196612, 1, 393220, 196613, 1, 131076, 196614, 1, 131072, 262144, 1, 29, 262145, 1, 458776, 327680, 1, 31, 327681, 1, 458773, 327682, 1, 458752, 393216, 1, 31, 393217, 1, 458771, 458752, 1, 31, 458753, 1, 458769, 524288, 1, 31, 524289, 1, 458777, 589824, 1, 31, 589825, 1, 458781, 589826, 1, 458768, 655360, 1, 23, 655361, 1, 458759, 655362, 1, 393217, 720896, 1, 19, 786432, 1, 17, 851968, 1, 1, 983040, 1, 0, 983071, 1, 0 )

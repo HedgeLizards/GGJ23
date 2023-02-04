@@ -1,8 +1,14 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/tilemaps/Tileset_Placeholder.tres" type="TileSet" id=1]
+[ext_resource path="res://assets/background/dirt_tex.jpg" type="Texture" id=2]
 
 [node name="Node2D" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 2048.0
+margin_bottom = 1024.0
+texture = ExtResource( 2 )
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2( -3, 0 )

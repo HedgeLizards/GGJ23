@@ -1,8 +1,14 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/tilemaps/Tileset_Placeholder.tres" type="TileSet" id=1]
+[ext_resource path="res://assets/background/dirt_tex.jpg" type="Texture" id=2]
 
 [node name="Node2D" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 2048.0
+margin_bottom = 1024.0
+texture = ExtResource( 2 )
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2( -3, 0 )
@@ -10,4 +16,4 @@ tile_set = ExtResource( 1 )
 cell_quadrant_size = 1
 centered_textures = true
 format = 1
-tile_data = PoolIntArray( 0, 1, 20, 1, 1, 196608, 30, 1, 12, 31, 1, 131088, 65536, 1, 19, 65567, 1, 262161, 131072, 1, 17, 131103, 1, 17, 196608, 1, 17, 196639, 1, 17, 262144, 1, 17, 262175, 1, 17, 327680, 1, 17, 327711, 1, 17, 393216, 1, 17, 393247, 1, 17, 458752, 1, 17, 458783, 1, 17, 524288, 1, 17, 524319, 1, 17, 589824, 1, 17, 589855, 1, 17, 655360, 1, 17, 655391, 1, 17, 720896, 1, 17, 720927, 1, 17, 786432, 1, 17, 786463, 1, 17, 851968, 1, 17, 851999, 1, 17, 917504, 1, 25, 917535, 1, 65553, 983040, 1, 5, 983041, 1, 393216, 983070, 1, 6, 983071, 1, 131073 )
+tile_data = PoolIntArray( 0, 1, 0, 31, 1, 0, 983040, 1, 0, 983071, 1, 0 )
