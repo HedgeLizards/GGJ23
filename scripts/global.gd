@@ -35,8 +35,8 @@ func initialize_world():
 	
 	instructions_tween = instructions.create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT).set_loops()
 	
-	instructions_tween.tween_property(instructions, 'modulate', Color(1, 1, 1, 1), 1)
-	instructions_tween.tween_property(instructions, 'modulate', Color(1, 1, 1, 0), 1)
+	instructions_tween.tween_property(instructions, 'modulate', Color(1, 1, 1, 1), 0.7166)
+	instructions_tween.tween_property(instructions, 'modulate', Color(1, 1, 1, 0), 0.7166)
 	
 	instructions_tween.connect('loop_finished', self, '_on_instructions_tween_loop_finished')
 	
