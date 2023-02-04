@@ -92,15 +92,27 @@ func _physics_process(delta):
 	elif state == PlayerState.REVIVING:
 		#var vel = Vector2(0, -speed).rotated($Tip.rotation + PI * 2)
 		var d = return_speed * delta
-		var target = track[target_id]
+		var target = get_target()
 		while target_id > 0 && d > $Tip.position.distance_to(target):
 			d -= $Tip.position.distance_to(target)
 			$Tip.position = target
 			target_id -= 1
-			target = track[target_id]
+			target = get_target()
 		$Tip.rotation = target.angle_to_point($Tip.position) - PI / 2
 		$Tip.position = $Tip.position.move_toward(target, d)
+		if $Tip.global_position.x < 0:
+			$Tip.position.x += wrap_width
+		elif $Tip.global_position.x > wrap_width:
+			$Tip.position.x -= wrap_width
 		since_dead += delta
+
+func get_target():
+	var target = track[target_id]
+	if target.x > $Tip.position.x + wrap_width / 2:
+		target.x -=  wrap_width
+	if target.x < $Tip.position.x - wrap_width / 2:
+		target.x +=  wrap_width
+	return target
 
 func new_line(nold):
 	line = line.duplicate()
