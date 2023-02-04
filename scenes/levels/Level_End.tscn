@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/tilemaps/Tileset_Dirt_Collision48.tres" type="TileSet" id=1]
+[ext_resource path="res://assets/background/top_tex.jpg" type="Texture" id=2]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 2048.0
+margin_bottom = 1024.0
+texture = ExtResource( 2 )
+
+[node name="TileMap" type="TileMap" parent="."]
+position = Vector2( -3, 0 )
+tile_set = ExtResource( 1 )
+cell_quadrant_size = 1
+centered_textures = true
+format = 1
