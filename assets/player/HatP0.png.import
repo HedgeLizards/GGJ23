@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/HatP3-1.png-384e7bfe1e30f6ab3f7a6d539f597a3b.stex"
+path="res://.import/HatP0.png-c57002f8f8d0fde2c12e833f0fe29420.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player/HatP3-1.png"
-dest_files=[ "res://.import/HatP3-1.png-384e7bfe1e30f6ab3f7a6d539f597a3b.stex" ]
+source_file="res://assets/player/HatP0.png"
+dest_files=[ "res://.import/HatP0.png-c57002f8f8d0fde2c12e833f0fe29420.stex" ]
 
 [params]
 

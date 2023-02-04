@@ -1,5 +1,7 @@
 extends Node
 
+const Player = preload('res://scenes/Player.tscn')
+
 var selecting = true
 var starting_in = -1
 var players = []
@@ -77,7 +79,16 @@ func _input(event):
 					players.insert(index, i)
 					scores.push_back(0)
 					
-					# TODO: spawn player & potato and assign i as id
+					var potato = Sprite.new()
+					var player = Player.instance()
+					
+					potato.texture = load('res://assets/Player/PotP%d' % index)
+					potato.position.y = 512
+					
+					player.set_id_index(i, index)
+					
+					$'../World/Potatoes'.add_child(potato)
+					$'../World/Players'.add_child(player)
 				else:
 					player_scores.remove_player(index)
 					
@@ -91,7 +102,12 @@ func _input(event):
 					
 					# TODO: free player & potato i
 				
-				# TODO: update player & potato positions
+				for j in players.size():
+					var potato = $'../World/Potatoes'.get_child(j)
+					var player = $'../World/Players'.get_child(j)
+					
+					potato.position.x = 2048 / players.size() * (j + 0.5)
+					player.position = potato.position
 				
 				update_instructions()
 				

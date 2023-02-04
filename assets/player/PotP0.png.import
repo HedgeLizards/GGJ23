@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/PotP3-1.png-a9689ff30a2f6f763f683d1d36a0a247.stex"
+path="res://.import/PotP0.png-7e280d1ff10de76637ff6eb1d3cbc009.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player/PotP3-1.png"
-dest_files=[ "res://.import/PotP3-1.png-a9689ff30a2f6f763f683d1d36a0a247.stex" ]
+source_file="res://assets/player/PotP0.png"
+dest_files=[ "res://.import/PotP0.png-7e280d1ff10de76637ff6eb1d3cbc009.stex" ]
 
 [params]
 
