@@ -1,6 +1,6 @@
 extends Node2D
 
-enum PlayerState {WAITING, ALIVE, REVIVING, ABANDONED}
+enum PlayerState {WAITING, ALIVE, REVIVING, ABANDONED, DEAD, FINISHED}
 
 export var speed = 64.0
 export var nitro_speed = 128.0
@@ -36,6 +36,7 @@ var hats = [
 ]
 
 var SegmentCollision = preload("res://scenes/SegmentCollision.tscn")
+var Flower = preload("res://scenes/Flower.tscn")
 
 func _ready():
 	line = $Segments
@@ -157,3 +158,30 @@ func _on_Hitbox_area_entered(area):
 	if area.has_method("nutrience"):
 		nutrients += area.nutrience()
 		area.queue_free()
+
+
+func die():
+	if state == PlayerState.DEAD:
+		return
+	
+	state = PlayerState.DEAD
+	
+	Global.add_player_dead(index)
+
+func finish():
+	if state == PlayerState.FINISHED:
+		return
+	
+	state = PlayerState.FINISHED
+	
+	Global.add_player_finished(index)
+	
+	var flower = Flower.instance()
+	
+	flower.global_position = $Tip.global_position
+	flower.scale.x = 1.2 - Global.players_finished * 0.2
+	flower.scale.y = flower.scale.x
+	
+	get_node("/root/World/Potatoes").add_child(flower)
+	
+	flower.play()
