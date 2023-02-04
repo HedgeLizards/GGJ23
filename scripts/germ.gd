@@ -24,6 +24,13 @@ var id
 var index
 var target_id
 
+var hats = [
+	preload("res://scenes/hats/Hat0.tscn"),
+	preload("res://scenes/hats/Hat1.tscn"),
+	preload("res://scenes/hats/Hat2.tscn"),
+	preload("res://scenes/hats/Hat3.tscn")
+]
+
 var SegmentCollision = preload("res://scenes/SegmentCollision.tscn")
 
 
@@ -110,7 +117,10 @@ func _input(event):
 func set_id_index(new_id, new_index):
 	id = new_id
 	index = new_index
-	
+	for icon in $Tip/Sprites.get_children():
+		icon.queue_free()
+	var hat = hats[index].instance()
+	$Tip/Sprites.add_child(hat)
 
 func collide(body):
 	if state == PlayerState.ALIVE && Time.get_ticks_msec() > grace_start + grace_msec:
