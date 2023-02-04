@@ -56,8 +56,3 @@ position = Vector2( 206, 400 )
 
 [node name="Template" parent="Levels" instance=ExtResource( 6 )]
 position = Vector2( 0, -256 )
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Levels/Template"]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Levels/Template/StaticBody2D"]
-polygon = PoolVector2Array( 13, 22, 13, 997, 20, 1007, 101, 1007, 115, 1002, 110, 988, 51, 931, 48, 96, 96, 43, 110, 39, 105, 20, 93, 14, 21, 14 )
