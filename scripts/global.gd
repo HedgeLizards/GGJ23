@@ -4,14 +4,16 @@ var selecting = true
 var starting_in = -1
 var players = []
 var scores = []
-var vacated_spots = []
+var vacant_indices = [0, 1, 2, 3]
+var player_scores
+var instructions
 var instructions_tween
 
-onready var player_scores = $'../World/CanvasLayer/PlayerScores'
-onready var instructions = $'../World/CanvasLayer/Instructions'
-
-func _ready():
-	instructions_tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT).set_loops()
+func initialize_UI():
+	player_scores = $'../World/CanvasLayer/PlayerScores'
+	instructions = $'../World/CanvasLayer/Instructions'
+	
+	instructions_tween = instructions.create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT).set_loops()
 	
 	instructions_tween.tween_property(instructions, 'modulate', Color(1, 1, 1, 1), 1)
 	instructions_tween.tween_property(instructions, 'modulate', Color(1, 1, 1, 0), 1)
@@ -20,7 +22,7 @@ func _ready():
 	
 	update_instructions()
 
-func _on_instructions_tween_loop_finished(_loop_count):
+func _on_instructions_tween_loop_finished(_loop_count):	
 	match starting_in:
 		2:
 			instructions.bbcode_text = '[center]Ready?[/center]'
@@ -61,13 +63,9 @@ func _input(event):
 				var index = players.find(i)
 				
 				if index == -1:
-					if vacated_spots.empty():
-						index = players.size()
-					else:
-						index = vacated_spots.pop_front()
-						
-						for j in vacated_spots.size():
-							vacated_spots[j] += 1
+					index = vacant_indices.min()
+					
+					vacant_indices.erase(index)
 					
 					player_scores.add_player(i, index)
 					
@@ -81,7 +79,10 @@ func _input(event):
 					players.remove(index)
 					scores.remove(index)
 					
-					vacated_spots.push_back(index)
+					while vacant_indices.has(index):
+						index += 1
+					
+					vacant_indices.push_back(index)
 					
 					# TODO: free player & potato i
 				
@@ -103,9 +104,14 @@ func _input(event):
 			get_tree().quit()
 	elif event.is_action('quit'):
 		selecting = true
+		starting_in = -1
 		
-		# TODO: reset variables
-		# TODO: reload World scene
+		for i in scores.size():
+			scores[i] = 0
+		
+		player_scores.stop()
+		
+		get_tree().reload_current_scene()
 
 func change_score(index, by):
 	scores[index] += by

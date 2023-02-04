@@ -1,14 +1,19 @@
 extends HBoxContainer
 
+const PlayerScore = preload('res://scenes/PlayerScore.tscn')
 const CONTROLS = [
 	['A', 'D', 'W'],
 	['V', 'B', 'G'],
 	['I', 'O', '9'],
 	['LEFT', 'RIGHT', 'UP'],
 ]
-const COLORS = [Color('#7cb8e6'), Color('#8dcb4d'), Color('#f0028c'), Color('#df952c')]
+const COLORS = [Color('#f0028c'), Color('#8dcb4d'), Color('#7cb8e6'), Color('#df952c')]
 
-var PlayerScore = preload('res://scenes/PlayerScore.tscn')
+func _ready():
+	Global.initialize_UI()
+	
+	for i in Global.players.size():
+		add_player(Global.players[i], i)
 
 func add_player(id, index):
 	var player_score = PlayerScore.instance()
@@ -56,6 +61,16 @@ func start():
 		
 		player_score.get_node('Controls').visible = false
 		player_score.get_node('Score').visible = true
+
+func stop():
+	for player_score in get_children():
+		player_score.remove_constant_override('separation')
+		
+		player_score.get_node('Controls').visible = true
+		player_score.get_node('Score').visible = false
+		
+		player_score.get_node('Score').text = '0'
+		player_score.get_node('Nitrogen').value = 0
 
 func update_score(index, to):
 	var score = get_child(index).get_node('Score')
