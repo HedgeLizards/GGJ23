@@ -104,7 +104,7 @@ func _physics_process(delta):
 			target_id -= 1
 			target = get_target()
 		if target == null:
-			# die()
+			die()
 			return
 		$Tip.rotation = target.angle_to_point($Tip.position) - PI / 2
 		$Tip.position = $Tip.position.move_toward(target, d)
