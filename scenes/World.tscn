@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/VersionTag.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Stone.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/player_scores.gd" type="Script" id=4]
 [ext_resource path="res://scenes/JoinInstructions.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/levels/Level_Template.tscn" type="PackedScene" id=6]
 
 [node name="World" type="Node2D"]
 
@@ -35,3 +36,13 @@ id = 3
 
 [node name="Stone" parent="." instance=ExtResource( 3 )]
 position = Vector2( 206, 400 )
+
+[node name="Levels" type="Node2D" parent="."]
+
+[node name="Template" parent="Levels" instance=ExtResource( 6 )]
+position = Vector2( 0, -256 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Levels/Template"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Levels/Template/StaticBody2D"]
+polygon = PoolVector2Array( 13, 22, 13, 997, 20, 1007, 101, 1007, 115, 1002, 110, 988, 51, 931, 48, 96, 96, 43, 110, 39, 105, 20, 93, 14, 21, 14 )
