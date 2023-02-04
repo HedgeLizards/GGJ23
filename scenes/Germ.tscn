@@ -5,7 +5,7 @@
 
 [sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0, 0.5, 1 )
-colors = PoolColorArray( 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1 )
+colors = PoolColorArray( 0.117647, 0.00392157, 0, 1, 1, 0.866667, 0.631373, 1, 0.117647, 0.00392157, 0, 1 )
 
 [sub_resource type="GradientTexture2D" id=3]
 gradient = SubResource( 2 )
@@ -16,6 +16,8 @@ radius = 2.0
 
 [node name="Germ" type="Node2D"]
 script = ExtResource( 2 )
+speed = 128
+nitro_speed = 256
 
 [node name="Segments" type="Line2D" parent="."]
 default_color = Color( 1, 1, 1, 1 )
