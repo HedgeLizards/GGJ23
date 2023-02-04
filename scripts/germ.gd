@@ -2,16 +2,17 @@ extends Node2D
 
 enum PlayerState {WAITING, ALIVE, REVIVING, ABANDONED}
 
-export var speed = 64
-export var nitro_speed = 128
-export var rotation_speed = 1
-export var grace_msec = 100
+export var speed = 64.0
+export var nitro_speed = 128.0
+export var rotation_speed = 1.0
+export var grace_msec = 100.0
 export var nutrients_gain = 0.5
-export var nutrients_burn = 2 # how fast you're using nutrients
-export var max_nutrients = 10
-export var min_boost = 2
-export var nitro_timeout = 1
-export var revive_timeout = 1
+export var nutrients_burn = 2.0 # how fast you're using nutrients
+export var max_nutrients = 10.0
+export var min_boost = 2.0
+export var nitro_timeout = 1.0
+export var revive_timeout = 1.0
+export var return_speed = 128.0
 var nutrients = 0
 var since_nitro = 1000
 var since_dead = 1000
@@ -23,6 +24,9 @@ var nitro_active = false
 var id
 var index
 var target_id
+var track = PoolVector2Array([Vector2(0, 0)])
+var line
+const wrap_width = 2048
 
 var hats = [
 	preload("res://scenes/hats/Hat0.tscn"),
@@ -33,7 +37,8 @@ var hats = [
 
 var SegmentCollision = preload("res://scenes/SegmentCollision.tscn")
 
-
+func _ready():
+	line = $Segments
 
 func start_growing():
 	since_nitro = 1000
@@ -66,10 +71,19 @@ func _physics_process(delta):
 		var vel = Vector2(0, -current_speed).rotated($Tip.rotation)
 
 		$Tip.position += vel * delta
+		if $Tip.global_position.x < 0:
+			$Tip.position.x += wrap_width
+			new_line([$Tip.position])
+		elif $Tip.global_position.x > wrap_width:
+			$Tip.position.x -= wrap_width
+			new_line([$Tip.position])
 
-		if $Segments.get_point_count() == 0 || $Tip.position.distance_to($Segments.get_point_position($Segments.get_point_count() - 1)) > $Segments.width / 2.0:
-			$Segments.add_point($Tip.position)
+		if track.size() == 0 || $Tip.position.distance_to(track[track.size() - 1]) > $Segments.width / 2.0:
+			line.add_point($Tip.position)
 			collision_queue.push_back($Tip.position)
+			track.append($Tip.position)
+		if line.get_point_count() > 2000:
+			new_line([track[track.size() - 1], $Tip.position])
 		if collision_queue.size() != 0 and collision_queue[0].distance_to($Tip.position) > $Segments.width + $Tip/Hitbox/Collision.shape.radius + 1:
 			var obstacleShape = CollisionShape2D.new()
 			obstacleShape.shape = CircleShape2D.new()
@@ -78,17 +92,21 @@ func _physics_process(delta):
 			$ObstacleSegments.add_child(obstacleShape)
 	elif state == PlayerState.REVIVING:
 		#var vel = Vector2(0, -speed).rotated($Tip.rotation + PI * 2)
-		var d = speed * delta
-		var target = $Segments.get_point_position(target_id)
+		var d = return_speed * delta
+		var target = track[target_id]
 		while target_id > 0 && d > $Tip.position.distance_to(target):
 			d -= $Tip.position.distance_to(target)
 			$Tip.position = target
 			target_id -= 1
-			target = $Segments.get_point_position(target_id)
+			target = track[target_id]
 		$Tip.rotation = target.angle_to_point($Tip.position) - PI / 2
 		$Tip.position = $Tip.position.move_toward(target, d)
 		since_dead += delta
 
+func new_line(old):
+	line = line.duplicate()
+	line.points = PoolVector2Array(old)
+	add_child_below_node($Segments, line)
 
 func _input(event):
 	if state == PlayerState.REVIVING and move_input() != 0 and since_dead > revive_timeout:
@@ -96,9 +114,9 @@ func _input(event):
 		newGerm.id = id
 		newGerm.index = index
 		newGerm.get_node("Tip").rotation += move_input() * 0.3
-		var new_points = $Segments.points
-		new_points.resize(target_id + 1)
-		newGerm.get_node("Segments").points = new_points
+		track.resize(target_id)
+		newGerm.get_node("Segments").points = PoolVector2Array()
+		newGerm.track = track
 		newGerm.grace_start = Time.get_ticks_msec()
 		newGerm.start_growing()
 		state = PlayerState.ABANDONED
@@ -124,7 +142,7 @@ func set_id_index(new_id, new_index):
 func collide(body):
 	if state == PlayerState.ALIVE && Time.get_ticks_msec() > grace_start + grace_msec:
 		state = PlayerState.REVIVING
-		target_id = $Segments.get_point_count() - 1
+		target_id = track.size() - 1
 		since_dead = 0
 
 func _on_Tip_body_entered(body):
