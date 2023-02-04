@@ -91,7 +91,10 @@ func add_potato_and_player(index, id):
 	player.set_id_index(id, index)
 	
 	$'../World/Potatoes'.add_child(potato)
+	$'../World/Potatoes'.move_child(potato, index)
+	
 	$'../World/Players'.add_child(player)
+	$'../World/Players'.move_child(player, index)
 
 func align_potato_and_player(index):
 	var potato = $'../World/Potatoes'.get_child(index)
