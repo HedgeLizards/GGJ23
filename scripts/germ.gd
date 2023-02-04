@@ -28,10 +28,6 @@ var SegmentCollision = preload("res://scenes/SegmentCollision.tscn")
 
 
 
-func _ready():
-	id = get_parent().id
-	#start_growing()
-
 func start_growing():
 	since_nitro = 1000
 	nutrients = 0
@@ -110,7 +106,6 @@ func _input(event):
 func set_id_index(new_id, new_index):
 	id = new_id
 	index = new_index
-	
 
 func collide(body):
 	if state == PlayerState.ALIVE && Time.get_ticks_msec() > grace_start + grace_msec:

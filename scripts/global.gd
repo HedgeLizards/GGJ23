@@ -82,9 +82,12 @@ func _input(event):
 					var potato = Sprite.new()
 					var player = Player.instance()
 					
-					potato.texture = load('res://assets/Player/PotP%d' % index)
+					potato.texture = load('res://assets/player/PotP%d.png' % index)
 					potato.position.y = 512
+					potato.scale.x = 0.5
+					potato.scale.y = 0.5
 					
+					player.position.y = potato.position.y
 					player.set_id_index(i, index)
 					
 					$'../World/Potatoes'.add_child(potato)
@@ -95,19 +98,20 @@ func _input(event):
 					players.remove(index)
 					scores.remove(index)
 					
+					$'../World/Potatoes'.get_child(index).free()
+					$'../World/Players'.get_child(index).free()
+					
 					while vacant_indices.has(index):
 						index += 1
 					
 					vacant_indices.push_back(index)
-					
-					# TODO: free player & potato i
 				
 				for j in players.size():
 					var potato = $'../World/Potatoes'.get_child(j)
 					var player = $'../World/Players'.get_child(j)
 					
 					potato.position.x = 2048 / players.size() * (j + 0.5)
-					player.position = potato.position
+					player.position.x = potato.position.x
 				
 				update_instructions()
 				

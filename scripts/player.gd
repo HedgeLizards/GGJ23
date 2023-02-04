@@ -3,7 +3,6 @@ extends Node2D
 
 #export var speed = 64
 #export var rotation_speed = 1
-export var id = 0
 #var mirror = 1
 #var segments = PoolVector2Array()
 
