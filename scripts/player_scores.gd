@@ -50,6 +50,13 @@ func add_player(id, index):
 func remove_player(index):
 	get_child(index).queue_free()
 
+func start():
+	for player_score in get_children():
+		player_score.add_constant_override('separation', -10)
+		
+		player_score.get_node('Controls').visible = false
+		player_score.get_node('Score').visible = true
+
 func update_score(index, to):
 	var score = get_child(index).get_node('Score')
 	

@@ -38,9 +38,9 @@ size_flags_horizontal = 3
 alignment = 2
 
 [node name="Controls" type="Label" parent="."]
-margin_top = 41.0
+margin_top = 7.0
 margin_right = 1024.0
-margin_bottom = 79.0
+margin_bottom = 45.0
 custom_fonts/font = SubResource( 10 )
 align = 1
 
@@ -54,7 +54,6 @@ text = "0"
 align = 1
 
 [node name="Nitrogen" type="ProgressBar" parent="."]
-visible = false
 margin_left = 422.0
 margin_top = 49.0
 margin_right = 602.0
