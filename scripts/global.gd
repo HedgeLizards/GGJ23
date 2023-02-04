@@ -1,5 +1,15 @@
 extends Node
 
+const levels = [
+	preload('res://scenes/levels/Level_01.tscn'),
+	preload('res://scenes/levels/Level_02.tscn'),
+	preload('res://scenes/levels/Level_03.tscn'),
+	preload('res://scenes/levels/Level_04.tscn'),
+	preload('res://scenes/levels/Level_05.tscn'),
+	preload('res://scenes/levels/Level_06.tscn'),
+	preload('res://scenes/levels/Level_Bonus.tscn'),
+]
+const Level_End = preload('res://scenes/levels/Level_End.tscn')
 const Player = preload('res://scenes/Player.tscn')
 
 var selecting = true
@@ -10,6 +20,9 @@ var vacant_indices = [0, 1, 2, 3]
 var player_scores
 var instructions
 var instructions_tween
+
+func _ready():
+	randomize()
 
 func initialize_world():
 	player_scores = $'../World/CanvasLayer/PlayerScores'
@@ -23,6 +36,13 @@ func initialize_world():
 	instructions_tween.connect('loop_finished', self, '_on_instructions_tween_loop_finished')
 	
 	update_instructions()
+	
+	for i in 5:
+		var level = (levels[randi() % levels.size()] if i < 4 else Level_End).instance()
+		
+		level.position.y = -256 - 1024 * (i + 1)
+		
+		$'../World/Levels'.add_child(level)
 	
 	for i in players.size():
 		add_potato_and_player(players[i], i)

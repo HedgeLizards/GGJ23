@@ -13,7 +13,7 @@ func _physics_process(_delta):
 	var min_player_y = INF
 	
 	for player in $'../Players'.get_children():
-		var tip = player.get_node('Germ/Tip')
+		var tip = player.get_child(player.get_child_count() - 1).get_node('Tip')
 		
 		min_player_y = min(min_player_y, tip.global_position.y)
 	
