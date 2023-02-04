@@ -1,11 +1,11 @@
 extends Node2D
 
-enum PlayerState {ALIVE, REVIVING, ABANDONED}
+enum PlayerState {WAITING, ALIVE, REVIVING, ABANDONED}
 
 export var speed = 64
 export var nitro_speed = 128
 export var rotation_speed = 1
-export var grace_msec = 1000
+export var grace_msec = 100
 export var nutrients_gain = 1
 export var nutrients_burn = 2 # how fast you're using nutrients
 export var max_nutrients = 5
@@ -16,7 +16,7 @@ var nutrients = 0
 var since_nitro = 1000
 var since_dead = 1000
 var mirror = 1
-var state = PlayerState.ALIVE
+var state = PlayerState.WAITING
 var collision_queue = []
 var grace_start = -1000000
 var nitro_active = false
@@ -30,7 +30,7 @@ var SegmentCollision = preload("res://scenes/SegmentCollision.tscn")
 var id
 func _ready():
 	id = get_parent().id
-	start_growing()
+	#start_growing()
 
 func start_growing():
 	since_nitro = 1000
