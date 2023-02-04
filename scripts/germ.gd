@@ -92,6 +92,7 @@ func _physics_process(delta):
 func _input(event):
 	if state == PlayerState.REVIVING and move_input() != 0 and since_dead > revive_timeout:
 		var newGerm = self.duplicate()
+		newGerm.id = id
 		newGerm.get_node("Tip").rotation += move_input() * 0.3
 		var new_points = $Segments.points
 		new_points.resize(target_id + 1)
