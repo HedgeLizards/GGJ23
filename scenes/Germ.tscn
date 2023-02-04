@@ -37,4 +37,5 @@ texture = ExtResource( 3 )
 
 [node name="ObstacleSegments" type="StaticBody2D" parent="."]
 
+[connection signal="area_entered" from="Tip/Hitbox" to="." method="_on_Hitbox_area_entered"]
 [connection signal="body_entered" from="Tip/Hitbox" to="." method="_on_Hitbox_body_entered"]
