@@ -10,10 +10,10 @@ const CONTROLS = [
 const COLORS = [Color('#f0028c'), Color('#8dcb4d'), Color('#7cb8e6'), Color('#df952c')]
 
 func _ready():
-	Global.initialize_world()
-	
 	for i in Global.players.size():
 		add_player(Global.players[i], i)
+	
+	Global.initialize_world()
 
 func add_player(id, index):
 	var player_score = PlayerScore.instance()
@@ -24,6 +24,7 @@ func add_player(id, index):
 	
 	var score = player_score.get_node('Score')
 	
+	score.text = str(Global.scores[index])
 	score.add_color_override('font_color', COLORS[index])
 	score.add_font_override('font', score.get_font('font').duplicate())
 	
@@ -53,7 +54,7 @@ func add_player(id, index):
 	move_child(player_score, index)
 
 func remove_player(index):
-	get_child(index).queue_free()
+	get_child(index).free()
 
 func start():
 	for player_score in get_children():
@@ -61,16 +62,6 @@ func start():
 		
 		player_score.get_node('Controls').visible = false
 		player_score.get_node('Score').visible = true
-
-func stop():
-	for player_score in get_children():
-		player_score.remove_constant_override('separation')
-		
-		player_score.get_node('Controls').visible = true
-		player_score.get_node('Score').visible = false
-		
-		player_score.get_node('Score').text = '0'
-		player_score.get_node('Nitrogen').value = 0
 
 func update_score(index, to):
 	var score = get_child(index).get_node('Score')
@@ -92,3 +83,6 @@ func update_nitrogen(index, to):
 	
 	foreground_colors[1] = COLORS[index] + (Color.white - COLORS[index]) * to
 	foreground.texture.gradient.colors = foreground_colors
+
+func update_status(index, to):
+	get_child(index).get_node('Nitrogen/Label').text = to

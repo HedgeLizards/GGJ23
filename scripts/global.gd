@@ -17,6 +17,8 @@ var starting_in = -1
 var players = []
 var scores = []
 var vacant_indices = [0, 1, 2, 3]
+var players_dead = 0
+var players_finished = 0
 var player_scores
 var instructions
 var instructions_tween
@@ -25,6 +27,9 @@ func _ready():
 	randomize()
 
 func initialize_world():
+	players_dead = 0
+	players_finished = 0
+	
 	player_scores = $'../World/CanvasLayer/PlayerScores'
 	instructions = $'../World/CanvasLayer/Instructions'
 	
@@ -35,7 +40,12 @@ func initialize_world():
 	
 	instructions_tween.connect('loop_finished', self, '_on_instructions_tween_loop_finished')
 	
-	update_instructions()
+	if starting_in == -1:
+		update_instructions()
+	else:
+		_on_instructions_tween_loop_finished(-1)
+		
+		player_scores.start()
 	
 	for i in 5:
 		var level = (levels[randi() % levels.size()] if i < 4 else Level_End).instance()
@@ -117,17 +127,17 @@ func _input(event):
 					
 					vacant_indices.erase(index)
 					
-					player_scores.add_player(i, index)
-					
 					players.insert(index, i)
 					scores.push_back(0)
 					
+					player_scores.add_player(i, index)
+					
 					add_potato_and_player(index, i)
 				else:
-					player_scores.remove_player(index)
-					
 					players.remove(index)
 					scores.remove(index)
+					
+					player_scores.remove_player(index)
 					
 					$'../World/Potatoes'.get_child(index).free()
 					$'../World/Players'.get_child(index).free()
@@ -161,11 +171,35 @@ func _input(event):
 		for i in scores.size():
 			scores[i] = 0
 		
-		player_scores.stop()
-		
 		get_tree().reload_current_scene()
+
+func add_player_dead(index):
+	player_scores.update_status(index, 'Dead')
+	
+	players_dead += 1
+	
+	restart_if_all_done(2)
+
+func add_player_finished(index):
+	change_score(index, players.size() - players_finished)
+	
+	player_scores.update_status(index, 'Finished')
+	
+	players_finished += 1
+	
+	restart_if_all_done(4)
 
 func change_score(index, by):
 	scores[index] += by
 	
 	player_scores.update_score(index, scores[index])
+
+func restart_if_all_done(time_sec):
+	if players_dead + players_finished < players.size():
+		return
+		
+	yield(get_tree().create_timer(time_sec), 'timeout')
+	
+	starting_in = 2
+	
+	get_tree().reload_current_scene()

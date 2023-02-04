@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://assets/tilemaps/Tileset_Dirt_Collision48.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/background/dirt_tex.jpg" type="Texture" id=2]
+[ext_resource path="res://assets/background/overlaygradient.png" type="Texture" id=3]
 
 [node name="Node2D" type="Node2D"]
 
@@ -16,3 +17,8 @@ tile_set = ExtResource( 1 )
 cell_quadrant_size = 1
 centered_textures = true
 format = 1
+
+[node name="OverlayGradient" type="TextureRect" parent="."]
+margin_right = 2048.0
+margin_bottom = 1024.0
+texture = ExtResource( 3 )
