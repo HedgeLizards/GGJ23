@@ -212,7 +212,7 @@ void fragment()
 	
 	// Apply discoloration to get a VHS look (lower saturation and higher contrast)
 	// You can play with the values below or expose them in the Inspector.
-	float saturation = 0.5;
+	float saturation = 0.3;
 	float contrast = 1.2;
 	if (discolor)
 	{
