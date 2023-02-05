@@ -19,7 +19,7 @@ func _physics_process(_delta):
 		var germ = player.active_germ()
 		var player_y = germ.get_node('Tip').global_position.y
 		
-		if player_y >= position.y + (OS.window_size.y + 79 / 2) * zoom.y:
+		if player_y >= position.y + (OS.window_size.y + 79 / 2) * zoom.y or player_y >= limit_bottom + 79 / 2 * zoom.y:
 			germ.die()
 		elif player_y < -256 - 1024 * 5 - 256:
 			germ.finish()

@@ -195,7 +195,7 @@ func _input(event):
 			starting_in = 2
 			
 			player_scores.start()
-		elif event.is_action('quit') and OS.has_feature('web'):
+		elif event.is_action('quit') and !OS.has_feature('web'):
 			get_tree().quit()
 	elif event.is_action('quit'):
 		selecting = true
@@ -204,6 +204,7 @@ func _input(event):
 		for i in scores.size():
 			scores[i] = 0
 		
+		instructions_tween.kill()
 		get_tree().reload_current_scene()
 
 func add_player_dead(index):
@@ -216,12 +217,13 @@ func add_player_dead(index):
 func add_player_finished(index):
 	change_score(index, players.size() - players_finished)
 	
-	player_scores.update_status(index, 'Finished')
+	player_scores.update_status(index, 'Sprouted')
 	
 	players_finished += 1
 	
-	change_music();
-	$'../World/CanvasLayer/Timer'.stop_timer();
+	if players_finished == 1:
+		change_music();
+		$'../World/CanvasLayer/Timer'.stop_timer();
 	
 	restart_if_all_done(6)
 
@@ -233,11 +235,14 @@ func change_score(index, by):
 func restart_if_all_done(time_sec):
 	if players_dead + players_finished < players.size():
 		return
+	
+	$'../World/CanvasLayer/Timer'.stop_timer();
 		
 	yield(get_tree().create_timer(time_sec), 'timeout')
 	
 	starting_in = 2
 	
+	instructions_tween.kill()
 	#get_tree().reload_current_scene()
 	SceneTransition.change_scene("res://scenes/World.tscn");
 	$'../World/CanvasLayer/Timer'.visible = false;
