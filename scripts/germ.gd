@@ -214,6 +214,10 @@ func collide(body):
 		state = PlayerState.REVIVING
 		target_id = track.size() - 1
 		since_dead = 0
+		
+		if $'/root/World/SND_PlayerCollide'.is_playing():
+			$'/root/World/SND_PlayerCollide'.stop();
+		$'/root/World/SND_PlayerCollide'.play();
 
 func _on_Tip_body_entered(body):
 	collide(body)
@@ -227,6 +231,8 @@ func _on_Hitbox_area_entered(area):
 	if area.has_method("nutrience"):
 		nutrients += area.nutrience()
 		area.queue_free()
+		
+		# ADD SOUND EFFECT FOR NUTRIENT COLLECTION HERE
 
 
 func die():

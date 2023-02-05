@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scenes/levels/Level_Start.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/VersionTag.tscn" type="PackedScene" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://scenes/SND_Begin.tscn" type="PackedScene" id=13]
 [ext_resource path="res://scenes/SND_PlayerJoin.tscn" type="PackedScene" id=14]
 [ext_resource path="res://sounds/SND_PlayerDeath.ogg" type="AudioStream" id=15]
+[ext_resource path="res://scenes/SND_PlayerCollide.tscn" type="PackedScene" id=16]
 
 [sub_resource type="DynamicFont" id=1]
 size = 56
@@ -87,3 +88,5 @@ volume_db = -6.0
 [node name="SND_Ready" parent="." instance=ExtResource( 12 )]
 
 [node name="SND_PlayerJoin" parent="." instance=ExtResource( 14 )]
+
+[node name="SND_PlayerCollide" parent="." instance=ExtResource( 16 )]
