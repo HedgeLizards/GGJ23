@@ -23,7 +23,8 @@
 [ext_resource path="res://sounds/MUS_Outro_Loop.ogg" type="AudioStream" id=21]
 [ext_resource path="res://scenes/MUS_Outro.tscn" type="PackedScene" id=22]
 [ext_resource path="res://scenes/Timer.tscn" type="PackedScene" id=23]
-[ext_resource path="res://assets/lightmask.png" type="Texture" id=24]
+[ext_resource path="res://scenes/Worm.tscn" type="PackedScene" id=24]
+[ext_resource path="res://assets/lightmask.png" type="Texture" id=25]
 
 [sub_resource type="DynamicFont" id=1]
 size = 56
@@ -147,9 +148,12 @@ volume_db = -4.0
 [node name="Light2D" type="Light2D" parent="."]
 position = Vector2( 1024, 512 )
 scale = Vector2( 2, 2 )
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 
 [node name="SND_PlayerLeave" parent="." instance=ExtResource( 6 )]
 volume_db = 18.0
+
+[node name="Worm" parent="." instance=ExtResource( 24 )]
+position = Vector2( 1363, 446 )
