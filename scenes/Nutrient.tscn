@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/nitro_glow.png" type="Texture" id=1]
 [ext_resource path="res://scripts/nutrient.gd" type="Script" id=2]
-[ext_resource path="res://assets/nitro_particle.png" type="Texture" id=3]
+[ext_resource path="res://assets/nitro_pickup.png" type="Texture" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 17.0
@@ -87,9 +87,9 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id=6]
 shader = SubResource( 5 )
-shader_param/strength = 0.5
-shader_param/speed = 0.5
-shader_param/angle = 0.0
+shader_param/strength = 0.866
+shader_param/speed = 1.639
+shader_param/angle = 213.862
 
 [node name="Nutrient" type="Area2D"]
 scale = Vector2( 3.8, 3.8 )
@@ -100,6 +100,7 @@ scale = Vector2( 0.726317, 0.726317 )
 shape = SubResource( 1 )
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="."]
+visible = false
 material = SubResource( 4 )
 rotation = 0.143117
 scale = Vector2( 1.412, 1.412 )
@@ -119,26 +120,23 @@ color_ramp = SubResource( 2 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 material = SubResource( 6 )
-amount = 50
-lifetime = 3.0
-preprocess = 209.17
+scale = Vector2( 0.193472, 0.193472 )
+amount = 20
+lifetime = 5.0
+preprocess = 100.0
 randomness = 1.0
-lifetime_randomness = 1.0
-fixed_fps = 24
+lifetime_randomness = 0.46
 texture = ExtResource( 3 )
-flag_align_y = true
 direction = Vector2( 1, 1 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
-initial_velocity = 1.0
+initial_velocity = 30.0
 initial_velocity_random = 1.0
-radial_accel = 3.0
-radial_accel_random = 1.0
 damping = 65.6
 angle = 720.0
 angle_random = 1.0
-scale_amount = 0.6
-scale_amount_random = 1.0
+scale_amount = 2.0
+scale_amount_random = 0.04
 color = Color( 1, 1, 1, 0.784314 )
 hue_variation = 0.01
 hue_variation_random = 0.1
