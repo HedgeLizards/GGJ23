@@ -43,6 +43,7 @@ func initialize_world():
 	players_dead = 0
 	players_finished = 0
 	
+	$'../World/CanvasLayer/Timer'.reset_timer();
 	player_scores = $'../World/CanvasLayer/PlayerScores'
 	instructions = $'../World/CanvasLayer/Instructions'
 	
@@ -92,6 +93,8 @@ func _on_instructions_tween_loop_finished(_loop_count):
 				
 			$'../World/MUS_Main'.play();
 			$'../World/SND_Begin'.play();
+			$'../World/CanvasLayer/Timer'.visible = true;
+			$'../World/CanvasLayer/Timer'.start_timer();
 		0:
 			instructions.visible = false
 		-1:
@@ -215,6 +218,7 @@ func add_player_finished(index):
 	players_finished += 1
 	
 	change_music();
+	$'../World/CanvasLayer/Timer'.stop_timer();
 	
 	restart_if_all_done(6)
 
@@ -233,6 +237,7 @@ func restart_if_all_done(time_sec):
 	
 	#get_tree().reload_current_scene()
 	SceneTransition.change_scene("res://scenes/World.tscn");
+	$'../World/CanvasLayer/Timer'.visible = false;
 
 func change_music():
 	$'../World/MUS_Main'.stop();
