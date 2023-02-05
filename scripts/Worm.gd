@@ -13,6 +13,8 @@ export var speed = 256.0
 export var inverted = false
 
 func _ready():
+	curve = curve.duplicate()
+	
 	match shape:
 		'Line':
 			curve.add_point(Vector2(-1088, 0))
@@ -35,11 +37,13 @@ func _ready():
 		
 		match i:
 			0:
-				worm_segment.get_node('Sprite').texture = texture_tail
+				worm_segment.get_node('Sprite').texture = (texture_head if inverted else texture_tail)
 			last:
-				worm_segment.get_node('Sprite').texture = texture_head
+				worm_segment.get_node('Sprite').texture = (texture_tail if inverted else texture_head)
 			_:
 				worm_segment.get_node('Sprite').texture = texture_segment
+		
+		worm_segment.get_node('Sprite').flip_h = inverted
 		
 		add_child(worm_segment)
 

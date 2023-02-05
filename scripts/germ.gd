@@ -8,12 +8,12 @@ export var nitro_speed = 400 # how fast the player moves when using 'boost'
 export var rotation_speed = 5 # how fast the player rotates
 export var grace_msec = 100.0 # ghost period
 export var nutrients_gain = 2.5 # how many nutrients are recharged per second
-export var nutrients_burn = 10 # how fast you're using nutrients
+export var nutrients_burn = 20 # how fast you're using nutrients
 export var max_nutrients = 100 # indicates the 'max' amount of nutrients
 export var min_boost = 0 # you cannot use 'boost' before you have at least 5 nutrients
-export var nitro_timeout = .4 # the amount of seconds before nutrients start regenerating again
-export var revive_timeout = .4 # the amount of time before the player can resume their path
-export var return_speed = 200 # how fast the player moves backwards
+export var nitro_timeout = 0 # the amount of seconds before nutrients start regenerating again
+export var revive_timeout = 0 # the amount of time before the player can resume their path
+export var return_speed = 300 # how fast the player moves backwards
 export var line_width = 10 
 export var base_line = 15
 
@@ -185,6 +185,7 @@ func new_line(nold):
 	add_child_below_node($Segments, line)
 
 func _input(event):
+	yield(get_tree(), "idle_frame")
 	if state == PlayerState.REVIVING and (move_input() != 0 or is_action_just_pressed("power")) and since_dead > revive_timeout:
 		var newGerm = split(move_input() * 0.3)
 		$Tip.visible = false
