@@ -136,10 +136,6 @@ quit={
 
 file_logging/enable_file_logging.pc=false
 
-[mono]
-
-project/assembly_name="Uproot!"
-
 [physics]
 
 common/enable_pause_aware_picking=true
