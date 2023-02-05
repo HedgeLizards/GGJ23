@@ -202,7 +202,7 @@ func add_player_finished(index):
 	
 	change_music();
 	
-	restart_if_all_done(4)
+	restart_if_all_done(6)
 
 func change_score(index, by):
 	scores[index] += by
@@ -217,7 +217,8 @@ func restart_if_all_done(time_sec):
 	
 	starting_in = 2
 	
-	get_tree().reload_current_scene()
+	#get_tree().reload_current_scene()
+	SceneTransition.change_scene("res://scenes/World.tscn");
 
 func change_music():
 	$'../World/MUS_Main'.stop();
