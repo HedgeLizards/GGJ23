@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/SND_PlayerJoin_4.ogg-b8d9ee51f0b83b58646731220d692ad8.oggstr"
+
+[deps]
+
+source_file="res://sounds/SND_PlayerJoin_4.ogg"
+dest_files=[ "res://.import/SND_PlayerJoin_4.ogg-b8d9ee51f0b83b58646731220d692ad8.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

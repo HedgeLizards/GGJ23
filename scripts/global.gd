@@ -143,6 +143,7 @@ func _input(event):
 					scores.push_back(0)
 					
 					player_scores.add_player(i, index)
+					$'../World/SND_PlayerJoin'.get_children()[index].play();
 					
 					add_potato_and_player(index, i)
 				else:

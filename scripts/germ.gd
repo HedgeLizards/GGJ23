@@ -237,7 +237,7 @@ func die():
 	
 	if $'/root/World/SND_PlayerDeath'.is_playing():
 		$'/root/World/SND_PlayerDeath'.stop();
-		$'/root/World/SND_PlayerDeath'.play();
+	$'/root/World/SND_PlayerDeath'.play();
 	
 	Global.add_player_dead(index)
 
