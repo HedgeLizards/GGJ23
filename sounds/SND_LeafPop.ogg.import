@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/SND_LeafPop.ogg-8de5ce9dd14d5a8c42a9eb6e1a018a07.oggstr"
+
+[deps]
+
+source_file="res://sounds/SND_LeafPop.ogg"
+dest_files=[ "res://.import/SND_LeafPop.ogg-8de5ce9dd14d5a8c42a9eb6e1a018a07.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
