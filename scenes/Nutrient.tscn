@@ -37,7 +37,6 @@ color = Color( 1, 1, 1, 0.784314 )
 color_ramp = SubResource( 2 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-scale = Vector2( 1, 1.5 )
 amount = 7
 preprocess = 209.17
 randomness = 1.0
@@ -51,7 +50,8 @@ radial_accel = 3.0
 radial_accel_random = 1.0
 angle = 720.0
 angle_random = 1.0
-scale_amount_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 0.22
 color = Color( 1, 1, 1, 0.784314 )
 color_ramp = SubResource( 2 )
 hue_variation = 0.01
