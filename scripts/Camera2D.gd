@@ -1,6 +1,6 @@
 extends Camera2D
 
-export var shake_intensity = 10
+export var shake_intensity = 5
 
 func _ready():
 	get_viewport().connect('size_changed', self, 'fit_to_viewport')
