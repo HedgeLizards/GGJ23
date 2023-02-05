@@ -43,6 +43,7 @@ func initialize_world():
 	players_dead = 0
 	players_finished = 0
 	
+	$'../World/CanvasLayer/Timer'.reset_timer();
 	player_scores = $'../World/CanvasLayer/PlayerScores'
 	instructions = $'../World/CanvasLayer/Instructions'
 	
@@ -60,8 +61,8 @@ func initialize_world():
 		
 		player_scores.start()
 	
-	for i in 5:
-		var level = (levels[randi() % levels.size()] if i < 4 else Level_End).instance()
+	for i in 6:
+		var level = (levels[randi() % levels.size()] if i < 5 else Level_End).instance()
 		
 		level.position.y = -256 - 1024 * (i + 1)
 		
@@ -92,6 +93,8 @@ func _on_instructions_tween_loop_finished(_loop_count):
 				
 			$'../World/MUS_Main'.play();
 			$'../World/SND_Begin'.play();
+			$'../World/CanvasLayer/Timer'.visible = true;
+			$'../World/CanvasLayer/Timer'.start_timer();
 		0:
 			instructions.visible = false
 		-1:
@@ -110,7 +113,7 @@ func update_instructions():
 		
 		instruction_lines.push_back('Press %s or [color=#0e7a0d]A[/color] to JOIN' % available_join_buttons.join(', '))
 	
-	if players.size() > 1:
+	if players.size() > 0:
 		instruction_lines.push_back('Press ENTER to START')
 	
 	instructions.bbcode_text = '[center]%s[/center]' % instruction_lines.join('\n')
@@ -182,7 +185,7 @@ func _input(event):
 				return
 		
 		if event.is_action('start'):
-			if players.size() < 2:
+			if players.size() < 1:
 				return
 			
 			selecting = false
@@ -215,6 +218,7 @@ func add_player_finished(index):
 	players_finished += 1
 	
 	change_music();
+	$'../World/CanvasLayer/Timer'.stop_timer();
 	
 	restart_if_all_done(6)
 
@@ -233,6 +237,7 @@ func restart_if_all_done(time_sec):
 	
 	#get_tree().reload_current_scene()
 	SceneTransition.change_scene("res://scenes/World.tscn");
+	$'../World/CanvasLayer/Timer'.visible = false;
 
 func change_music():
 	$'../World/MUS_Main'.stop();

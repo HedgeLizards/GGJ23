@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/Timer.gd" type="Script" id=1]
+[ext_resource path="res://assets/fonts/Aller_Rg.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 46
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 2 )
+
+[node name="Timer" type="Label"]
+anchor_right = 1.0
+margin_left = 25.0
+margin_top = 52.0
+margin_right = -25.0
+margin_bottom = 90.0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+custom_fonts/font = SubResource( 1 )
+text = "00 : 00 : 000"
+align = 1
+autowrap = true
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
