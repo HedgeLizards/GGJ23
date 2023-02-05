@@ -18,7 +18,6 @@ tile_set = ExtResource( 1 )
 cell_quadrant_size = 1
 centered_textures = true
 format = 1
-tile_data = PoolIntArray( 0, 1, 0, 31, 1, 0, 983040, 1, 0, 983071, 1, 0 )
 
 [node name="OverlayGradient" type="TextureRect" parent="."]
 margin_left = -20.0
