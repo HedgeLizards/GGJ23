@@ -114,7 +114,7 @@ func _physics_process(delta):
 		elif since_nitro > nitro_timeout:
 			nutrients = min(nutrients + delta * nutrients_gain * (1 + bonus_gain), max_nutrients)
 		
-		if !nitro_active:
+		if nitro_active == false:
 			stop_boost_sound();
 		
 		$Tip/NitroGlow.visible = nitro_active && powerup == PowerUp.SPEED
