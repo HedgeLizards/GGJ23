@@ -8,7 +8,6 @@ _data = {
 }
 
 [node name="Worm" type="Path2D"]
-position = Vector2( 512, 300 )
+position = Vector2( 1024, 512 )
 curve = SubResource( 1 )
 script = ExtResource( 1 )
-radius = 256.0
