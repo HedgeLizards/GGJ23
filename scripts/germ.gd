@@ -38,6 +38,9 @@ var last_blocked = 0
 var temp = false
 var lifetime = 0.5
 
+var random_boost_sound
+var boosting = false;
+
 var hats = [
 	preload("res://scenes/hats/Hat0.tscn"),
 	preload("res://scenes/hats/Hat1.tscn"),
@@ -55,7 +58,6 @@ func start_growing():
 	since_nitro = 1000
 	state = PlayerState.ALIVE
 
-
 func move_input():
 	return mirror * int(Input.is_action_pressed("right" + str(id))) - int(Input.is_action_pressed("left" + str(id)))
 
@@ -70,7 +72,9 @@ func _physics_process(delta):
 		
 		if Input.is_action_pressed("power" +str(id)) and nutrients > min_boost:
 			nitro_active = true
+			
 		if nitro_active:
+			play_boost_sound(); # Plays the boost sound effect
 			if powerup == PowerUp.SPEED:
 				current_speed = nitro_speed
 			if powerup == PowerUp.BLOCK and last_blocked <= 0:
@@ -82,13 +86,18 @@ func _physics_process(delta):
 					new_germ = split(-0.5)
 				new_germ.get_node("Tip").visible = false
 				new_germ.temp = true
-			
+		
 			nutrients -= delta * nutrients_burn
 			if nutrients <= 0:
 				nitro_active = 0
 			since_nitro = 0
+		
 		elif since_nitro > nitro_timeout:
 			nutrients = min(nutrients + delta * nutrients_gain, max_nutrients)
+		
+		else:
+			stop_boost_sound();
+		
 		$Tip/NitroGlow.visible = nitro_active && powerup == PowerUp.SPEED
 		get_node("/root/World/CanvasLayer/PlayerScores").update_nitrogen(index, nutrients / max_nutrients)
 		since_nitro += delta
@@ -218,22 +227,22 @@ func collide(body):
 		if $'/root/World/SND_PlayerCollide'.is_playing():
 			$'/root/World/SND_PlayerCollide'.stop();
 		$'/root/World/SND_PlayerCollide'.play();
+		stop_boost_sound();
 
 func _on_Tip_body_entered(body):
 	collide(body)
 
-
 func _on_Hitbox_body_entered(body):
 	collide(body) # Replace with function body.
-
 
 func _on_Hitbox_area_entered(area):
 	if area.has_method("nutrience"):
 		nutrients += area.nutrience()
 		area.queue_free()
 		
-		# ADD SOUND EFFECT FOR NUTRIENT COLLECTION HERE
-
+		if $'/root/World/SND_PlayerPickup'.is_playing():
+			$'/root/World/SND_PlayerPickup'.stop();
+		$'/root/World/SND_PlayerPickup'.play();
 
 func die():
 	if state == PlayerState.DEAD:
@@ -263,8 +272,24 @@ func finish():
 	
 	get_node("/root/World/Potatoes").add_child(flower)
 	
+	stop_boost_sound();
 	flower.play()
-
 
 func get_id():
 	return id
+
+func play_boost_sound():
+	var rng = RandomNumberGenerator.new();
+	rng.randomize();
+	random_boost_sound = rng.randf_range(0, 3);
+	
+	if !$'/root/World/SND_PlayerBoost'.get_children()[random_boost_sound].is_playing() and boosting == false:
+		$'/root/World/SND_PlayerBoost'.get_children()[random_boost_sound].play();
+		boosting = true;
+
+func stop_boost_sound():
+	if boosting == true:
+		for i in 4:
+			print("Stop boost sound");
+			$'/root/World/SND_PlayerBoost'.get_children()[i].stop();
+	boosting = false;

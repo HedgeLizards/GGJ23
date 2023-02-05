@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/SND_PlayerPickup.ogg-8d8190ee226b53cac211130c43b86cd4.oggstr"
+
+[deps]
+
+source_file="res://sounds/SND_PlayerPickup.ogg"
+dest_files=[ "res://.import/SND_PlayerPickup.ogg-8d8190ee226b53cac211130c43b86cd4.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

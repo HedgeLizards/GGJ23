@@ -4,3 +4,4 @@
 
 [node name="MUS_Intro_Rise" type="AudioStreamPlayer"]
 stream = ExtResource( 1 )
+volume_db = -4.0

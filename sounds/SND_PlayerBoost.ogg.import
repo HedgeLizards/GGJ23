@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/SND_PlayerBoost.ogg-01197597e8bec61149c247b45215157e.oggstr"
+
+[deps]
+
+source_file="res://sounds/SND_PlayerBoost.ogg"
+dest_files=[ "res://.import/SND_PlayerBoost.ogg-01197597e8bec61149c247b45215157e.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
