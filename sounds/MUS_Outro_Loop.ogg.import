@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/MUS_Outro_Loop.ogg-2867d2ecc5718735bfb69182cbf8eef5.oggstr"
+
+[deps]
+
+source_file="res://sounds/MUS_Outro_Loop.ogg"
+dest_files=[ "res://.import/MUS_Outro_Loop.ogg-2867d2ecc5718735bfb69182cbf8eef5.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -200,6 +200,8 @@ func add_player_finished(index):
 	
 	players_finished += 1
 	
+	change_music();
+	
 	restart_if_all_done(4)
 
 func change_score(index, by):
@@ -216,3 +218,7 @@ func restart_if_all_done(time_sec):
 	starting_in = 2
 	
 	get_tree().reload_current_scene()
+
+func change_music():
+	$'../World/MUS_Main'.stop();
+	$'../World/MUS_Outro'.play();
