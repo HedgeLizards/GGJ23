@@ -66,7 +66,7 @@ func _on_instructions_tween_loop_finished(_loop_count):
 			$'../World/MUS_Intro_Rise'.play();
 			$'../World/SND_Ready'.play();
 		1:
-			instructions.bbcode_text = '[center]GO![/center]'
+			instructions.bbcode_text = '[center]BEGIN![/center]'
 			
 			for player in $'../World/Players'.get_children():
 				player.start_growing()
