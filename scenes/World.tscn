@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://scenes/levels/Level_Start.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/VersionTag.tscn" type="PackedScene" id=2]
@@ -19,10 +19,12 @@
 [ext_resource path="res://sounds/SND_PlayerPickup.ogg" type="AudioStream" id=17]
 [ext_resource path="res://scenes/SND_PlayerPickup.tscn" type="PackedScene" id=18]
 [ext_resource path="res://scenes/SND_PlayerBoost.tscn" type="PackedScene" id=19]
-[ext_resource path="res://scenes/shaders/WarpArcade.gdshader" type="Shader" id=20]
+[ext_resource path="res://shaders/warparcade.gdshader" type="Shader" id=20]
 [ext_resource path="res://sounds/MUS_Outro_Loop.ogg" type="AudioStream" id=21]
 [ext_resource path="res://scenes/MUS_Outro.tscn" type="PackedScene" id=22]
 [ext_resource path="res://scenes/Timer.tscn" type="PackedScene" id=23]
+[ext_resource path="res://scenes/Worm.tscn" type="PackedScene" id=24]
+[ext_resource path="res://assets/lightmask.png" type="Texture" id=25]
 
 [sub_resource type="DynamicFont" id=1]
 size = 56
@@ -46,12 +48,16 @@ shader_param/noise_opacity = 0.0
 shader_param/noise_speed = 5.0
 shader_param/static_noise_intensity = 0.06
 shader_param/aberration = 0.01
-shader_param/brightness = 1.4
 shader_param/discolor = false
 shader_param/warp_amount = 1.0
 shader_param/clip_warp = false
 shader_param/vignette_intensity = 0.4
 shader_param/vignette_opacity = 0.5
+shader_param/fadearea_top = -4096.0
+shader_param/fadearea_bottom = 0.0
+shader_param/brightness_top = 1.4
+shader_param/brightness_bottom = 1.4
+shader_param/camera_y = 0.0
 
 [node name="World" type="Node2D"]
 
@@ -139,5 +145,15 @@ volume_db = -4.0
 
 [node name="SND_PlayerBoost" parent="." instance=ExtResource( 19 )]
 
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( 1024, 512 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 25 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+
 [node name="SND_PlayerLeave" parent="." instance=ExtResource( 6 )]
 volume_db = 18.0
+
+[node name="Worm" parent="." instance=ExtResource( 24 )]
+position = Vector2( 1363, 446 )

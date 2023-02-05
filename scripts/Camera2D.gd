@@ -2,6 +2,8 @@ extends Camera2D
 
 export var shake_intensity = 5
 
+
+
 func _ready():
 	get_viewport().connect('size_changed', self, 'fit_to_viewport')
 	
@@ -37,3 +39,6 @@ func _physics_process(_delta):
 	
 	if min_player_y < INF:
 		position.y = min(position.y, min_player_y - (OS.window_size.y / 3) * zoom.y)
+	$'../CanvasLayer/ColorRect'.material.set_shader_param("camera_y", position.y)
+	var b = min(( - position.y) / 4000.0, 1.0)
+	$'../CanvasModulate'.color = Color(b, b, b)

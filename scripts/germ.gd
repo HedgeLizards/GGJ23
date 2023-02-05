@@ -10,7 +10,7 @@ export var grace_msec = 100.0 # ghost period
 export var nutrients_gain = 2.5 # how many nutrients are recharged per second
 export var nutrients_burn = 10 # how fast you're using nutrients
 export var max_nutrients = 100 # indicates the 'max' amount of nutrients
-export var min_boost = 10 # you cannot use 'boost' before you have at least 5 nutrients
+export var min_boost = 0 # you cannot use 'boost' before you have at least 5 nutrients
 export var nitro_timeout = .4 # the amount of seconds before nutrients start regenerating again
 export var revive_timeout = .4 # the amount of time before the player can resume their path
 export var return_speed = 200 # how fast the player moves backwards
@@ -88,7 +88,7 @@ func _physics_process(delta):
 		$Tip.rotation += inp * delta * rotation_speed
 		var current_speed = speed
 		
-		if is_action_pressed("power") and nutrients > min_boost:
+		if is_action_just_pressed("power") and nutrients > min_boost:
 			nitro_active = true
 		
 		if nitro_active:
@@ -107,7 +107,7 @@ func _physics_process(delta):
 		
 			nutrients -= delta * nutrients_burn
 			if nutrients <= 0:
-				nitro_active = 0
+				nitro_active = false
 			since_nitro = 0
 		
 		elif since_nitro > nitro_timeout:
@@ -185,18 +185,12 @@ func new_line(nold):
 	add_child_below_node($Segments, line)
 
 func _input(event):
-	if state == PlayerState.REVIVING and (move_input() != 0 or is_action_pressed("power")) and since_dead > revive_timeout:
+	if state == PlayerState.REVIVING and (move_input() != 0 or is_action_just_pressed("power")) and since_dead > revive_timeout:
 		var newGerm = split(move_input() * 0.3)
 		$Tip.visible = false
 		state = PlayerState.ABANDONED
 	if is_action_just_released("power"):
 		nitro_active = false
-	if false and is_action_just_pressed("power"):
-		var newGerm = self.duplicate()
-		newGerm.mirror = -mirror
-		$Tip.rotation += 0.1
-		newGerm.get_node("Tip").rotation -= 0.1
-		get_parent().add_child(newGerm)
 
 func split(angle):
 	var newGerm = self.duplicate()
