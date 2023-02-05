@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=2]
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 32.0
+radius = 64.0
 
 [node name="WormSegment" type="PathFollow2D"]
 
