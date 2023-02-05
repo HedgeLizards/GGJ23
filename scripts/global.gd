@@ -61,8 +61,8 @@ func initialize_world():
 		
 		player_scores.start()
 	
-	for i in 5:
-		var level = (levels[randi() % levels.size()] if i < 4 else Level_End).instance()
+	for i in 6:
+		var level = (levels[randi() % levels.size()] if i < 5 else Level_End).instance()
 		
 		level.position.y = -256 - 1024 * (i + 1)
 		
@@ -113,7 +113,7 @@ func update_instructions():
 		
 		instruction_lines.push_back('Press %s or [color=#0e7a0d]A[/color] to JOIN' % available_join_buttons.join(', '))
 	
-	if players.size() > 1:
+	if players.size() > 0:
 		instruction_lines.push_back('Press ENTER to START')
 	
 	instructions.bbcode_text = '[center]%s[/center]' % instruction_lines.join('\n')
@@ -185,7 +185,7 @@ func _input(event):
 				return
 		
 		if event.is_action('start'):
-			if players.size() < 2:
+			if players.size() < 1:
 				return
 			
 			selecting = false

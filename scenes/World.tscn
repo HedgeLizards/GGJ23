@@ -106,7 +106,7 @@ position = Vector2( 0, -256 )
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
 current = true
-limit_top = -5376
+limit_top = -6400
 limit_bottom = 768
 smoothing_enabled = true
 script = ExtResource( 4 )

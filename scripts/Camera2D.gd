@@ -21,7 +21,7 @@ func _physics_process(_delta):
 		
 		if player_y >= position.y + (OS.window_size.y + 79 / 2) * zoom.y:
 			germ.die()
-		elif player_y < -256 - 1024 * 4 - 256:
+		elif player_y < -256 - 1024 * 5 - 256:
 			germ.finish()
 		
 		min_player_y = min(min_player_y, player_y)
