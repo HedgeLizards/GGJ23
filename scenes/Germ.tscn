@@ -4,7 +4,7 @@
 [ext_resource path="res://scripts/germ.gd" type="Script" id=2]
 [ext_resource path="res://assets/nitro_glow.png" type="Texture" id=3]
 [ext_resource path="res://scenes/particles/particles_digging.tscn" type="PackedScene" id=4]
-[ext_resource path="res://assets/lightmask.png" type="Texture" id=5]
+[ext_resource path="res://assets/lightmask2.png" type="Texture" id=5]
 
 [sub_resource type="Shader" id=6]
 code = "// HSV to RBG from https://www.rapidtables.com/convert/color/hsv-to-rgb.html
@@ -111,7 +111,6 @@ colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.0784314, 1, 1, 1, 0, 1, 1, 1, 0 
 [node name="Germ" type="Node2D"]
 script = ExtResource( 2 )
 nutrients_burn = 20
-min_boost = 0
 
 [node name="Segments" type="Line2D" parent="."]
 material = SubResource( 7 )
