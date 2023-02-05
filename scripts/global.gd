@@ -95,10 +95,10 @@ func update_instructions():
 			if !players.has(i):
 				available_join_buttons.push_back(['W', 'G', '9', 'UP'][i])
 		
-		instruction_lines.push_back('Press %s or [color=#0e7a0d]A[/color] to join' % available_join_buttons.join(', '))
+		instruction_lines.push_back('Press %s or [color=#0e7a0d]A[/color] to JOIN' % available_join_buttons.join(', '))
 	
 	if players.size() > 1:
-		instruction_lines.push_back('Press Enter to start')
+		instruction_lines.push_back('Press ENTER to START')
 	
 	instructions.bbcode_text = '[center]%s[/center]' % instruction_lines.join('\n')
 
