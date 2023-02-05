@@ -61,6 +61,8 @@ func move_input():
 
 func _physics_process(delta):
 	last_blocked -= delta
+	$Tip/ParDigging.emitting = state == PlayerState.ALIVE && not nitro_active
+	$Tip/ParNitro.emitting = state == PlayerState.ALIVE && nitro_active
 	if state == PlayerState.ALIVE:
 		var inp = move_input()
 		$Tip.rotation += inp * delta * rotation_speed
@@ -88,7 +90,6 @@ func _physics_process(delta):
 		elif since_nitro > nitro_timeout:
 			nutrients = min(nutrients + delta * nutrients_gain, max_nutrients)
 		$Tip/NitroGlow.visible = nitro_active && powerup == PowerUp.SPEED
-		$Tip/Drill.visible = nitro_active && powerup == PowerUp.DRILL
 		get_node("/root/World/CanvasLayer/PlayerScores").update_nitrogen(index, nutrients / max_nutrients)
 		since_nitro += delta
 		var vel = Vector2(0, -current_speed).rotated($Tip.rotation)
