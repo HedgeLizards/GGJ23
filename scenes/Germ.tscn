@@ -17,14 +17,6 @@ radius = 2.0
 
 [node name="Germ" type="Node2D"]
 script = ExtResource( 2 )
-speed = 200.0
-nitro_speed = 400.0
-rotation_speed = 5.0
-nutrients_burn = 1.0
-min_boost = 0.5
-nitro_timeout = 0.4
-revive_timeout = 0.4
-return_speed = 200.0
 
 [node name="Segments" type="Line2D" parent="."]
 width = 30.0
