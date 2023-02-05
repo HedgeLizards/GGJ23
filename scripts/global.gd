@@ -61,12 +61,12 @@ func initialize_world():
 func _on_instructions_tween_loop_finished(_loop_count):
 	match starting_in:
 		2:
-			instructions.bbcode_text = '[center]Ready?[/center]'
+			instructions.bbcode_text = '[center]READY?[/center]'
 			
 			$'../World/MUS_Intro_Rise'.play();
 			$'../World/SND_Ready'.play();
 		1:
-			instructions.bbcode_text = '[center]Go![/center]'
+			instructions.bbcode_text = '[center]GO![/center]'
 			
 			for player in $'../World/Players'.get_children():
 				player.start_growing()
@@ -151,6 +151,7 @@ func _input(event):
 					scores.remove(index)
 					
 					player_scores.remove_player(index)
+					$'../World/SND_PlayerLeave'.play();
 					
 					$'../World/Potatoes'.get_child(index).free()
 					$'../World/Players'.get_child(index).free()
