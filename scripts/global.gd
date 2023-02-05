@@ -192,7 +192,7 @@ func _input(event):
 			starting_in = 2
 			
 			player_scores.start()
-		elif event.is_action('quit'):
+		elif event.is_action('quit') and OS.has_feature('web'):
 			get_tree().quit()
 	elif event.is_action('quit'):
 		selecting = true

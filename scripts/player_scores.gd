@@ -3,8 +3,8 @@ extends HBoxContainer
 const PlayerScore = preload('res://scenes/PlayerScore.tscn')
 const CONTROLS = [
 	['A', 'D', 'W'],
-	['V', 'B', 'G'],
-	['I', 'O', '9'],
+	['V', 'N', 'G'],
+	['I', 'P', '9'],
 	['LEFT', 'RIGHT', 'UP'],
 ]
 const COLORS = [Color('#f0028c'), Color('#8dcb4d'), Color('#7cb8e6'), Color('#df952c')]
