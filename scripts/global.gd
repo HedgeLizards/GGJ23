@@ -143,14 +143,18 @@ func align_potato_and_player(index):
 
 func _input(event):
 	if !(event is InputEventKey) or !event.pressed or event.echo:
-		return
+		if !(event is InputEventJoypadButton) or !event.pressed or event.button_index != JOY_XBOX_A:
+			return
 	
 	if selecting:
-		for i in 4:
-			if event.is_action('power%d' % i):
+		for i in 9:
+			if (event.is_action('power%d' % i) if i < 5 else (event is InputEventJoypadButton and i == 5 + event.device)):
 				var index = players.find(i)
 				
 				if index == -1:
+					if players.size() == 4:
+						return
+					
 					index = vacant_indices.min()
 					
 					vacant_indices.erase(index)
