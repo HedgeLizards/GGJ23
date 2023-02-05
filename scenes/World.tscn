@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scenes/levels/Level_Start.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/VersionTag.tscn" type="PackedScene" id=2]
@@ -10,6 +10,9 @@
 [ext_resource path="res://sounds/MUS_Main_Loop.ogg" type="AudioStream" id=8]
 [ext_resource path="res://scenes/MUS_Intro.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/MUS_Intro_Rise.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/SND_PlayerDeath.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/SND_Ready.tscn" type="PackedScene" id=12]
+[ext_resource path="res://scenes/SND_Begin.tscn" type="PackedScene" id=13]
 
 [sub_resource type="DynamicFont" id=1]
 size = 56
@@ -72,3 +75,9 @@ stream = ExtResource( 8 )
 [node name="MUS_Intro" parent="." instance=ExtResource( 9 )]
 
 [node name="MUS_Intro_Rise" parent="." instance=ExtResource( 10 )]
+
+[node name="SND_PlayerDeath" parent="." instance=ExtResource( 11 )]
+
+[node name="SND_Begin" parent="." instance=ExtResource( 13 )]
+
+[node name="SND_Ready" parent="." instance=ExtResource( 12 )]

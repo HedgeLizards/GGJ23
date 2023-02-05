@@ -64,6 +64,7 @@ func _on_instructions_tween_loop_finished(_loop_count):
 			instructions.bbcode_text = '[center]Ready?[/center]'
 			
 			$'../World/MUS_Intro_Rise'.play();
+			$'../World/SND_Ready'.play();
 		1:
 			instructions.bbcode_text = '[center]Go![/center]'
 			
@@ -77,6 +78,7 @@ func _on_instructions_tween_loop_finished(_loop_count):
 				$'../World/MUS_Intro_Rise'.stop();
 				
 			$'../World/MUS_Main'.play();
+			$'../World/SND_Begin'.play();
 		0:
 			instructions.visible = false
 		-1:
