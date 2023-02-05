@@ -52,6 +52,7 @@ uniform float brightness_top = 1.4;
 uniform float brightness_bottom = 0.2;
 uniform float camera_y = 0.0;
 varying float ylocation;
+// uniform vec3[] players;
 
 // Used by the noise functin to generate a pseudo random value between 0.0 and 1.0
 vec2 random(vec2 uv){
@@ -175,10 +176,10 @@ void fragment()
 
 	// Apply the grille to the texture's color channels and apply Brightness. Since the grille and the scanlines (below) make the image very dark you
 	// can compensate by increasing the brightness.
-	
+
 	float fadearea_size = fadearea_bottom - fadearea_top;
 	float brightness =
-		clamp(mix(brightness_top, brightness_bottom, (camera_y + ylocation - fadearea_top) / fadearea_size ), brightness_bottom, brightness_top);
+		clamp(mix(brightness_top, brightness_bottom, (camera_y - fadearea_top) / fadearea_size ), brightness_bottom, brightness_top);
 	text.r = clamp(r * brightness, 0.0, 1.0);
 	text.g = clamp(g * brightness, 0.0, 1.0);
 	text.b = clamp(b * brightness, 0.0, 1.0);
@@ -241,4 +242,9 @@ void fragment()
 	}
 
 	COLOR = text;
+}
+
+void light() {
+	float b = 0.1;
+	LIGHT = vec4(b, b, b, 1.0);
 }
