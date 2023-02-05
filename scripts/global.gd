@@ -77,7 +77,7 @@ func _on_instructions_tween_loop_finished(_loop_count):
 			if $'../World/MUS_Intro_Rise'.is_playing():
 				$'../World/MUS_Intro_Rise'.stop();
 				
-			#$'../World/MUS_Main'.play();
+			$'../World/MUS_Main'.play();
 			$'../World/SND_Begin'.play();
 		0:
 			instructions.visible = false
