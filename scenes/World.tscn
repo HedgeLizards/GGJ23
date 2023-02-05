@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://scenes/levels/Level_Start.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/VersionTag.tscn" type="PackedScene" id=2]
@@ -23,7 +23,6 @@
 [ext_resource path="res://sounds/MUS_Outro_Loop.ogg" type="AudioStream" id=21]
 [ext_resource path="res://scenes/MUS_Outro.tscn" type="PackedScene" id=22]
 [ext_resource path="res://scenes/Timer.tscn" type="PackedScene" id=23]
-[ext_resource path="res://scenes/Worm.tscn" type="PackedScene" id=24]
 [ext_resource path="res://assets/lightmask.png" type="Texture" id=25]
 
 [sub_resource type="DynamicFont" id=1]
@@ -154,6 +153,3 @@ texture = ExtResource( 25 )
 
 [node name="SND_PlayerLeave" parent="." instance=ExtResource( 6 )]
 volume_db = 18.0
-
-[node name="Worm" parent="." instance=ExtResource( 24 )]
-position = Vector2( 1363, 446 )
