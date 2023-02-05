@@ -148,6 +148,7 @@ volume_db = -4.0
 position = Vector2( 1024, 512 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 25 )
+mode = 2
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 
