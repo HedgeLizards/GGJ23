@@ -1,6 +1,7 @@
 extends Node2D
 
 enum PlayerState {WAITING, ALIVE, REVIVING, ABANDONED, DEAD, FINISHED}
+enum PowerUp {SPEED, DRILL, BLOCK}
 
 export var speed = 64.0
 export var nitro_speed = 128.0
@@ -15,6 +16,8 @@ export var revive_timeout = 1.0
 export var return_speed = 128.0
 export var line_width = 10
 export var base_line = 15
+
+var powerup = PowerUp.SPEED
 var nutrients = max_nutrients
 var since_nitro = 1000
 var since_dead = 1000
@@ -29,6 +32,9 @@ var target_id
 var track = PoolVector2Array()
 var line
 const wrap_width = 2048
+var last_blocked = 0
+var temp = false
+var lifetime = 0.5
 
 var hats = [
 	preload("res://scenes/hats/Hat0.tscn"),
@@ -52,6 +58,7 @@ func move_input():
 	return mirror * int(Input.is_action_pressed("right" + str(id))) - int(Input.is_action_pressed("left" + str(id)))
 
 func _physics_process(delta):
+	last_blocked -= delta
 	if state == PlayerState.ALIVE:
 		var inp = move_input()
 		$Tip.rotation += inp * delta * rotation_speed
@@ -60,14 +67,26 @@ func _physics_process(delta):
 		if Input.is_action_pressed("power" +str(id)) and nutrients > min_boost:
 			nitro_active = true
 		if nitro_active:
-			current_speed = nitro_speed
+			if powerup == PowerUp.SPEED:
+				current_speed = nitro_speed
+			if powerup == PowerUp.BLOCK and last_blocked <= 0:
+				last_blocked = 0.3
+				var new_germ
+				if randf() > 0.5:
+					new_germ = split(0.5)
+				else:
+					new_germ = split(-0.5)
+				new_germ.get_node("Tip").visible = false
+				new_germ.temp = true
+			
 			nutrients -= delta * nutrients_burn
 			if nutrients <= 0:
 				nitro_active = 0
 			since_nitro = 0
 		elif since_nitro > nitro_timeout:
 			nutrients = min(nutrients + delta * nutrients_gain, max_nutrients)
-		$Tip/NitroGlow.visible = nitro_active
+		$Tip/NitroGlow.visible = nitro_active && powerup == PowerUp.SPEED
+		$Tip/Drill.visible = nitro_active && powerup == PowerUp.DRILL
 		get_node("/root/World/CanvasLayer/PlayerScores").update_nitrogen(index, nutrients / max_nutrients)
 		since_nitro += delta
 		var vel = Vector2(0, -current_speed).rotated($Tip.rotation)
@@ -137,25 +156,9 @@ func new_line(nold):
 
 func _input(event):
 	if state == PlayerState.REVIVING and (move_input() != 0 or Input.is_action_pressed("power"+str(id))) and since_dead > revive_timeout:
-		var newGerm = self.duplicate()
-		newGerm.id = id
-		newGerm.index = index
-		newGerm.nutrients = nutrients
-		newGerm.get_node("Tip").rotation += move_input() * 0.3
-		track.resize(target_id)
-		var old = []
-		for i in range(3):
-			var ind = track.size() - i - 1
-			if ind < 0:
-				break
-			old.push_front(track[ind])
-		newGerm.get_node("Segments").points = PoolVector2Array(old)
-		newGerm.track = track
-		newGerm.grace_start = Time.get_ticks_msec()
-		newGerm.start_growing()
-		state = PlayerState.ABANDONED
+		var newGerm = split(move_input() * 0.3)
 		$Tip.visible = false
-		get_parent().add_child(newGerm)
+		state = PlayerState.ABANDONED
 	if Input.is_action_just_released("power" +str(id)):
 		nitro_active = false
 	if false and Input.is_action_just_pressed("power"+str(id)):
@@ -165,6 +168,26 @@ func _input(event):
 		newGerm.get_node("Tip").rotation -= 0.1
 		get_parent().add_child(newGerm)
 
+func split(angle):
+	var newGerm = self.duplicate()
+	newGerm.id = id
+	newGerm.index = index
+	newGerm.nutrients = nutrients
+	newGerm.get_node("Tip").rotation += angle
+	track.resize(target_id)
+	newGerm.track = track
+	var old = []
+	for i in range(3):
+		var ind = newGerm.track.size() - i - 1
+		if ind < 0:
+			break
+		old.push_front(newGerm.track[ind])
+	newGerm.get_node("Segments").points = PoolVector2Array(old)
+	newGerm.grace_start = Time.get_ticks_msec()
+	newGerm.start_growing()
+	get_parent().add_child(newGerm)
+	return newGerm
+
 func set_id_index(new_id, new_index):
 	id = new_id
 	index = new_index
@@ -173,8 +196,18 @@ func set_id_index(new_id, new_index):
 		icon.queue_free()
 	$Tip/Sprites.add_child(hats[index].instance())
 
+func abandon():
+	$Tip.visible = false
+	state = PlayerState.ABANDONED
+
 func collide(body):
-	if state == PlayerState.ALIVE && Time.get_ticks_msec() > grace_start + grace_msec:
+	if temp:
+		abandon()
+	if state == PlayerState.ALIVE:
+		if Time.get_ticks_msec() < grace_start + grace_msec and body.get_parent().has_method("get_id") and body.get_parent().get_id() == id:
+			return
+		if nitro_active and powerup == PowerUp.DRILL:
+			return
 		state = PlayerState.REVIVING
 		target_id = track.size() - 1
 		since_dead = 0
@@ -218,3 +251,7 @@ func finish():
 	get_node("/root/World/Potatoes").add_child(flower)
 	
 	flower.play()
+
+
+func get_id():
+	return id
