@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/particles/particles_nitro.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/germ.gd" type="Script" id=2]
@@ -16,6 +16,15 @@ fill_to = Vector2( 0, 1 )
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 2.0
+
+[sub_resource type="Curve" id=4]
+min_value = 0.1
+max_value = 30.0
+_data = [ Vector2( 0.00985222, 0.410214 ), 0.0, 0.037323, 0, 0, Vector2( 0.987685, 7.46994 ), 3.47187, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=5]
+offsets = PoolRealArray( 0, 0.100559, 0.363128, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.0784314, 1, 1, 1, 0, 1, 1, 1, 0 )
 
 [node name="Germ" type="Node2D"]
 script = ExtResource( 2 )
@@ -40,11 +49,32 @@ shape = SubResource( 1 )
 visible = false
 texture = ExtResource( 3 )
 
-[node name="ParNitro" parent="Tip" instance=ExtResource( 1 )]
-
 [node name="ParDigging" parent="Tip" instance=ExtResource( 4 )]
+gravity = Vector2( 0, 200 )
 
 [node name="Sprites" type="Node2D" parent="Tip"]
+
+[node name="ParNitro" parent="Tip" instance=ExtResource( 1 )]
+position = Vector2( 0, -54 )
+scale = Vector2( 8, 3 )
+amount = 100
+lifetime = 0.7
+fixed_fps = 0
+local_coords = true
+spread = 20.64
+initial_velocity = 10.0
+initial_velocity_random = 1.0
+linear_accel = 100.0
+linear_accel_random = 0.4
+angle = 0.0
+angle_random = 0.0
+scale_amount = 1.8
+scale_amount_random = 0.0
+scale_amount_curve = SubResource( 4 )
+color_ramp = SubResource( 5 )
+color_initial_ramp = null
+hue_variation = -0.03
+hue_variation_random = 0.0
 
 [node name="ObstacleSegments" type="StaticBody2D" parent="."]
 
