@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/tilemaps/Tileset_Dirt_Collision48.tres" type="TileSet" id=1]
+[ext_resource path="res://assets/background/dirt_tex.jpg" type="Texture" id=2]
+[ext_resource path="res://assets/background/overlaygradient.png" type="Texture" id=3]
+[ext_resource path="res://scenes/Worm.tscn" type="PackedScene" id=4]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_left = -20.0
+margin_right = 2048.0
+margin_bottom = 1024.0
+texture = ExtResource( 2 )
+
+[node name="TileMap" type="TileMap" parent="."]
+position = Vector2( -3, 0 )
+tile_set = ExtResource( 1 )
+cell_quadrant_size = 1
+centered_textures = true
+format = 1
+tile_data = PoolIntArray( 0, 1, 0, 31, 1, 0, 983040, 1, 0, 983071, 1, 0 )
+
+[node name="OverlayGradient" type="TextureRect" parent="."]
+margin_left = -20.0
+margin_right = 2048.0
+margin_bottom = 1024.0
+texture = ExtResource( 3 )
+
+[node name="Worm" parent="." instance=ExtResource( 4 )]
+position = Vector2( 1683, 903 )
