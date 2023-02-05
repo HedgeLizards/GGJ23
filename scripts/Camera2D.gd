@@ -29,7 +29,7 @@ func _physics_process(_delta):
 		if germ.nitro_active:
 			shake = true
 	
-	if shake:	
+	if shake:
 		offset.x = (randf() * 2 - 1) * (shake_intensity)
 		offset.y = (randf() * 2 - 1) * (shake_intensity)
 	else:

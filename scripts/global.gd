@@ -221,9 +221,8 @@ func add_player_finished(index):
 	
 	players_finished += 1
 	
-	if players_finished == 1:
-		change_music();
-		$'../World/CanvasLayer/Timer'.stop_timer();
+	change_music();
+	$'../World/CanvasLayer/Timer'.stop_timer();
 	
 	restart_if_all_done(6)
 
