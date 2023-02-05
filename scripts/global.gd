@@ -35,8 +35,8 @@ func initialize_world():
 	
 	instructions_tween = instructions.create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT).set_loops()
 	
-	instructions_tween.tween_property(instructions, 'modulate', Color(1, 1, 1, 1), 1)
-	instructions_tween.tween_property(instructions, 'modulate', Color(1, 1, 1, 0), 1)
+	instructions_tween.tween_property(instructions, 'modulate', Color(1, 1, 1, 1), 0.7166)
+	instructions_tween.tween_property(instructions, 'modulate', Color(1, 1, 1, 0), 0.7166)
 	
 	instructions_tween.connect('loop_finished', self, '_on_instructions_tween_loop_finished')
 	
@@ -62,11 +62,21 @@ func _on_instructions_tween_loop_finished(_loop_count):
 	match starting_in:
 		2:
 			instructions.bbcode_text = '[center]Ready?[/center]'
+			
+			$'../World/MUS_Intro_Rise'.play();
 		1:
 			instructions.bbcode_text = '[center]Go![/center]'
 			
 			for player in $'../World/Players'.get_children():
 				player.start_growing()
+			
+			if $'../World/MUS_Intro'.is_playing():
+				$'../World/MUS_Intro'.stop();
+				
+			if $'../World/MUS_Intro_Rise'.is_playing():
+				$'../World/MUS_Intro_Rise'.stop();
+				
+			$'../World/MUS_Main'.play();
 		0:
 			instructions.visible = false
 		-1:

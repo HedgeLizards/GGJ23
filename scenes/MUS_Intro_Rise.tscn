@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://sounds/MUS_Intro_Rise.ogg" type="AudioStream" id=1]
+
+[node name="MUS_Intro_Rise" type="AudioStreamPlayer"]
+stream = ExtResource( 1 )

@@ -3,22 +3,24 @@ extends Node2D
 enum PlayerState {WAITING, ALIVE, REVIVING, ABANDONED, DEAD, FINISHED}
 enum PowerUp {SPEED, DRILL, BLOCK}
 
-export var speed = 64.0
-export var nitro_speed = 128.0
-export var rotation_speed = 1.0
-export var grace_msec = 100.0
-export var nutrients_gain = 0.5
-export var nutrients_burn = 2.0 # how fast you're using nutrients
-export var max_nutrients = 10.0
-export var min_boost = 2.0
-export var nitro_timeout = 1.0
-export var revive_timeout = 1.0
-export var return_speed = 128.0
-export var line_width = 10
+export var speed = 200 # how fast the player moves
+export var nitro_speed = 400 # how fast the player moves when using 'boost'
+export var rotation_speed = 5 # how fast the player rotates
+export var grace_msec = 100.0 # ghost period
+export var nutrients_gain = 2.5 # how many nutrients are recharged per second
+export var nutrients_burn = 10 # how fast you're using nutrients
+export var max_nutrients = 100 # indicates the 'max' amount of nutrients
+export var min_boost = 10 # you cannot use 'boost' before you have at least 5 nutrients
+export var nitro_timeout = .4 # the amount of seconds before nutrients start regenerating again
+export var revive_timeout = .4 # the amount of time before the player can resume their path
+export var return_speed = 200 # how fast the player moves backwards
+export var line_width = 10 
 export var base_line = 15
 
+export var nutrients = 25
+
 var powerup = PowerUp.SPEED
-var nutrients = max_nutrients
+
 var since_nitro = 1000
 var since_dead = 1000
 var mirror = 1
