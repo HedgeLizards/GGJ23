@@ -70,8 +70,8 @@ func update_score(index, to):
 	
 	var tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	
-	tween.tween_property(score.get_font('font'), 'size', 96, 0.5)
-	tween.tween_property(score.get_font('font'), 'size', 64, 0.5)
+	tween.tween_property(score.get_font('font'), 'size', 288, 0.25)
+	tween.tween_property(score.get_font('font'), 'size', 64, 0.25)
 
 func update_nitrogen(index, to):
 	var nitrogen = get_child(index).get_node('Nitrogen')
