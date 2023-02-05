@@ -87,10 +87,10 @@ func _on_instructions_tween_loop_finished(_loop_count):
 			
 			if $'../World/MUS_Intro'.is_playing():
 				$'../World/MUS_Intro'.stop();
-				
+			
 			if $'../World/MUS_Intro_Rise'.is_playing():
 				$'../World/MUS_Intro_Rise'.stop();
-				
+			
 			$'../World/MUS_Main'.play();
 			$'../World/SND_Begin'.play();
 			$'../World/CanvasLayer/Timer'.visible = true;
@@ -205,6 +205,7 @@ func _input(event):
 			scores[i] = 0
 		
 		instructions_tween.kill()
+		SceneTransition.reload = false
 		get_tree().reload_current_scene()
 
 func add_player_dead(index):
@@ -224,7 +225,7 @@ func add_player_finished(index):
 	change_music();
 	$'../World/CanvasLayer/Timer'.stop_timer();
 	
-	restart_if_all_done(6)
+	restart_if_all_done(4)
 
 func change_score(index, by):
 	scores[index] += by
@@ -236,14 +237,17 @@ func restart_if_all_done(time_sec):
 		return
 	
 	$'../World/CanvasLayer/Timer'.stop_timer();
-		
+	
 	yield(get_tree().create_timer(time_sec), 'timeout')
+	
+	if selecting:
+		return
 	
 	starting_in = 2
 	
 	instructions_tween.kill()
+	SceneTransition.reload_scene();
 	#get_tree().reload_current_scene()
-	SceneTransition.change_scene("res://scenes/World.tscn");
 	$'../World/CanvasLayer/Timer'.visible = false;
 
 func change_music():

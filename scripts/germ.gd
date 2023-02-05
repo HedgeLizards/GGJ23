@@ -290,6 +290,5 @@ func play_boost_sound():
 func stop_boost_sound():
 	if boosting == true:
 		for i in 4:
-			print("Stop boost sound");
 			$'/root/World/SND_PlayerBoost'.get_children()[i].stop();
 	boosting = false;
