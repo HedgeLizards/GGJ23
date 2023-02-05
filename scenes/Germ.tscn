@@ -1,9 +1,50 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scenes/particles/particles_nitro.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/germ.gd" type="Script" id=2]
 [ext_resource path="res://assets/nitro_glow.png" type="Texture" id=3]
 [ext_resource path="res://scenes/particles/particles_digging.tscn" type="PackedScene" id=4]
+
+[sub_resource type="Shader" id=6]
+code = "// HSV to RBG from https://www.rapidtables.com/convert/color/hsv-to-rgb.html
+// Rotation matrix from https://en.wikipedia.org/wiki/Rotation_matrix
+
+shader_type canvas_item;
+
+const float PI = 3.1415926535;
+
+uniform float strength: hint_range(0., 1.) = 0.5;
+uniform float speed: hint_range(0., 10.) = 0.5;
+uniform float angle: hint_range(0., 360.) = 0.;
+
+void fragment() {
+	float hue = UV.x * cos(radians(angle)) - UV.y * sin(radians(angle));
+	hue = fract(hue + fract(TIME  * speed));
+	float x = 1. - abs(mod(hue / (1./ 6.), 2.) - 1.);
+	vec3 rainbow;
+	if(hue < 1./6.){
+		rainbow = vec3(1., x, 0.);
+	} else if (hue < 1./3.) {
+		rainbow = vec3(x, 1., 0);
+	} else if (hue < 0.5) {
+		rainbow = vec3(0, 1., x);
+	} else if (hue < 2./3.) {
+		rainbow = vec3(0., x, 1.);
+	} else if (hue < 5./6.) {
+		rainbow = vec3(x, 0., 1.);
+	} else {
+		rainbow = vec3(1., 0., x);
+	}
+	vec4 color = texture(TEXTURE, UV);
+	COLOR = mix(color, vec4(rainbow, color.a), strength);
+}
+"
+
+[sub_resource type="ShaderMaterial" id=7]
+shader = SubResource( 6 )
+shader_param/strength = 0.5
+shader_param/speed = 0.5
+shader_param/angle = 0.0
 
 [sub_resource type="Gradient" id=2]
 interpolation_mode = 2
@@ -17,10 +58,50 @@ fill_to = Vector2( 0, 1 )
 [sub_resource type="CircleShape2D" id=1]
 radius = 2.0
 
+[sub_resource type="Shader" id=8]
+code = "// HSV to RBG from https://www.rapidtables.com/convert/color/hsv-to-rgb.html
+// Rotation matrix from https://en.wikipedia.org/wiki/Rotation_matrix
+
+shader_type canvas_item;
+
+const float PI = 3.1415926535;
+
+uniform float strength: hint_range(0., 1.) = 0.5;
+uniform float speed: hint_range(0., 10.) = 0.5;
+uniform float angle: hint_range(0., 360.) = 0.;
+
+void fragment() {
+	float hue = UV.x * cos(radians(angle)) - UV.y * sin(radians(angle));
+	hue = fract(hue + fract(TIME  * speed));
+	float x = 1. - abs(mod(hue / (1./ 6.), 2.) - 1.);
+	vec3 rainbow;
+	if(hue < 1./6.){
+		rainbow = vec3(1., x, 0.);
+	} else if (hue < 1./3.) {
+		rainbow = vec3(x, 1., 0);
+	} else if (hue < 0.5) {
+		rainbow = vec3(0, 1., x);
+	} else if (hue < 2./3.) {
+		rainbow = vec3(0., x, 1.);
+	} else if (hue < 5./6.) {
+		rainbow = vec3(x, 0., 1.);
+	} else {
+		rainbow = vec3(1., 0., x);
+	}
+	vec4 color = texture(TEXTURE, UV);
+	COLOR = mix(color, vec4(rainbow, color.a), strength);
+}"
+
+[sub_resource type="ShaderMaterial" id=9]
+shader = SubResource( 8 )
+shader_param/strength = 0.624
+shader_param/speed = 1.584
+shader_param/angle = 304.84
+
 [sub_resource type="Curve" id=4]
 min_value = 0.1
 max_value = 30.0
-_data = [ Vector2( 0.00985222, 0.410214 ), 0.0, 0.037323, 0, 0, Vector2( 0.987685, 7.46994 ), 3.47187, 0.0, 0, 0 ]
+_data = [ Vector2( 0.0369458, 7.64235 ), 0.0, 0.037323, 0, 0, Vector2( 0.416256, 6.2955 ), 26.2473, 26.2473, 0, 0, Vector2( 0.935961, 0.1 ), 3.47187, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=5]
 offsets = PoolRealArray( 0, 0.100559, 0.363128, 1 )
@@ -30,6 +111,8 @@ colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.0784314, 1, 1, 1, 0, 1, 1, 1, 0 
 script = ExtResource( 2 )
 
 [node name="Segments" type="Line2D" parent="."]
+material = SubResource( 7 )
+position = Vector2( 0, -2 )
 width = 30.0
 default_color = Color( 1, 1, 1, 1 )
 texture = SubResource( 3 )
@@ -55,21 +138,26 @@ gravity = Vector2( 0, 200 )
 [node name="Sprites" type="Node2D" parent="Tip"]
 
 [node name="ParNitro" parent="Tip" instance=ExtResource( 1 )]
-position = Vector2( 0, -54 )
-scale = Vector2( 8, 3 )
+material = SubResource( 9 )
+position = Vector2( 0, -34 )
+scale = Vector2( 0.685694, 0.623318 )
 amount = 100
 lifetime = 0.7
+randomness = 0.0
+lifetime_randomness = 0.95
 fixed_fps = 0
 local_coords = true
-spread = 20.64
+emission_shape = 1
+emission_sphere_radius = 35.64
+spread = 34.68
 initial_velocity = 10.0
 initial_velocity_random = 1.0
 linear_accel = 100.0
 linear_accel_random = 0.4
 angle = 0.0
 angle_random = 0.0
-scale_amount = 1.8
-scale_amount_random = 0.0
+scale_amount = 2.3
+scale_amount_random = 1.0
 scale_amount_curve = SubResource( 4 )
 color_ramp = SubResource( 5 )
 color_initial_ramp = null

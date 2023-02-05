@@ -63,7 +63,7 @@ func move_input():
 
 func _physics_process(delta):
 	last_blocked -= delta
-	$Tip/ParDigging.emitting = state == PlayerState.ALIVE && not nitro_active
+	$Tip/ParDigging.emitting = state == PlayerState.ALIVE
 	$Tip/ParNitro.emitting = state == PlayerState.ALIVE && nitro_active
 	if state == PlayerState.ALIVE:
 		var inp = move_input()
