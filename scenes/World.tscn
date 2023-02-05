@@ -89,10 +89,9 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0 )
 
 [node name="VersionTag" parent="CanvasLayer" instance=ExtResource( 2 )]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 52.0
-margin_bottom = 19.0
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Levels" type="Node2D" parent="."]
 
@@ -136,7 +135,9 @@ volume_db = -6.0
 
 [node name="SND_PlayerPickup" parent="." instance=ExtResource( 18 )]
 stream = ExtResource( 17 )
+volume_db = -4.0
 
 [node name="SND_PlayerBoost" parent="." instance=ExtResource( 19 )]
 
 [node name="SND_PlayerLeave" parent="." instance=ExtResource( 6 )]
+volume_db = 18.0

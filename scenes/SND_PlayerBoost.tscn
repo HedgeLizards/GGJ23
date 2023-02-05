@@ -6,19 +6,19 @@
 
 [node name="SND_PlayerBoost_1" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
-volume_db = 15.0
+volume_db = 8.0
 pitch_scale = 0.96
 
 [node name="SND_PlayerBoost_2" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
-volume_db = 15.0
+volume_db = 8.0
 pitch_scale = 0.98
 
 [node name="SND_PlayerBoost_3" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
-volume_db = 15.0
+volume_db = 8.0
 
 [node name="SND_PlayerBoost_4" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
-volume_db = 15.0
+volume_db = 8.0
 pitch_scale = 1.02
