@@ -19,7 +19,7 @@
 [ext_resource path="res://sounds/SND_PlayerPickup.ogg" type="AudioStream" id=17]
 [ext_resource path="res://scenes/SND_PlayerPickup.tscn" type="PackedScene" id=18]
 [ext_resource path="res://scenes/SND_PlayerBoost.tscn" type="PackedScene" id=19]
-[ext_resource path="res://scenes/shaders/WarpArcade.gdshader" type="Shader" id=20]
+[ext_resource path="res://shaders/warparcade.gdshader" type="Shader" id=20]
 [ext_resource path="res://sounds/MUS_Outro_Loop.ogg" type="AudioStream" id=21]
 [ext_resource path="res://scenes/MUS_Outro.tscn" type="PackedScene" id=22]
 [ext_resource path="res://scenes/Timer.tscn" type="PackedScene" id=23]
@@ -46,12 +46,16 @@ shader_param/noise_opacity = 0.0
 shader_param/noise_speed = 5.0
 shader_param/static_noise_intensity = 0.06
 shader_param/aberration = 0.01
-shader_param/brightness = 1.4
 shader_param/discolor = false
 shader_param/warp_amount = 1.0
 shader_param/clip_warp = false
 shader_param/vignette_intensity = 0.4
 shader_param/vignette_opacity = 0.5
+shader_param/fadearea_top = -256.0
+shader_param/fadearea_bottom = 256.0
+shader_param/brightness_top = 1.4
+shader_param/brightness_bottom = 1.4
+shader_param/camera_y = 0.0
 
 [node name="World" type="Node2D"]
 

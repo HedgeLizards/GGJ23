@@ -37,3 +37,4 @@ func _physics_process(_delta):
 	
 	if min_player_y < INF:
 		position.y = min(position.y, min_player_y - (OS.window_size.y / 3) * zoom.y)
+	$'../CanvasLayer/ColorRect'.material.set_shader_param("camera_y", position.y)

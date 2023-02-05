@@ -37,7 +37,7 @@ uniform float noise_speed = 5.0; // There is a movement in the noise pattern tha
 uniform float static_noise_intensity : hint_range(0.0, 1.0) = 0.06;
 
 uniform float aberration : hint_range(-1.0, 1.0) = 0.03; // Chromatic aberration, a distortion on each color channel.
-uniform float brightness = 1.4; // When adding scanline gaps and grille the image can get very dark. Brightness tries to compensate for that.
+// uniform float brightness = 1.4; // When adding scanline gaps and grille the image can get very dark. Brightness tries to compensate for that.
 uniform bool discolor = true; // Add a discolor effect simulating a VHS
 
 uniform float warp_amount :hint_range(0.0, 5.0) = 1.0; // Warp the texture edges simulating the curved glass of a CRT monitor or old TV.
@@ -45,6 +45,11 @@ uniform bool clip_warp = false;
 
 uniform float vignette_intensity = 0.4; // Size of the vignette, how far towards the middle it should go.
 uniform float vignette_opacity : hint_range(0.0, 1.0) = 0.5;
+
+uniform float fadearea_bottom = 256.0;
+uniform float fadearea_height = -2048.0;
+uniform float brightness_top = 1.4;
+uniform float briteness_bottom = 0.2;
 
 // Used by the noise functin to generate a pseudo random value between 0.0 and 1.0
 vec2 random(vec2 uv){
@@ -164,6 +169,7 @@ void fragment()
 	
 	// Apply the grille to the texture's color channels and apply Brightness. Since the grille and the scanlines (below) make the image very dark you
 	// can compensate by increasing the brightness.
+	float brightness = clamp(mix(brightness_bottom, brightness_top, (VERTEX.y - fadearea_top) / (fadearea_size) ), brightness_bottom, brightness_top);
 	text.r = clamp(r * brightness, 0.0, 1.0);
 	text.g = clamp(g * brightness, 0.0, 1.0);
 	text.b = clamp(b * brightness, 0.0, 1.0);
