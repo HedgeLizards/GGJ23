@@ -2,10 +2,11 @@ extends HBoxContainer
 
 const PlayerScore = preload('res://scenes/PlayerScore.tscn')
 const CONTROLS = [
-	['A', 'D', 'W'],
-	['V', 'N', 'G'],
-	['I', 'P', '9'],
-	['LEFT', 'RIGHT', 'UP'],
+	['A, D', 'W'],
+	['V, N', 'G'],
+	['I, P', '9'],
+	['LEFT, RIGHT', 'UP'],
+	['GAMEPAD', 'A']
 ]
 const COLORS = [Color('#f0028c'), Color('#8dcb4d'), Color('#7cb8e6'), Color('#df952c')]
 
@@ -19,7 +20,7 @@ func add_player(id, index):
 	var player_score = PlayerScore.instance()
 	var controls = player_score.get_node('Controls')
 	
-	controls.text = 'Steer: %s, %s\nNITROgen: %s' % CONTROLS[id]
+	controls.text = 'Steer: %s\nNITROgen: %s' % CONTROLS[min(id, 4)]
 	controls.add_color_override('font_color', COLORS[index])
 	
 	var score = player_score.get_node('Score')

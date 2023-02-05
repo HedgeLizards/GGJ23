@@ -58,8 +58,26 @@ func start_growing():
 	since_nitro = 1000
 	state = PlayerState.ALIVE
 
+func is_action_pressed(action):
+	if id < 5:
+		return Input.is_action_pressed(action + str(id))
+	else:
+		return GamepadInput.state[id][action].pressed
+
+func is_action_just_pressed(action):
+	if id < 5:
+		return Input.is_action_just_pressed(action + str(id))
+	else:
+		return GamepadInput.state[id][action].pressed and GamepadInput.state[id][action].just > 0
+
+func is_action_just_released(action):
+	if id < 5:
+		return Input.is_action_just_released(action + str(id))
+	else:
+		return !GamepadInput.state[id][action].pressed and GamepadInput.state[id][action].just > 0
+
 func move_input():
-	return mirror * int(Input.is_action_pressed("right" + str(id))) - int(Input.is_action_pressed("left" + str(id)))
+	return mirror * int(is_action_pressed("right")) - int(is_action_pressed("left"))
 
 func _physics_process(delta):
 	last_blocked -= delta
@@ -70,9 +88,9 @@ func _physics_process(delta):
 		$Tip.rotation += inp * delta * rotation_speed
 		var current_speed = speed
 		
-		if Input.is_action_just_pressed("power" +str(id)) and nutrients > min_boost:
+		if is_action_just_pressed("power") and nutrients > min_boost:
 			nitro_active = true
-			
+		
 		if nitro_active:
 			play_boost_sound(); # Plays the boost sound effect
 			if powerup == PowerUp.SPEED:
@@ -167,11 +185,11 @@ func new_line(nold):
 	add_child_below_node($Segments, line)
 
 func _input(event):
-	if state == PlayerState.REVIVING and (move_input() != 0 or Input.is_action_just_pressed("power"+str(id))) and since_dead > revive_timeout:
+	if state == PlayerState.REVIVING and (move_input() != 0 or is_action_just_pressed("power")) and since_dead > revive_timeout:
 		var newGerm = split(move_input() * 0.3)
 		$Tip.visible = false
 		state = PlayerState.ABANDONED
-	if Input.is_action_just_released("power" +str(id)):
+	if is_action_just_released("power"):
 		nitro_active = false
 
 func split(angle):
