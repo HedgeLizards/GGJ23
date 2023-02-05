@@ -50,12 +50,12 @@ shader_param/aberration = 0.01
 shader_param/discolor = false
 shader_param/warp_amount = 1.0
 shader_param/clip_warp = false
-shader_param/vignette_intensity = 0.4
-shader_param/vignette_opacity = 0.5
+shader_param/vignette_intensity = 0.3
+shader_param/vignette_opacity = 0.431
 shader_param/fadearea_top = -4096.0
 shader_param/fadearea_bottom = 0.0
-shader_param/brightness_top = 1.4
-shader_param/brightness_bottom = 1.4
+shader_param/brightness_top = 1.5
+shader_param/brightness_bottom = 1.5
 shader_param/camera_y = 0.0
 
 [node name="World" type="Node2D"]
