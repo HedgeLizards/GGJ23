@@ -35,7 +35,6 @@ position = Vector2( 1024, 640 )
 inverted = true
 
 [node name="OverlayGradient" type="TextureRect" parent="."]
-visible = false
 margin_left = -20.0
 margin_right = 2048.0
 margin_bottom = 1024.0

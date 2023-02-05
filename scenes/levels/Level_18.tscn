@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://assets/tilemaps/Tileset_Dirt_Collision48.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/background/dirt_tex.jpg" type="Texture" id=2]
 [ext_resource path="res://assets/background/overlaygradient.png" type="Texture" id=3]
-[ext_resource path="res://scenes/Nutrient.tscn" type="PackedScene" id=4]
 
 [node name="Node2D" type="Node2D"]
 
@@ -22,18 +21,7 @@ centered_textures = true
 format = 1
 tile_data = PoolIntArray( 65538, 1, 8, 65543, 1, 8, 65550, 1, 8, 65559, 1, 8, 65565, 1, 8, 131075, 1, 262152, 131080, 1, 262152, 131083, 1, 8, 131087, 1, 262144, 131089, 1, 8, 131096, 1, 262152, 131102, 1, 262152, 262143, 1, 8, 196612, 1, 262152, 196617, 1, 262152, 196620, 1, 262152, 196626, 1, 262152, 196633, 1, 262152, 196639, 1, 262152, 262144, 1, 262152, 262149, 1, 262152, 262154, 1, 262144, 262157, 1, 262152, 262163, 1, 262152, 262166, 1, 8, 262170, 1, 262152, 262176, 1, 262144, 327681, 1, 262144, 327686, 1, 262152, 327694, 1, 262152, 327700, 1, 262144, 327703, 1, 262152, 327707, 1, 262152, 393223, 1, 262152, 393231, 1, 262144, 393240, 1, 262152, 393244, 1, 262152, 458760, 1, 262152, 458777, 1, 262144, 458781, 1, 262152, 524289, 1, 8, 524293, 1, 8, 524297, 1, 262144, 524301, 1, 8, 524306, 1, 8, 524310, 1, 8, 524318, 1, 262144, 589826, 1, 262152, 589830, 1, 262144, 589838, 1, 262152, 589843, 1, 262152, 589847, 1, 262152, 655363, 1, 262152, 655375, 1, 262152, 655380, 1, 262144, 655384, 1, 262152, 720900, 1, 262152, 720906, 1, 8, 720912, 1, 262152, 720921, 1, 262152, 720925, 1, 8, 786437, 1, 262144, 786443, 1, 262144, 786449, 1, 262144, 786458, 1, 262144, 786462, 1, 262152, 917503, 1, 8, 851999, 1, 262152, 917504, 1, 262144, 917536, 1, 262144 )
 
-[node name="Nutrient" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1792, 448 )
-rotation = 3.14159
-scale = Vector2( 3.8, -3.8 )
-
-[node name="Nutrient2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 672, 192 )
-rotation = 3.14159
-scale = Vector2( 3.8, -3.8 )
-
 [node name="OverlayGradient" type="TextureRect" parent="."]
-visible = false
 margin_left = -20.0
 margin_right = 2048.0
 margin_bottom = 1024.0
