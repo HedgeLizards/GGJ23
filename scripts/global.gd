@@ -172,10 +172,13 @@ func _input(event):
 					$'../World/Potatoes'.get_child(index).free()
 					$'../World/Players'.get_child(index).free()
 					
-					while vacant_indices.has(index):
-						index += 1
+					var occupied_indices = []
 					
-					vacant_indices.push_back(index)
+					for j in 4:
+						if !vacant_indices.has(j):
+							occupied_indices.push_back(j)
+					
+					vacant_indices.push_back(occupied_indices[index])
 				
 				for j in players.size():
 					align_potato_and_player(j)
