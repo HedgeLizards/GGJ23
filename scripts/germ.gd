@@ -16,6 +16,7 @@ export var revive_timeout = 0 # the amount of time before the player can resume 
 export var return_speed = 300 # how fast the player moves backwards
 export var line_width = 10 
 export var base_line = 15
+export var bonus_gain = 0
 
 export var nutrients = 25
 
@@ -111,7 +112,7 @@ func _physics_process(delta):
 			since_nitro = 0
 		
 		elif since_nitro > nitro_timeout:
-			nutrients = min(nutrients + delta * nutrients_gain, max_nutrients)
+			nutrients = min(nutrients + delta * nutrients_gain * (1 + bonus_gain), max_nutrients)
 		
 		else:
 			stop_boost_sound();

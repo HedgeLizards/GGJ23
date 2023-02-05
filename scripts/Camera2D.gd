@@ -37,6 +37,13 @@ func _physics_process(_delta):
 	else:
 		offset = Vector2.ZERO
 	
+	
+	for player in $'../Players'.get_children():
+		var germ = player.active_germ()
+		var player_y = germ.get_node('Tip').global_position.y
+		var ydiff = (player_y - min_player_y) / 800.0
+		germ.bonus_gain = ydiff
+	
 	if min_player_y < INF:
 		position.y = min(position.y, min_player_y - (OS.window_size.y / 3) * zoom.y)
 	$'../CanvasLayer/ColorRect'.material.set_shader_param("camera_y", position.y)
