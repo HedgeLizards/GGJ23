@@ -8,6 +8,7 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="TextureRect" type="TextureRect" parent="."]
+margin_left = -20.0
 margin_right = 2048.0
 margin_bottom = 1024.0
 texture = ExtResource( 2 )
@@ -36,6 +37,7 @@ position = Vector2( 443, 191 )
 position = Vector2( 1412, 145 )
 
 [node name="OverlayGradient" type="TextureRect" parent="."]
+margin_left = -20.0
 margin_right = 2048.0
 margin_bottom = 1024.0
 texture = ExtResource( 3 )

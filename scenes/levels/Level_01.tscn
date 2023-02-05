@@ -8,12 +8,10 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="TextureRect" type="TextureRect" parent="."]
-margin_right = 2048.0
-margin_bottom = 1024.0
+margin_left = -20.0
+margin_right = 2080.0
+margin_bottom = 1025.0
 texture = ExtResource( 2 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2( -3, 0 )
@@ -36,6 +34,7 @@ position = Vector2( 62.0001, 448 )
 position = Vector2( 1659, 711 )
 
 [node name="OverlayGradient" type="TextureRect" parent="."]
+margin_left = -20.0
 margin_right = 2048.0
 margin_bottom = 1024.0
 texture = ExtResource( 3 )
