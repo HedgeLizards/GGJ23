@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scenes/particles/particles_nitro.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/germ.gd" type="Script" id=2]
 [ext_resource path="res://assets/nitro_glow.png" type="Texture" id=3]
 [ext_resource path="res://scenes/particles/particles_digging.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/lightmask2.png" type="Texture" id=5]
+[ext_resource path="res://sounds/SND_PlayerBoost.ogg" type="AudioStream" id=6]
 
 [sub_resource type="Shader" id=6]
 code = "// HSV to RBG from https://www.rapidtables.com/convert/color/hsv-to-rgb.html
@@ -170,6 +171,10 @@ texture = ExtResource( 5 )
 mode = 2
 
 [node name="ObstacleSegments" type="StaticBody2D" parent="."]
+
+[node name="SND_PlayerBoost" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+volume_db = 8.0
 
 [connection signal="area_entered" from="Tip/Hitbox" to="." method="_on_Hitbox_area_entered"]
 [connection signal="body_entered" from="Tip/Hitbox" to="." method="_on_Hitbox_body_entered"]

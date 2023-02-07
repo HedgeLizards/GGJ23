@@ -10,7 +10,7 @@ export var grace_msec = 100.0 # ghost period
 export var nutrients_gain = 2.5 # how many nutrients are recharged per second
 export var nutrients_burn = 20 # how fast you're using nutrients
 export var max_nutrients = 100 # indicates the 'max' amount of nutrients
-export var min_boost = 0 # you cannot use 'boost' before you have at least 5 nutrients
+export var min_boost = 2 # you cannot use 'boost' before you have at least X nutrients
 export var nitro_timeout = 0 # the amount of seconds before nutrients start regenerating again
 export var revive_timeout = 0 # the amount of time before the player can resume their path
 export var return_speed = 300 # how fast the player moves backwards
@@ -271,6 +271,8 @@ func die():
 	Global.add_player_dead(index)
 
 func finish():
+	stop_boost_sound();
+	
 	if state == PlayerState.FINISHED:
 		return
 	
@@ -286,23 +288,27 @@ func finish():
 	
 	get_node("/root/World/Potatoes").add_child(flower)
 	
-	stop_boost_sound();
 	flower.play()
 
 func get_id():
 	return id
 
 func play_boost_sound():
-	var rng = RandomNumberGenerator.new();
-	rng.randomize();
-	random_boost_sound = rng.randf_range(0, 3);
+	#var rng = RandomNumberGenerator.new();
+	#rng.randomize();
+	#random_boost_sound = rng.randf_range(0, 3);
 	
-	if !$'/root/World/SND_PlayerBoost'.get_children()[random_boost_sound].is_playing() and boosting == false:
-		$'/root/World/SND_PlayerBoost'.get_children()[random_boost_sound].play();
+	# Added this code to make every player have their own boost sound; maybe add a randomizer later
+	if !$SND_PlayerBoost.is_playing() and boosting == false:
+		$SND_PlayerBoost.play();
 		boosting = true;
+		
+	#if !$'/root/World/SND_PlayerBoost'.get_children()[random_boost_sound].is_playing() and boosting == false:
+	#	$'/root/World/SND_PlayerBoost'.get_children()[random_boost_sound].play();
+	#	boosting = true;
 
 func stop_boost_sound():
-	if boosting == true:
-		for i in 4:
-			$'/root/World/SND_PlayerBoost'.get_children()[i].stop();
-	boosting = false;
+	if $SND_PlayerBoost.is_playing() and boosting == true:
+		$SND_PlayerBoost.stop();
+		boosting = false;
+	
