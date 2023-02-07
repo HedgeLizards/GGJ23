@@ -163,6 +163,7 @@ func _physics_process(delta):
 		elif $Tip.global_position.x > wrap_width:
 			$Tip.position.x -= wrap_width
 		since_dead += delta
+	nutrients = clamp(nutrients, 0, 100);
 
 func get_target():
 	if target_id < 0:
