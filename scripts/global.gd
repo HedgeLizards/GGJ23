@@ -31,6 +31,8 @@ const levels = [
 const Level_End = preload('res://scenes/levels/Level_End.tscn')
 const Player = preload('res://scenes/Player.tscn')
 
+var level_width = 2048;
+var level_height = 1024;
 var selecting = true
 var starting_in = -1
 var players = []
@@ -70,7 +72,7 @@ func initialize_world():
 	for i in 6:
 		var level = (levels[randi() % levels.size()] if i < 5 else Level_End).instance()
 		
-		level.position.y = -256 - 1024 * (i + 1)
+		level.position.y = -256 - level_height * (i + 1)
 			
 		# Randomly flips the level
 		if i < 5:
@@ -81,27 +83,17 @@ func initialize_world():
 			
 			if xflipchance == 0:
 				level.scale = Vector2(-1, level.scale.y);
-				level.position.x = 2048;
+				level.position.x = level_width;
 			else:
 				level.scale = Vector2(1, level.scale.y);
 				level.position.x = 0;
 
 			if yflipchance == 0:
 				level.scale = Vector2(level.scale.x, -1);
-				level.position.y = level.position.y + 1024;
+				level.position.y = level.position.y + level_height;
 			else:
 				level.scale = Vector2(level.scale.x, 1);
 				level.position.y = level.position.y;
-	
-		#if i < 5:
-		#	var flipchance = randf()
-		#	if (flipchance > 0.3 and flipchance < 0.7):
-		#		level.scale = Vector2(1, -1)
-		#		level.position.y = -256 - 1024 * (i + 1) + 1024
-		#	if (flipchance > 0.7):
-		#		level.scale = Vector2(-1, 1)
-		#		level.position.x = 2048
-	
 	
 		$'../World/Levels'.add_child(level)
 	
@@ -175,7 +167,7 @@ func align_potato_and_player(index):
 	var potato = $'../World/Potatoes'.get_child(index)
 	var player = $'../World/Players'.get_child(index)
 	
-	potato.position.x = 2048 / players.size() * (index + 0.5)
+	potato.position.x = level_width / players.size() * (index + 0.5)
 	player.position.x = potato.position.x
 
 func _input(event):
