@@ -14,7 +14,7 @@ const levels = [
 	preload('res://scenes/levels/Level_11.tscn'),
 	preload('res://scenes/levels/Level_12.tscn'),
 	preload('res://scenes/levels/Level_13.tscn'),
-	preload('res://scenes/levels/Level_14.tscn'),
+	#preload('res://scenes/levels/Level_14.tscn'),
 	preload('res://scenes/levels/Level_14_ALT.tscn'),
 	preload('res://scenes/levels/Level_15.tscn'),
 	#preload('res://scenes/levels/Level_16.tscn'),
@@ -72,16 +72,36 @@ func initialize_world():
 		
 		level.position.y = -256 - 1024 * (i + 1)
 			
-		# randomly flips the level
-		
+		# Randomly flips the level
 		if i < 5:
-			var flipchance = randf()
-			if (flipchance > 0.3 and flipchance < 0.7):
-				level.scale = Vector2(1, -1)
-				level.position.y = -256 - 1024 * (i + 1) + 1024
-			if (flipchance > 0.7):
-				level.scale = Vector2(-1, 1)
-				level.position.x = 2048
+			var xflipchance = randi() % 2;
+			var yflipchance = randi() % 2;
+			
+			print("X:", xflipchance, " Y:", yflipchance);
+			
+			if xflipchance == 0:
+				level.scale = Vector2(-1, level.scale.y);
+				level.position.x = 2048;
+			else:
+				level.scale = Vector2(1, level.scale.y);
+				level.position.x = 0;
+
+			if yflipchance == 0:
+				level.scale = Vector2(level.scale.x, -1);
+				level.position.y = level.position.y + 1024;
+			else:
+				level.scale = Vector2(level.scale.x, 1);
+				level.position.y = level.position.y;
+	
+		#if i < 5:
+		#	var flipchance = randf()
+		#	if (flipchance > 0.3 and flipchance < 0.7):
+		#		level.scale = Vector2(1, -1)
+		#		level.position.y = -256 - 1024 * (i + 1) + 1024
+		#	if (flipchance > 0.7):
+		#		level.scale = Vector2(-1, 1)
+		#		level.position.x = 2048
+	
 	
 		$'../World/Levels'.add_child(level)
 	

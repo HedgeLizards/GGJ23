@@ -17,7 +17,6 @@ __meta__ = {
 }
 
 [node name="TileMap" type="TileMap" parent="."]
-position = Vector2( -3, 0 )
 tile_set = ExtResource( 1 )
 cell_quadrant_size = 1
 centered_textures = true

@@ -14,7 +14,6 @@ margin_bottom = 1024.0
 texture = ExtResource( 2 )
 
 [node name="TileMap" type="TileMap" parent="."]
-position = Vector2( -3, 0 )
 tile_set = ExtResource( 1 )
 cell_quadrant_size = 1
 centered_textures = true
