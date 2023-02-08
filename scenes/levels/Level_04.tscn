@@ -31,7 +31,7 @@ position = Vector2( 1792, 512 )
 position = Vector2( 704, 512 )
 
 [node name="Worm" parent="." instance=ExtResource( 5 )]
-position = Vector2( 1024, 960 )
+position = Vector2( 1024, 1024 )
 
 [node name="OverlayGradient" type="TextureRect" parent="."]
 margin_left = -20.0

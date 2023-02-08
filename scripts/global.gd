@@ -13,6 +13,7 @@ const levels = [
 	preload('res://scenes/levels/Level_10.tscn'),
 	preload('res://scenes/levels/Level_11.tscn'),
 	preload('res://scenes/levels/Level_12.tscn'),
+	preload('res://scenes/levels/Level_13.tscn'),
 	#preload('res://scenes/levels/Level_14.tscn'),
 	preload('res://scenes/levels/Level_14_ALT.tscn'),
 	preload('res://scenes/levels/Level_15.tscn'),
