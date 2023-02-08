@@ -75,15 +75,13 @@ func initialize_world():
 		# randomly flips the level
 		
 		if i < 5:
-			var flipchanceY = randf()
-			if (flipchanceY > 0.5):
+			var flipchance = randf()
+			if (flipchance > 0.3 and flipchance < 0.7):
 				level.scale = Vector2(1, -1)
 				level.position.y = -256 - 1024 * (i + 1) + 1024
-			if (flipchanceY < 0.5):
-				var flipchanceX = randf()
-				if (flipchanceX > 0.5):
-					level.scale = Vector2(-1, 1)
-					level.position.x = 2048
+			if (flipchance > 0.7):
+				level.scale = Vector2(-1, 1)
+				level.position.x = 2048
 	
 		$'../World/Levels'.add_child(level)
 	
