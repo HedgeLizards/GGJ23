@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/tilemaps/Tileset_Dirt_Collision48.tres" type="TileSet" id=1]
-[ext_resource path="res://assets/background/dirt_tex.jpg" type="Texture" id=2]
-[ext_resource path="res://assets/background/overlaygradient.png" type="Texture" id=3]
-[ext_resource path="res://scenes/Nutrient.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/Nutrient.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/background/dirt_tex.jpg" type="Texture" id=3]
+[ext_resource path="res://assets/background/overlaygradient.png" type="Texture" id=4]
 
 [node name="Node2D" type="Node2D"]
 
@@ -11,7 +11,7 @@
 margin_left = -20.0
 margin_right = 2048.0
 margin_bottom = 1024.0
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )
@@ -20,11 +20,11 @@ centered_textures = true
 format = 1
 tile_data = PoolIntArray( 65553, 1, 65552, 131088, 1, 30, 131089, 1, 196625, 196619, 1, 16, 196624, 1, 65567, 196625, 1, 458769, 262155, 1, 17, 262158, 1, 12, 262159, 1, 131102, 262160, 1, 196639, 262161, 1, 458777, 327691, 1, 25, 327695, 1, 262151, 327696, 1, 393223, 327697, 1, 393229, 327698, 1, 393240, 393227, 1, 21, 393228, 1, 458756, 393229, 1, 131080, 393234, 1, 327701, 393235, 1, 458756, 393236, 1, 131076, 393237, 1, 131076, 393238, 1, 131072, 458763, 1, 19, 458766, 1, 327708, 458767, 1, 196636, 458768, 1, 196636, 458769, 1, 196630, 458770, 1, 196611, 524299, 1, 1, 524301, 1, 30, 524302, 1, 196631, 524303, 1, 458759, 524304, 1, 393223, 524305, 1, 393219, 589837, 1, 31, 589838, 1, 458771, 589843, 1, 65552, 655373, 1, 31, 655374, 1, 458777, 655377, 1, 65556, 655378, 1, 196614, 655379, 1, 131073, 720909, 1, 65551, 720910, 1, 393245, 720911, 1, 458780, 720912, 1, 196630, 720913, 1, 196619, 786444, 1, 65538, 786446, 1, 262151, 786447, 1, 393223, 786448, 1, 393219, 786450, 1, 262152, 851979, 1, 2, 851987, 1, 262144 )
 
-[node name="Nutrient" parent="." instance=ExtResource( 4 )]
+[node name="Nutrient" parent="." instance=ExtResource( 2 )]
 position = Vector2( 736, 148 )
 
 [node name="OverlayGradient" type="TextureRect" parent="."]
 margin_left = -20.0
 margin_right = 2048.0
 margin_bottom = 1024.0
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
