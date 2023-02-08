@@ -14,16 +14,16 @@ const levels = [
 	preload('res://scenes/levels/Level_11.tscn'),
 	preload('res://scenes/levels/Level_12.tscn'),
 	preload('res://scenes/levels/Level_13.tscn'),
-	preload('res://scenes/levels/Level_13_ALT.tscn'),
-	#preload('res://scenes/levels/Level_14.tscn'),
+	preload('res://scenes/levels/Level_14.tscn'),
 	preload('res://scenes/levels/Level_14_ALT.tscn'),
-	#preload('res://scenes/levels/Level_15.tscn'),
+	preload('res://scenes/levels/Level_15.tscn'),
 	#preload('res://scenes/levels/Level_16.tscn'),
 	preload('res://scenes/levels/Level_16_ALT.tscn'),
 	#preload('res://scenes/levels/Level_17.tscn'),
 	preload('res://scenes/levels/Level_17_ALT.tscn'),
 	preload('res://scenes/levels/Level_18.tscn'),
 	preload('res://scenes/levels/Level_19.tscn'),
+	preload('res://scenes/levels/Level_20.tscn'),
 	preload('res://scenes/levels/Level_21.tscn'),
 	#preload('res://scenes/levels/Level_Empty.tscn'),
 	preload('res://scenes/levels/Level_Bonus.tscn'),
@@ -71,7 +71,20 @@ func initialize_world():
 		var level = (levels[randi() % levels.size()] if i < 5 else Level_End).instance()
 		
 		level.position.y = -256 - 1024 * (i + 1)
+			
+		# randomly flips the level
 		
+		if i < 5:
+			var flipchanceY = randf()
+			if (flipchanceY > 0.5):
+				level.scale = Vector2(1, -1)
+				level.position.y = -256 - 1024 * (i + 1) + 1024
+			if (flipchanceY < 0.5):
+				var flipchanceX = randf()
+				if (flipchanceX > 0.5):
+					level.scale = Vector2(-1, 1)
+					level.position.x = 2048
+	
 		$'../World/Levels'.add_child(level)
 	
 	for i in players.size():
