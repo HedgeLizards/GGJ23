@@ -24,7 +24,7 @@ const levels = [
 	preload('res://scenes/levels/Level_18.tscn'),
 	preload('res://scenes/levels/Level_19.tscn'),
 	preload('res://scenes/levels/Level_20.tscn'),
-	preload('res://scenes/levels/Level_21.tscn'),
+	#preload('res://scenes/levels/Level_21.tscn'),
 	preload('res://scenes/levels/Level_22.tscn'),
 	#preload('res://scenes/levels/Level_Empty.tscn'),
 	preload('res://scenes/levels/Level_Logo.tscn'),
