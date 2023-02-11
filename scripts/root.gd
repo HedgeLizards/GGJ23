@@ -9,7 +9,6 @@ var latest_position = null
 var latest_progress = null
 var collision_queue = []
 var start_progress = null
-var end_progress = null
 
 func extend(pos, progress):
 	latest_position = pos
@@ -29,10 +28,8 @@ func finish():
 func add_point(pos, progress):
 	if start_progress == null:
 		start_progress = progress
-		print(start_progress)
 		$Line.material.set_shader_param("line_start", start_progress)
-	end_progress = progress
-	$Line.material.set_shader_param("line_end", end_progress)
+	$Line.material.set_shader_param("line_end", progress)
 	$Line.add_point(pos)
 	var obstacleShape = CollisionShape2D.new()
 	obstacleShape.shape = CircleShape2D.new()
@@ -46,3 +43,6 @@ func is_empty():
 
 func last_point():
 	return $Line.get_point_position($Line.get_point_count() - 1)
+
+func should_split():
+	return $Line.get_point_count() > 1000

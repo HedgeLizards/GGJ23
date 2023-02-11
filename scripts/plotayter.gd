@@ -22,6 +22,7 @@ var progress = 0
 const wrap_width = 2048 # todo: put this in a more global location
 
 var Root = preload("res://scenes/Root.tscn")
+var Flower = preload("res://scenes/Flower.tscn")
 
 var hats = [
 	preload("res://scenes/hats/Hat0.tscn"),
@@ -48,10 +49,34 @@ func set_id_index(control_id, index):
 
 
 func die():
+	if state == PotatoState.DEAD:
+		return
+
 	state = PotatoState.DEAD
 
+	# if $'/root/World/SND_PlayerDeath'.is_playing():
+		# $'/root/World/SND_PlayerDeath'.stop();
+	$'/root/World/SND_PlayerDeath'.play();
+
+	Global.add_player_dead(index)
+
 func finish():
+	if state == PotatoState.FINISHED:
+		return
+
 	state = PotatoState.FINISHED
+
+	Global.add_player_finished(index)
+
+	var flower = Flower.instance()
+
+	flower.global_position = $Tip.global_position
+	flower.scale.x = 1.1 - Global.players_finished * 0.2
+	flower.scale.y = flower.scale.x
+
+	get_node("/root/World/Potatoes").add_child(flower)
+
+	flower.play()
 
 func y_position():
 	return $Tip.global_position.y
@@ -101,6 +126,8 @@ func _physics_process(delta):
 			wrapped = true
 		if wrapped:
 			root.finish()
+			start_new_root()
+		if root.should_split():
 			start_new_root()
 
 		if track.empty() or track[track.size() -1 ].distance_to($Tip.position) > track_distance:
