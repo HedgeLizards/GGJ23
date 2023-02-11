@@ -5,14 +5,20 @@ enum PotatoState {WAITING, GROWING, REVIVING, DEAD, FINISHED}
 
 
 export var base_speed = 200 # how fast the player moves without boost (pixels / second)
+export var nitro_speed = 400 # how fast the player moves when using 'boost' (pixels / second)
+export var return_speed = 300 # how fast the player moves backwards after hitting something (pixels / second)
 export var rotation_speed = 5 # how fast the player rotates (radians / second)
 export var base_line = 15 # how far below the start position the root starts (pixels)
 export var track_distance = 5 # length of a single straight segment of the track used for backtracking (pixels)
-export var return_speed = 300 # how fast the player moves backwards after hitting something (pixels / second)
+export var min_boost_nutrients = 1 # minimum amount of nutrients required to activate boost
+export var nutrients_gain = 2.5 # how many nutrients are recharged per second
+export var nutrients_burn = 20 # how fast you're using nutrients
+export var max_nutrients = 100 # indicates the 'max' amount of nutrients
 var state = PotatoState.WAITING
 var control
 var index
 var nitro_active = false
+var nutrients = 1
 var bonus_gain = 0
 var root
 var track = PoolVector2Array()
@@ -54,8 +60,6 @@ func die():
 
 	state = PotatoState.DEAD
 
-	# if $'/root/World/SND_PlayerDeath'.is_playing():
-		# $'/root/World/SND_PlayerDeath'.stop();
 	$'/root/World/SND_PlayerDeath'.play();
 
 	Global.add_player_dead(index)
@@ -89,7 +93,6 @@ func set_bonus_gain(bonus):
 
 func start_new_root(old_points=[]):
 	root = Root.instance()
-	# root.start_progress = current_progress()
 
 	old_points = old_points.duplicate()
 	old_points.push_back($Tip.position)
@@ -107,54 +110,85 @@ func current_progress():
 
 
 func _physics_process(delta):
+
+	$Tip/DiggingParticles.emitting = state == PotatoState.GROWING
+	$Tip/NitroParticles.emitting = nitro_active
 	if state == PotatoState.GROWING:
-		var inp = control.move_direction()
-		$Tip.rotation += inp * delta * rotation_speed
-		var current_speed = base_speed
-		var vel = Vector2(0, -current_speed).rotated($Tip.rotation)
-		$Tip.position += vel * delta
-		progress += (vel * delta).length()
-
-		root.extend($Tip.position, progress)
-
-		var wrapped = false
-		if $Tip.global_position.x < 0:
-			$Tip.position.x += wrap_width
-			wrapped = true
-		elif $Tip.global_position.x >= wrap_width:
-			$Tip.position.x -= wrap_width
-			wrapped = true
-		if wrapped:
-			root.finish()
-			start_new_root()
-		if root.should_split():
-			start_new_root()
-
-		if track.empty() or track[track.size() -1 ].distance_to($Tip.position) > track_distance:
-			track.push_back($Tip.position)
+		grow(delta)
 	elif state == PotatoState.REVIVING:
-		var d = return_speed * delta
-		progress -= d
-		var target = get_target()
-		while target != null and d > $Tip.position.distance_to(target):
-			d -= $Tip.position.distance_to(target)
-			$Tip.position = target
-			track.resize(track.size() - 1)
-			target = get_target()
-		if target == null:
-			die()
-			return
-		$Tip.rotation = target.angle_to_point($Tip.position) - PI / 2
-		$Tip.position = $Tip.position.move_toward(target, d)
-		if $Tip.global_position.x < 0:
-			$Tip.position.x += wrap_width
-		elif $Tip.global_position.x > wrap_width:
-			$Tip.position.x -= wrap_width
+		backtrack(delta)
 
-		if control.any_key_just_pressed():
-			state = PotatoState.GROWING
-			start_new_root()
+func grow(delta):
+	var inp = control.move_direction()
+	$Tip.rotation += inp * delta * rotation_speed
+	var current_speed = base_speed
+	if nitro_active:
+		current_speed = nitro_speed
+		nutrients -= delta * nutrients_burn
+		if nutrients <= 0:
+			stop_nitro()
+	else:
+		nutrients += delta * nutrients_gain * (1 + bonus_gain)
+	nutrients = clamp(nutrients, 0, max_nutrients);
+	$'/root/World/CanvasLayer/PlayerScores'.update_nitrogen(index, nutrients / max_nutrients)
 
+	var vel = Vector2(0, -current_speed).rotated($Tip.rotation)
+	$Tip.position += vel * delta
+	progress += (vel * delta).length()
+
+	root.extend($Tip.position, progress)
+
+	var wrapped = false
+	if $Tip.global_position.x < 0:
+		$Tip.position.x += wrap_width
+		wrapped = true
+	elif $Tip.global_position.x >= wrap_width:
+		$Tip.position.x -= wrap_width
+		wrapped = true
+	if wrapped:
+		root.finish()
+		start_new_root()
+	if root.should_split():
+		start_new_root()
+
+	if track.empty() or track[track.size() -1 ].distance_to($Tip.position) > track_distance:
+		track.push_back($Tip.position)
+
+func _input(event):
+	if state == PotatoState.REVIVING and control.any_key_just_pressed():
+		state = PotatoState.GROWING
+		start_new_root()
+	if control.is_power_just_released():
+		stop_nitro()
+	if control.is_power_just_pressed() and nutrients >= min_boost_nutrients:
+		start_nitro()
+
+func start_nitro():
+	nitro_active = true
+	$BoostSound.play()
+
+func stop_nitro():
+	nitro_active = false
+	$BoostSound.stop()
+
+func backtrack(delta):
+	var d = return_speed * delta
+	progress -= d
+	var target = get_target()
+	while target != null and d > $Tip.position.distance_to(target):
+		d -= $Tip.position.distance_to(target)
+		$Tip.position = target
+		track.resize(track.size() - 1)
+		target = get_target()
+	if target == null:
+		die()
+		return
+	$Tip.rotation = target.angle_to_point($Tip.position) - PI / 2
+	$Tip.position = $Tip.position.move_toward(target, d)
+	if $Tip.global_position.x < 0:
+		$Tip.position.x += wrap_width
+	elif $Tip.global_position.x > wrap_width:
+		$Tip.position.x -= wrap_width
 
 func get_target():
 	if track.empty():
@@ -169,14 +203,20 @@ func get_target():
 func collide_solid(body):
 	if state == PotatoState.GROWING:
 		state = PotatoState.REVIVING
+		stop_nitro()
 		root.finish()
 		root = null
 
-		if $'/root/World/SND_PlayerCollide'.is_playing():
-			$'/root/World/SND_PlayerCollide'.stop();
 		$'/root/World/SND_PlayerCollide'.play();
-
 
 
 func _on_Hitbox_body_entered(body):
 	collide_solid(body)
+
+
+func _on_Hitbox_area_entered(area):
+	if area.has_method("nutrience"):
+		nutrients += area.nutrience()
+		area.queue_free()
+
+		$'/root/World/SND_PlayerPickup'.play();

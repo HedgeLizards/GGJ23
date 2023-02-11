@@ -145,30 +145,8 @@ gravity = Vector2( 0, 200 )
 
 [node name="ParNitro" parent="Tip" instance=ExtResource( 1 )]
 material = SubResource( 9 )
-position = Vector2( 0, -34 )
-scale = Vector2( 0.685694, 0.623318 )
-amount = 100
-lifetime = 0.7
-randomness = 0.0
-lifetime_randomness = 0.95
-fixed_fps = 0
-local_coords = true
-emission_shape = 1
-emission_sphere_radius = 35.64
-spread = 34.68
-initial_velocity = 10.0
-initial_velocity_random = 1.0
-linear_accel = 100.0
-linear_accel_random = 0.4
-angle = 0.0
-angle_random = 0.0
-scale_amount = 2.3
-scale_amount_random = 1.0
 scale_amount_curve = SubResource( 4 )
 color_ramp = SubResource( 5 )
-color_initial_ramp = null
-hue_variation = -0.03
-hue_variation_random = 0.0
 
 [node name="Light2D" type="Light2D" parent="Tip"]
 texture = ExtResource( 5 )
