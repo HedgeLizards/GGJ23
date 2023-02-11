@@ -30,3 +30,6 @@ class PlayerInput:
 
 	func move_direction():
 		return int(is_action_pressed("right")) - int(is_action_pressed("left"))
+
+	func any_key_just_pressed():
+		return is_action_just_pressed("right") or is_action_just_pressed("left") or is_action_just_pressed("power")

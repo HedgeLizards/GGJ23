@@ -19,7 +19,7 @@ func extend(pos):
 func finish():
 	add_point(latest_position)
 	for collision in collision_queue:
-		add_child(collision)
+		call_deferred("add_child", collision)
 	collision_queue = []
 
 func add_point(pos):

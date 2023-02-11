@@ -111,6 +111,11 @@ func _physics_process(delta):
 		elif $Tip.global_position.x > wrap_width:
 			$Tip.position.x -= wrap_width
 
+		if control.any_key_just_pressed():
+			state = PotatoState.GROWING
+			start_new_root()
+
+
 func get_target():
 	if track.empty():
 		return null
@@ -124,6 +129,8 @@ func get_target():
 func collide_solid(body):
 	if state == PotatoState.GROWING:
 		state = PotatoState.REVIVING
+		root.finish()
+		root = null
 
 		if $'/root/World/SND_PlayerCollide'.is_playing():
 			$'/root/World/SND_PlayerCollide'.stop();
