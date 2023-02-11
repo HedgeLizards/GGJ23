@@ -33,8 +33,8 @@ const levels = [
 const Level_End = preload('res://scenes/levels/Level_End.tscn')
 const Player = preload('res://scenes/Plotayter.tscn')
 
-var level_width = 2048;
-var level_height = 1024;
+const level_width = 2048
+const level_height = 1024
 var selecting = true
 var starting_in = -1
 var players = []

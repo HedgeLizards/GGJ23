@@ -25,8 +25,6 @@ var track = PoolVector2Array()
 var target_id
 var progress = 0
 
-const wrap_width = 2048 # todo: put this in a more global location
-
 var Root = preload("res://scenes/Root.tscn")
 var Flower = preload("res://scenes/Flower.tscn")
 
@@ -140,10 +138,10 @@ func grow(delta):
 
 	var wrapped = false
 	if $Tip.global_position.x < 0:
-		$Tip.position.x += wrap_width
+		$Tip.position.x += Global.level_width
 		wrapped = true
-	elif $Tip.global_position.x >= wrap_width:
-		$Tip.position.x -= wrap_width
+	elif $Tip.global_position.x >= Global.level_width:
+		$Tip.position.x -= Global.level_width
 		wrapped = true
 	if wrapped:
 		root.finish()

@@ -22,9 +22,10 @@ shape = SubResource( 1 )
 
 [node name="DiggingParticles" parent="Tip" instance=ExtResource( 2 )]
 
-[node name="Sprites" type="Node2D" parent="Tip"]
-
 [node name="NitroParticles" parent="Tip" instance=ExtResource( 3 )]
+emitting = false
+
+[node name="Sprites" type="Node2D" parent="Tip"]
 
 [node name="BoostSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )

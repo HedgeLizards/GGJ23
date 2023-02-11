@@ -10,7 +10,7 @@ func _ready():
 	fit_to_viewport()
 
 func fit_to_viewport():
-	zoom.x = 2048 / OS.window_size.x
+	zoom.x = Global.level_width / OS.window_size.x
 	zoom.y = zoom.x
 
 func _physics_process(_delta):
@@ -22,7 +22,7 @@ func _physics_process(_delta):
 		
 		if player_y >= position.y + (OS.window_size.y + 79 / 2) * zoom.y or player_y >= limit_bottom + 79 / 2 * zoom.y:
 			player.die()
-		elif player_y < -256 - 1024 * 5 - 256:
+		elif player_y < -256 - Global.level_height * 5 - 256:
 			player.finish()
 		
 		min_player_y = min(min_player_y, player_y)
