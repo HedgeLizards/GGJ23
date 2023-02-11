@@ -18,3 +18,5 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="Sprites" type="Node2D" parent="Tip"]
+
+[connection signal="body_entered" from="Tip/Hitbox" to="." method="_on_Hitbox_body_entered"]

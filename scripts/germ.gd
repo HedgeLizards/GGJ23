@@ -141,8 +141,8 @@ func _physics_process(delta):
 		if track.size() == 0 || $Tip.position.distance_to(track[track.size() - 1]) > line_width / 2.0:
 			line.add_point($Tip.position)
 			line.material.set_shader_param("line_end", line_len_at(track.size()))
-			print("s ", line.material.get_shader_param("line_start"))
-			print("e ", line.material.get_shader_param("line_end"))
+			# print("s ", line.material.get_shader_param("line_start"))
+			# print("e ", line.material.get_shader_param("line_end"))
 #			print(line_len_at(track.size()))
 			collision_queue.push_back($Tip.position)
 			track.append($Tip.position)
