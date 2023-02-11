@@ -7,7 +7,7 @@
 [ext_resource path="res://assets/lightmask2.png" type="Texture" id=5]
 [ext_resource path="res://sounds/SND_PlayerBoost.ogg" type="AudioStream" id=6]
 
-[sub_resource type="Shader" id=6]
+[sub_resource type="Shader" id=10]
 code = "// HSV to RBG from https://www.rapidtables.com/convert/color/hsv-to-rgb.html
 // Rotation matrix from https://en.wikipedia.org/wiki/Rotation_matrix
 
@@ -18,10 +18,12 @@ const float PI = 3.1415926535;
 uniform float strength: hint_range(0., 1.) = 0.5;
 uniform float speed: hint_range(0., 10.) = 0.5;
 uniform float angle: hint_range(0., 360.) = 0.;
+uniform float line_end = 1.0;
+uniform float line_start = 0.0;
 
 void fragment() {
-	float hue = UV.x * cos(radians(angle)) - UV.y * sin(radians(angle));
-	hue = fract(hue + fract(TIME  * speed));
+	float hue = fract(mix(line_start, line_end, UV.x) / 1000.0);// cos(UV.x * 2.0 * PI) * 0.5 + 0.5;// - UV.y * sin(radians(angle));
+// 	hue = fract(hue + fract(mix(line_start, line_end, UV.x) / 1000.0  * speed));
 	float x = 1. - abs(mod(hue / (1./ 6.), 2.) - 1.);
 	vec3 rainbow;
 	if(hue < 1./6.){
@@ -42,11 +44,13 @@ void fragment() {
 }
 "
 
-[sub_resource type="ShaderMaterial" id=7]
-shader = SubResource( 6 )
+[sub_resource type="ShaderMaterial" id=11]
+shader = SubResource( 10 )
 shader_param/strength = 0.5
 shader_param/speed = 0.5
 shader_param/angle = 0.0
+shader_param/line_end = 1.0
+shader_param/line_start = 0.0
 
 [sub_resource type="Gradient" id=2]
 interpolation_mode = 2
@@ -113,7 +117,7 @@ colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.0784314, 1, 1, 1, 0, 1, 1, 1, 0 
 script = ExtResource( 2 )
 
 [node name="Segments" type="Line2D" parent="."]
-material = SubResource( 7 )
+material = SubResource( 11 )
 position = Vector2( 0, -2 )
 width = 30.0
 default_color = Color( 1, 1, 1, 1 )

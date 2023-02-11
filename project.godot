@@ -19,6 +19,7 @@ config/icon="res://assets/player/HatP1.png"
 Global="*res://scripts/global.gd"
 SceneTransition="*res://scenes/SceneTransition.tscn"
 GamepadInput="*res://scripts/gamepad_input.gd"
+PlayerInputs="*res://scripts/player_inputs.gd"
 
 [debug]
 

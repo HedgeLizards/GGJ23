@@ -18,17 +18,16 @@ func _physics_process(_delta):
 	
 	var shake = false
 	for player in $'../Players'.get_children():
-		var germ = player.active_germ()
-		var player_y = germ.get_node('Tip').global_position.y
+		var player_y = player.y_position()
 		
 		if player_y >= position.y + (OS.window_size.y + 79 / 2) * zoom.y or player_y >= limit_bottom + 79 / 2 * zoom.y:
-			germ.die()
+			player.die()
 		elif player_y < -256 - 1024 * 5 - 256:
-			germ.finish()
+			player.finish()
 		
 		min_player_y = min(min_player_y, player_y)
 		
-		if germ.nitro_active:
+		if player.is_nitro_active():
 			shake = true
 	
 	if shake:
@@ -39,10 +38,8 @@ func _physics_process(_delta):
 	
 	
 	for player in $'../Players'.get_children():
-		var germ = player.active_germ()
-		var player_y = germ.get_node('Tip').global_position.y
-		var ydiff = (player_y - min_player_y) / 800.0
-		germ.bonus_gain = ydiff
+		var ydiff = (player.y_position() - min_player_y) / 800.0
+		player.set_bonus_gain(ydiff)
 	
 	if min_player_y < INF:
 		position.y = min(position.y, min_player_y - (OS.window_size.y / 3) * zoom.y)

@@ -38,6 +38,8 @@ const wrap_width = 2048
 var last_blocked = 0
 var temp = false
 var lifetime = 0.5
+var line_start = null
+var line_end = 0
 
 var random_boost_sound
 var boosting = false;
@@ -52,8 +54,12 @@ var hats = [
 var SegmentCollision = preload("res://scenes/SegmentCollision.tscn")
 var Flower = preload("res://scenes/Flower.tscn")
 
+
 func _ready():
 	line = $Segments
+	if line_start == null:
+		line_start = randf() * 1000
+	line.material.set_shader_param("line_start", line_start)
 
 func start_growing():
 	since_nitro = 1000
@@ -134,6 +140,10 @@ func _physics_process(delta):
 			line.add_point($Tip.position + Vector2(0, base_line))
 		if track.size() == 0 || $Tip.position.distance_to(track[track.size() - 1]) > line_width / 2.0:
 			line.add_point($Tip.position)
+			line.material.set_shader_param("line_end", line_len_at(track.size()))
+			print("s ", line.material.get_shader_param("line_start"))
+			print("e ", line.material.get_shader_param("line_end"))
+#			print(line_len_at(track.size()))
 			collision_queue.push_back($Tip.position)
 			track.append($Tip.position)
 		if line.get_point_count() > 2000:
@@ -183,6 +193,7 @@ func new_line(nold):
 		if ind < 0:
 			break
 		old.push_front(track[ind])
+		line.material.set_shader_param("line_start", line_len_at(ind))
 	line.points = PoolVector2Array(old)
 	add_child_below_node($Segments, line)
 
@@ -243,6 +254,10 @@ func collide(body):
 			$'/root/World/SND_PlayerCollide'.stop();
 		$'/root/World/SND_PlayerCollide'.play();
 		stop_boost_sound();
+
+func line_len_at(track_index):
+	return line_start + track_index * line_width / 2.0
+
 
 func _on_Tip_body_entered(body):
 	collide(body)
