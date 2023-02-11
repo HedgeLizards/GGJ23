@@ -10,9 +10,10 @@ uniform float speed: hint_range(0., 10.) = 0.5;
 uniform float angle: hint_range(0., 360.) = 0.;
 uniform float line_end = 1.0;
 uniform float line_start = 0.0;
+uniform float rainbow_length = 500.0;
 
 void fragment() {
-	float hue = fract(mix(line_start, line_end, UV.x) / 1.0);// cos(UV.x * 2.0 * PI) * 0.5 + 0.5;// - UV.y * sin(radians(angle));
+	float hue = fract(mix(line_start, line_end, UV.x) / rainbow_length);// cos(UV.x * 2.0 * PI) * 0.5 + 0.5;// - UV.y * sin(radians(angle));
 // 	hue = fract(hue + fract(mix(line_start, line_end, UV.x) / 1000.0  * speed));
 	float x = 1. - abs(mod(hue / (1./ 6.), 2.) - 1.);
 	vec3 rainbow;

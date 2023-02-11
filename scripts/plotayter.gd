@@ -17,6 +17,7 @@ var bonus_gain = 0
 var root
 var track = PoolVector2Array()
 var target_id
+var progress = 0
 
 const wrap_width = 2048 # todo: put this in a more global location
 
@@ -63,11 +64,21 @@ func set_bonus_gain(bonus):
 
 func start_new_root(old_points=[]):
 	root = Root.instance()
-	for point in old_points:
-		root.extend(point)
-	root.extend($Tip.position)
+	# root.start_progress = current_progress()
+
+	old_points = old_points.duplicate()
+	old_points.push_back($Tip.position)
+
+	var progress = [current_progress()]
+	for i in range(old_points.size()-1, -1, -1):
+		progress.push_front(progress[0] - old_points[i].distance_to(old_points[i-1]))
+	for i in range(old_points.size()):
+		root.extend(old_points[i], progress[i])
 	$Roots.add_child(root)
 
+
+func current_progress():
+	return progress
 
 
 func _physics_process(delta):
@@ -77,8 +88,9 @@ func _physics_process(delta):
 		var current_speed = base_speed
 		var vel = Vector2(0, -current_speed).rotated($Tip.rotation)
 		$Tip.position += vel * delta
+		progress += (vel * delta).length()
 
-		root.extend($Tip.position)
+		root.extend($Tip.position, progress)
 
 		var wrapped = false
 		if $Tip.global_position.x < 0:
@@ -95,6 +107,7 @@ func _physics_process(delta):
 			track.push_back($Tip.position)
 	elif state == PotatoState.REVIVING:
 		var d = return_speed * delta
+		progress -= d
 		var target = get_target()
 		while target != null and d > $Tip.position.distance_to(target):
 			d -= $Tip.position.distance_to(target)
