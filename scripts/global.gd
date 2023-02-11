@@ -14,7 +14,7 @@ const levels = [
 	preload('res://scenes/levels/Level_11.tscn'),
 	preload('res://scenes/levels/Level_12.tscn'),
 	preload('res://scenes/levels/Level_13.tscn'),
-	preload('res://scenes/levels/Level_14.tscn'),
+	#preload('res://scenes/levels/Level_14.tscn'),
 	preload('res://scenes/levels/Level_14_ALT.tscn'),
 	preload('res://scenes/levels/Level_15.tscn'),
 	#preload('res://scenes/levels/Level_16.tscn'),
@@ -24,13 +24,17 @@ const levels = [
 	preload('res://scenes/levels/Level_18.tscn'),
 	preload('res://scenes/levels/Level_19.tscn'),
 	preload('res://scenes/levels/Level_20.tscn'),
-	preload('res://scenes/levels/Level_21.tscn'),
+	#preload('res://scenes/levels/Level_21.tscn'),
+	preload('res://scenes/levels/Level_22.tscn'),
 	#preload('res://scenes/levels/Level_Empty.tscn'),
+	preload('res://scenes/levels/Level_Logo.tscn'),
 	preload('res://scenes/levels/Level_Bonus.tscn'),
 ]
 const Level_End = preload('res://scenes/levels/Level_End.tscn')
 const Player = preload('res://scenes/Plotayter.tscn')
 
+var level_width = 2048;
+var level_height = 1024;
 var selecting = true
 var starting_in = -1
 var players = []
@@ -70,19 +74,29 @@ func initialize_world():
 	for i in 6:
 		var level = (levels[randi() % levels.size()] if i < 5 else Level_End).instance()
 		
-		level.position.y = -256 - 1024 * (i + 1)
+		level.position.y = -256 - level_height * (i + 1)
 			
-		# randomly flips the level
-		
+		# Randomly flips the level
 		if i < 5:
-			var flipchance = randf()
-			if (flipchance > 0.3 and flipchance < 0.7):
-				level.scale = Vector2(1, -1)
-				level.position.y = -256 - 1024 * (i + 1) + 1024
-			if (flipchance > 0.7):
-				level.scale = Vector2(-1, 1)
-				level.position.x = 2048
-	
+			var xflipchance = randi() % 2;
+			var yflipchance = randi() % 2;
+			
+			print("X:", xflipchance, " Y:", yflipchance);
+			
+			if xflipchance == 0 and level.filename != 'res://scenes/levels/Level_Bonus.tscn':
+				level.scale = Vector2(-1, level.scale.y);
+				level.position.x = level_width;
+			else:
+				level.scale = Vector2(1, level.scale.y);
+				level.position.x = 0;
+
+			if yflipchance == 0 and level.filename != 'res://scenes/levels/Level_Logo.tscn' and level.filename != 'res://scenes/levels/Level_Bonus.tscn':
+				level.scale = Vector2(level.scale.x, -1);
+				level.position.y = level.position.y + level_height;
+			else:
+				level.scale = Vector2(level.scale.x, 1);
+				level.position.y = level.position.y;
+				
 		$'../World/Levels'.add_child(level)
 	
 	for i in players.size():
@@ -155,7 +169,7 @@ func align_potato_and_player(index):
 	var potato = $'../World/Potatoes'.get_child(index)
 	var player = $'../World/Players'.get_child(index)
 	
-	potato.position.x = 2048 / players.size() * (index + 0.5)
+	potato.position.x = level_width / players.size() * (index + 0.5)
 	player.position.x = potato.position.x
 
 func _input(event):
