@@ -184,18 +184,18 @@ func backtrack(delta):
 	$Tip.rotation = target.angle_to_point($Tip.position) - PI / 2
 	$Tip.position = $Tip.position.move_toward(target, d)
 	if $Tip.global_position.x < 0:
-		$Tip.position.x += wrap_width
-	elif $Tip.global_position.x > wrap_width:
-		$Tip.position.x -= wrap_width
+		$Tip.position.x += Global.level_width
+	elif $Tip.global_position.x > Global.level_width:
+		$Tip.position.x -= Global.level_width
 
 func get_target():
 	if track.empty():
 		return null
 	var target = track[track.size() - 1]
-	if target.x > $Tip.position.x + wrap_width / 2:
-		target.x -=  wrap_width
-	if target.x < $Tip.position.x - wrap_width / 2:
-		target.x +=  wrap_width
+	if target.x > $Tip.position.x + Global.level_width / 2:
+		target.x -=  Global.level_width
+	if target.x < $Tip.position.x - Global.level_width / 2:
+		target.x +=  Global.level_width
 	return target
 
 func collide_solid(body):
