@@ -18,7 +18,7 @@ var state = PotatoState.WAITING
 var control
 var index
 var nitro_active = false
-var nutrients = 1
+var nutrients = 25
 var bonus_gain = 0
 var root
 var track = PoolVector2Array()
