@@ -112,9 +112,16 @@ func _physics_process(delta):
 	$Tip/DiggingParticles.emitting = state == PotatoState.GROWING
 	$Tip/NitroParticles.emitting = nitro_active
 	if state == PotatoState.GROWING:
+		if control.is_power_just_pressed() and nutrients >= min_boost_nutrients:
+			start_nitro()
 		grow(delta)
 	elif state == PotatoState.REVIVING:
 		backtrack(delta)
+		if  control.any_key_just_pressed():
+			state = PotatoState.GROWING
+			start_new_root()
+	if control.is_power_just_released():
+		stop_nitro()
 
 func grow(delta):
 	var inp = control.move_direction()
@@ -152,14 +159,6 @@ func grow(delta):
 	if track.empty() or track[track.size() -1 ].distance_to($Tip.position) > track_distance:
 		track.push_back($Tip.position)
 
-func _input(event):
-	if state == PotatoState.REVIVING and control.any_key_just_pressed():
-		state = PotatoState.GROWING
-		start_new_root()
-	if control.is_power_just_released():
-		stop_nitro()
-	if control.is_power_just_pressed() and nutrients >= min_boost_nutrients:
-		start_nitro()
 
 func start_nitro():
 	nitro_active = true
