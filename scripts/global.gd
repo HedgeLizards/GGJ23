@@ -39,7 +39,7 @@ var selecting = true
 var starting_in = -1
 var players = []
 var scores = []
-var vacant_indices = [0, 1, 2, 3]
+var occupied_variants = []
 var players_dead = 0
 var players_finished = 0
 var player_scores
@@ -81,8 +81,6 @@ func initialize_world():
 			var xflipchance = randi() % 2;
 			var yflipchance = randi() % 2;
 			
-			print("X:", xflipchance, " Y:", yflipchance);
-			
 			if xflipchance == 0 and level.filename != 'res://scenes/levels/Level_Bonus.tscn':
 				level.scale = Vector2(-1, level.scale.y);
 				level.position.x = level_width;
@@ -100,7 +98,7 @@ func initialize_world():
 		$'../World/Levels'.add_child(level)
 	
 	for i in players.size():
-		add_potato_and_player(i, players[i])
+		add_potato_and_player(occupied_variants[i], players[i], i)
 		align_potato_and_player(i)
 
 func _on_instructions_tween_loop_finished(_loop_count):
@@ -114,7 +112,7 @@ func _on_instructions_tween_loop_finished(_loop_count):
 			instructions.bbcode_text = '[center]BEGIN![/center]'
 			
 			for player in $'../World/Players'.get_children():
-				player.start_growing()
+				player.start_growing(occupied_variants.find(player.variant))
 			
 			if $'../World/MUS_Intro'.is_playing():
 				$'../World/MUS_Intro'.stop();
@@ -149,15 +147,15 @@ func update_instructions():
 	
 	instructions.bbcode_text = '[center]%s[/center]' % instruction_lines.join('\n')
 
-func add_potato_and_player(index, id):
+func add_potato_and_player(variant, id, index):
 	var potato = Sprite.new()
 	var player = Player.instance()
 	
-	potato.texture = load('res://assets/player/PotP%d.png' % index)
+	potato.texture = load('res://assets/player/PotP%d.png' % variant)
 	potato.position.y = 250
 	
 	player.position.y = potato.position.y
-	player.set_id_index(id, index)
+	player.set_id_variant(id, variant)
 	
 	$'../World/Potatoes'.add_child(potato)
 	$'../World/Potatoes'.move_child(potato, index)
@@ -186,17 +184,19 @@ func _input(event):
 					if players.size() == 4:
 						return
 					
-					index = vacant_indices.min()
-					
-					vacant_indices.erase(index)
-					
-					players.insert(index, i)
-					scores.push_back(0)
-					
-					player_scores.add_player(i, index)
-					$'../World/SND_PlayerJoin'.get_children()[index].play();
-					
-					add_potato_and_player(index, i)
+					for j in 4:
+						if !occupied_variants.has(j):
+							occupied_variants.insert(j, j)
+							
+							players.insert(j, i)
+							scores.push_back(0)
+							
+							player_scores.add_player(i, j, j)
+							$'../World/SND_PlayerJoin'.get_children()[j].play();
+							
+							add_potato_and_player(j, i, j)
+							
+							break
 				else:
 					players.remove(index)
 					scores.remove(index)
@@ -207,13 +207,7 @@ func _input(event):
 					$'../World/Potatoes'.get_child(index).free()
 					$'../World/Players'.get_child(index).free()
 					
-					var occupied_indices = []
-					
-					for j in 4:
-						if !vacant_indices.has(j):
-							occupied_indices.push_back(j)
-					
-					vacant_indices.push_back(occupied_indices[index])
+					occupied_variants.remove(index)
 				
 				for j in players.size():
 					align_potato_and_player(j)

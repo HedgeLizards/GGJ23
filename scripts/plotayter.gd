@@ -16,6 +16,7 @@ export var nutrients_burn = 20 # how fast you're using nutrients
 export var max_nutrients = 100 # indicates the 'max' amount of nutrients
 var state = PotatoState.WAITING
 var control
+var variant
 var index
 var nitro_active = false
 var nutrients = 25
@@ -40,16 +41,17 @@ func _ready():
 	pass
 
 
-func start_growing():
+func start_growing(index):
 	state = PotatoState.GROWING
+	self.index = index
 	start_new_root([Vector2(0, base_line)])
 
-func set_id_index(control_id, index):
+func set_id_variant(control_id, variant):
 	control = PlayerInputs.get_control(control_id)
-	self.index = index
+	self.variant = variant
 	for icon in $Tip/Sprites.get_children():
 		icon.queue_free()
-	$Tip/Sprites.add_child(hats[index].instance())
+	$Tip/Sprites.add_child(hats[variant].instance())
 
 
 func die():

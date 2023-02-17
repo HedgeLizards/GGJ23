@@ -12,21 +12,21 @@ const COLORS = [Color('#f0028c'), Color('#8dcb4d'), Color('#7cb8e6'), Color('#df
 
 func _ready():
 	for i in Global.players.size():
-		add_player(Global.players[i], i)
+		add_player(Global.players[i], Global.occupied_variants[i], i)
 	
 	Global.initialize_world()
 
-func add_player(id, index):
+func add_player(id, variant, index):
 	var player_score = PlayerScore.instance()
 	var controls = player_score.get_node('Controls')
 	
 	controls.text = 'Steer: %s\nNITROgen: %s' % CONTROLS[min(id, 4)]
-	controls.add_color_override('font_color', COLORS[index])
+	controls.add_color_override('font_color', COLORS[variant])
 	
 	var score = player_score.get_node('Score')
 	
 	score.text = str(Global.scores[index])
-	score.add_color_override('font_color', COLORS[index])
+	score.add_color_override('font_color', COLORS[variant])
 	score.add_font_override('font', score.get_font('font').duplicate())
 	
 	var nitrogen = player_score.get_node('Nitrogen')
@@ -37,19 +37,19 @@ func add_player(id, index):
 	
 	var foreground_colors = foreground.texture.gradient.colors
 	
-	foreground_colors[0] = COLORS[index]
+	foreground_colors[0] = COLORS[variant]
 	foreground.texture.gradient.colors = foreground_colors
 	
 	var background = nitrogen.get('custom_styles/bg').duplicate()
 	
-	background.shadow_color = COLORS[index]
+	background.shadow_color = COLORS[variant]
 	background.shadow_color.a = 0.5
 	
 	nitrogen.set('custom_styles/fg', foreground)
 	nitrogen.set('custom_styles/bg', background)
 	
-	nitrogen.get_node('Label').add_color_override('font_color', COLORS[index])
-	nitrogen.get_node('Label').text += str(index + 1)
+	nitrogen.get_node('Label').add_color_override('font_color', COLORS[variant])
+	nitrogen.get_node('Label').text += str(variant + 1)
 	
 	add_child(player_score)
 	move_child(player_score, index)
